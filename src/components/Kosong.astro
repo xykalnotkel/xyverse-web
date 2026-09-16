@@ -1,0 +1,20 @@
+---
+import Ikon from './Ikon.astro';
+
+/** Keadaan kosong dengan ilustrasi WebP. */
+interface Props { judul: string; pesan?: string; ikon?: string; ilus?: boolean }
+const { judul, pesan, ikon = 'kosong', ilus = true } = Astro.props;
+---
+<div class="empty">
+  {ilus ? (
+    <img
+      src="/ilus/kosong-sm.webp" alt="" width="104" height="104"
+      loading="lazy" decoding="async"
+    />
+  ) : (
+    <span class="empty-ic"><Ikon n={ikon} /></span>
+  )}
+  <h3>{judul}</h3>
+  {pesan && <p>{pesan}</p>}
+  <slot />
+</div>

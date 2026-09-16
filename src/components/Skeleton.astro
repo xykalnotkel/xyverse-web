@@ -1,0 +1,75 @@
+---
+/**
+ * Placeholder pemuatan. Pemakaian:
+ *   <Skeleton pola="kartu" n={3} />
+ *   <Skeleton pola="teks" n={4} />
+ */
+interface Props { pola?: 'teks' | 'kartu' | 'baris' | 'tabel' | 'artikel'; n?: number; k?: string }
+const { pola = 'teks', n = 3, k = '' } = Astro.props;
+const ulang = Array.from({ length: n });
+---
+{pola === 'teks' && (
+  <div class={k} aria-hidden="true">
+    {ulang.map((_, i) => (
+      <span class={`sk sk-txt ${i === n - 1 ? 'sk-w60' : i % 3 === 1 ? 'sk-w90' : ''}`} />
+    ))}
+  </div>
+)}
+
+{pola === 'kartu' && (
+  <div class={`grid g3 ${k}`} aria-hidden="true">
+    {ulang.map(() => (
+      <div class="sk-card">
+        <span class="sk sk-sq" style="margin-bottom:16px" />
+        <span class="sk sk-h2 sk-w75" />
+        <span class="sk sk-txt" />
+        <span class="sk sk-txt sk-w90" />
+        <span class="sk sk-txt sk-w40" />
+      </div>
+    ))}
+  </div>
+)}
+
+{pola === 'baris' && (
+  <div class={k} aria-hidden="true" style="display:flex;flex-direction:column;gap:14px">
+    {ulang.map(() => (
+      <div class="sk-row">
+        <span class="sk sk-av" />
+        <div class="sk-body">
+          <span class="sk sk-txt sk-w40" />
+          <span class="sk sk-txt sk-w75" />
+        </div>
+      </div>
+    ))}
+  </div>
+)}
+
+{pola === 'tabel' && (
+  <div class={`tbl-wrap ${k}`} aria-hidden="true" style="padding:14px">
+    <span class="sk sk-txt sk-w25" style="margin-bottom:16px" />
+    {ulang.map(() => (
+      <div class="sk-row" style="padding:9px 0">
+        <span class="sk sk-txt sk-w25" style="margin:0" />
+        <span class="sk sk-txt sk-w40" style="margin:0" />
+        <span class="sk sk-txt sk-w25" style="margin:0" />
+      </div>
+    ))}
+  </div>
+)}
+
+{pola === 'artikel' && (
+  <div class={k} aria-hidden="true">
+    <span class="sk sk-img" style="margin-bottom:22px" />
+    <span class="sk sk-h1 sk-w75" />
+    <span class="sk sk-txt sk-w40" style="margin-bottom:22px" />
+    {Array.from({ length: 7 }).map((_, i) => (
+      <span class={`sk sk-txt ${i % 4 === 3 ? 'sk-w60' : i % 3 === 1 ? 'sk-w90' : ''}`} />
+    ))}
+  </div>
+)}
+
+<span class="sr-only">Memuat…</span>
+
+<style>
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+</style>

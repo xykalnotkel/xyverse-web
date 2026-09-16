@@ -1,0 +1,113 @@
+---
+import Ikon from './Ikon.astro';
+
+/**
+ * Dropdown kustom yang dapat diakses keyboard.
+ * Menulis nilainya ke <input type="hidden"> sehingga tetap bisa dikirim lewat form biasa.
+ */
+interface Opsi { v: string; t: string }
+interface Props {
+  nama: string;
+  opsi: Opsi[];
+  nilai?: string;
+  label?: string;
+  id?: string;
+  k?: string;
+}
+const { nama, opsi, nilai, label, id = `dd-${nama}`, k = '' } = Astro.props;
+const terpilih = opsi.find((o) => o.v === nilai) ?? opsi[0];
+---
+<div class={`dd ${k}`} data-dd id={id}>
+  <button
+    type="button" class="dd-btn"
+    aria-haspopup="listbox" aria-expanded="false"
+    aria-label={label ?? nama}
+  >
+    <span class="dd-val">{terpilih?.t}</span>
+    <Ikon n="panahBwh" k="dd-ar" />
+  </button>
+
+  <div class="dd-menu" role="listbox" tabindex="-1" hidden>
+    {opsi.map((o) => (
+      <button
+        type="button" class="dd-it" role="option"
+        data-v={o.v} aria-selected={o.v === terpilih?.v ? 'true' : 'false'}
+      >
+        <Ikon n="cek" k="dd-ck" />
+        <span>{o.t}</span>
+      </button>
+    ))}
+  </div>
+
+  <input type="hidden" name={nama} value={terpilih?.v} />
+</div>
+
+<script>
+  function pasangDD(dd: HTMLElement) {
+    if (dd.dataset.siap) return;
+    dd.dataset.siap = '1';
+
+    const btn = dd.querySelector('.dd-btn') as HTMLButtonElement;
+    const menu = dd.querySelector('.dd-menu') as HTMLElement;
+    const val = dd.querySelector('.dd-val') as HTMLElement;
+    const inp = dd.querySelector('input[type=hidden]') as HTMLInputElement;
+    const items = () => Array.from(dd.querySelectorAll('.dd-it')) as HTMLButtonElement[];
+
+    const buka = () => {
+      tutupSemua();
+      dd.classList.add('open');
+      menu.hidden = false;
+      btn.setAttribute('aria-expanded', 'true');
+      (dd.querySelector('.dd-it[aria-selected=true]') as HTMLElement | null)?.focus();
+    };
+    const tutup = (fokus = false) => {
+      dd.classList.remove('open');
+      menu.hidden = true;
+      btn.setAttribute('aria-expanded', 'false');
+      if (fokus) btn.focus();
+    };
+
+    btn.addEventListener('click', () => (dd.classList.contains('open') ? tutup() : buka()));
+
+    menu.addEventListener('click', (e) => {
+      const it = (e.target as HTMLElement).closest('.dd-it') as HTMLButtonElement | null;
+      if (!it) return;
+      items().forEach((x) => x.setAttribute('aria-selected', String(x === it)));
+      val.textContent = it.querySelector('span')!.textContent;
+      inp.value = it.dataset.v ?? '';
+      dd.dispatchEvent(new CustomEvent('pilih', { detail: inp.value, bubbles: true }));
+      tutup(true);
+    });
+
+    dd.addEventListener('keydown', (e) => {
+      const ks = e as KeyboardEvent;
+      const list = items();
+      const i = list.indexOf(document.activeElement as HTMLButtonElement);
+      if (ks.key === 'Escape') { tutup(true); return; }
+      if (ks.key === 'ArrowDown' || ks.key === 'ArrowUp') {
+        ks.preventDefault();
+        if (menu.hidden) return buka();
+        const n = ks.key === 'ArrowDown' ? i + 1 : i - 1;
+        list[(n + list.length) % list.length]?.focus();
+      }
+      if ((ks.key === 'Enter' || ks.key === ' ') && document.activeElement === btn) {
+        ks.preventDefault(); buka();
+      }
+    });
+  }
+
+  function tutupSemua() {
+    document.querySelectorAll('[data-dd].open').forEach((d) => {
+      d.classList.remove('open');
+      (d.querySelector('.dd-menu') as HTMLElement).hidden = true;
+      d.querySelector('.dd-btn')!.setAttribute('aria-expanded', 'false');
+    });
+  }
+
+  const init = () => document.querySelectorAll('[data-dd]').forEach((d) => pasangDD(d as HTMLElement));
+  init();
+  document.addEventListener('astro:page-load', init);
+  document.addEventListener('click', (e) => {
+    if (!(e.target as HTMLElement).closest('[data-dd]')) tutupSemua();
+  });
+</script>

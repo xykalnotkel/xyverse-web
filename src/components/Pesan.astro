@@ -1,0 +1,37 @@
+---
+import Ikon from './Ikon.astro';
+
+/** Kotak pesan status: sukses, galat, peringatan, info. */
+interface Props {
+  tipe?: 'ok' | 'err' | 'warn' | 'info';
+  judul?: string;
+  tutup?: boolean;
+  id?: string;
+  sembunyi?: boolean;
+  k?: string;
+}
+const { tipe = 'info', judul, tutup = false, id, sembunyi = false, k = '' } = Astro.props;
+
+const IK = { ok: 'cekBulat', err: 'bahaya', warn: 'awas', info: 'info' } as const;
+---
+<div class={`alert alert-${tipe} ${k}`} role={tipe === 'err' ? 'alert' : 'status'} id={id} hidden={sembunyi}>
+  <Ikon n={IK[tipe]} k="a-ic" />
+  <div>
+    {judul && <strong>{judul}</strong>}
+    <slot />
+  </div>
+  {tutup && (
+    <button type="button" class="a-x" data-tutup aria-label="Tutup">
+      <Ikon n="silang" />
+    </button>
+  )}
+</div>
+
+{tutup && (
+  <script>
+    document.addEventListener('click', (e) => {
+      const b = (e.target as HTMLElement).closest('[data-tutup]');
+      if (b) b.closest('.alert')?.setAttribute('hidden', '');
+    });
+  </script>
+)}

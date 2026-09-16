@@ -9,6 +9,7 @@ const t = pakaiT(lang);
 const r = (p = '') => rute(lang, p);
 import Base from '../../../layouts/Base.astro';
 import PageHead from '../../../components/PageHead.astro';
+import Kosong from '../../../components/Kosong.astro';
 import { getCollection } from 'astro:content';
 import { slugKonten, filterLang } from '../../../i18n/data';
 import { KOLEKSI } from '../../../i18n/halaman/koleksi';
@@ -52,7 +53,7 @@ const fmt = (d: Date) => d.toLocaleDateString(lang === 'en' ? 'en-GB' : 'id-ID',
           </a>
         ))}
       </div>
-      <p class="empty" id="empty" hidden>{c.kosong}</p>
+      <div id="empty" hidden><Kosong judul={c.kosong} /></div>
     </div>
   </section>
 </Base>
@@ -76,7 +77,6 @@ const fmt = (d: Date) => d.toLocaleDateString(lang === 'en' ? 'en-GB' : 'id-ID',
   display:flex;justify-content:space-between;gap:10px;margin-top:20px;padding-top:15px;
   border-top:1px solid var(--line);font-size:12.5px;color:var(--txt-2);
 }
-.empty{text-align:center;color:var(--txt-2);padding:50px 0}
 </style>
 
 <script>

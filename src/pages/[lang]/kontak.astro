@@ -10,6 +10,10 @@ const t = pakaiT(lang);
 const r = (p = '') => rute(lang, p);
 import Base from '../../layouts/Base.astro';
 import PageHead from '../../components/PageHead.astro';
+import Pilih from '../../components/Pilih.astro';
+import Pesan from '../../components/Pesan.astro';
+import Ilustrasi from '../../components/Ilustrasi.astro';
+import Ikon from '../../components/Ikon.astro';
 
 const alamat = {
   jalan: 'Tanak Beaq, Kec. Batukliang Utara',
@@ -29,6 +33,7 @@ const mapsQ = encodeURIComponent('Tanak Beaq, Batukliang Utara, Lombok Tengah, N
   <section class="sect" style="padding-top:44px">
     <div class="wrap layout">
       <div class="info">
+        <Ilustrasi nama="hero-kontak" alt="" k="ilus-kontak" />
         <div class="ibox reveal">
           <div class="ic">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg>
@@ -81,28 +86,48 @@ const mapsQ = encodeURIComponent('Tanak Beaq, Batukliang Utara, Lombok Tengah, N
         </div>
       </div>
 
-      <form class="cf reveal" id="cf">
+      <form class="cf reveal" id="cf" novalidate>
         <h2>{c.formH2}</h2>
+
+        <Pesan tipe="err" id="cf-err" sembunyi k="cf-top">{c.errUmum}</Pesan>
+        <Pesan tipe="ok" id="cf-ok" judul={c.okJudul} sembunyi k="cf-top">{c.fOk}</Pesan>
+
         <div class="frow">
-          <label>{c.fNama}<input type="text" name="nama" placeholder={c.fNamaPh} required /></label>
-          <label>{c.fEmail}<input type="email" name="email" placeholder="nama@email.com" required /></label>
+          <div class="f" data-f="nama">
+            <label class="f-lb" for="k-nama">{c.fNama}</label>
+            <input class="inp" id="k-nama" type="text" name="nama" placeholder={c.fNamaPh} required autocomplete="name" />
+            <span class="f-msg" data-msg hidden><Ikon n="bahaya" />{c.errNama}</span>
+          </div>
+          <div class="f" data-f="email">
+            <label class="f-lb" for="k-email">{c.fEmail}</label>
+            <input class="inp" id="k-email" type="email" name="email" placeholder="nama@email.com" required autocomplete="email" />
+            <span class="f-msg" data-msg hidden><Ikon n="bahaya" />{c.errEmail}</span>
+          </div>
         </div>
+
         <div class="frow">
-          <label>{c.fPerusahaan} <span class="opt">{c.fOpsional}</span><input type="text" name="perusahaan" placeholder={c.fPerusahaanPh} /></label>
-          <label>{c.fKebutuhan}
-            <select name="topik">
-              {c.opsiTopik.map((o: string) => <option>{o}</option>)}
-            </select>
-          </label>
+          <div class="f">
+            <label class="f-lb" for="k-pt">{c.fPerusahaan} <span class="opt">{c.fOpsional}</span></label>
+            <input class="inp" id="k-pt" type="text" name="perusahaan" placeholder={c.fPerusahaanPh} autocomplete="organization" />
+          </div>
+          <div class="f">
+            <span class="f-lb">{c.fKebutuhan}</span>
+            <Pilih nama="topik" label={c.fKebutuhan} opsi={c.opsiTopik.map((o: string) => ({ v: o, t: o }))} />
+          </div>
         </div>
-        <label>{c.fAnggaran} <span class="opt">{c.fOpsional}</span>
-          <select name="budget">
-            {c.opsiBudget.map((o: string) => <option>{o}</option>)}
-          </select>
-        </label>
-        <label>{c.fPesan}<textarea name="pesan" rows="5" placeholder={c.fPesanPh} required></textarea></label>
-        <button type="submit" class="btn btn-p">{c.fKirim}</button>
-        <p class="ok" id="ok" hidden>{c.fOk}</p>
+
+        <div class="f">
+          <span class="f-lb">{c.fAnggaran} <span class="opt">{c.fOpsional}</span></span>
+          <Pilih nama="budget" label={c.fAnggaran} opsi={c.opsiBudget.map((o: string) => ({ v: o, t: o }))} />
+        </div>
+
+        <div class="f" data-f="pesan">
+          <label class="f-lb" for="k-pesan">{c.fPesan}</label>
+          <textarea class="ta" id="k-pesan" name="pesan" rows="5" placeholder={c.fPesanPh} required></textarea>
+          <span class="f-msg" data-msg hidden><Ikon n="bahaya" />{c.errPesan}</span>
+        </div>
+
+        <button type="submit" class="btn btn-p" id="cf-kirim" data-teks={c.fKirim}>{c.fKirim}</button>
         <p class="note">{c.fNote}</p>
       </form>
     </div>
@@ -131,36 +156,86 @@ address{font-style:normal;font-size:14.5px;color:var(--txt-2);line-height:1.65}
 .cf h2{font-size:21px;margin-bottom:4px}
 .frow{display:grid;grid-template-columns:1fr 1fr;gap:15px}
 @media(max-width:620px){.frow{grid-template-columns:1fr}}
-.cf label{display:grid;gap:7px;font-size:13px;font-weight:600;color:var(--txt-2)}
 .opt{font-weight:400;opacity:.7}
-.cf input,.cf select,.cf textarea{
-  width:100%;padding:12px 15px;border-radius:7px;border:1px solid var(--line);
-  background:var(--bg);color:var(--txt);font:inherit;font-size:14.8px;font-weight:400;outline:none;transition:.2s;
-}
-.cf input::placeholder,.cf textarea::placeholder{color:var(--txt-2);opacity:.65}
-.cf input:focus,.cf select:focus,.cf textarea:focus{border-color:var(--pur);box-shadow:0 0 0 3px var(--glow)}
-.cf textarea{resize:vertical;min-height:110px}
 .cf button{margin-top:5px}
-.ok{color:#10b981;font-size:14px;font-weight:500;text-align:center}
+.cf .dd,.cf .dd-btn{width:100%}
+.cf-top{margin-bottom:2px}
 .note{font-size:12.5px;color:var(--txt-2);text-align:center;opacity:.8}
+.ilus-kontak{margin-bottom:4px}
+@media(max-width:940px){.ilus-kontak{display:none}}
 </style>
 
 <script>
   const f = document.getElementById('cf') as HTMLFormElement | null;
-  f?.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const d = new FormData(f);
-    const body = [
-      `Nama: ${d.get('nama')}`,
-      `Email: ${d.get('email')}`,
-      `Perusahaan: ${d.get('perusahaan') || '-'}`,
-      `Kebutuhan: ${d.get('topik')}`,
-      `Anggaran: ${d.get('budget')}`,
-      '',
-      String(d.get('pesan')),
-    ].join('\n');
-    window.location.href = `mailto:halo@xyverse.my.id?subject=${encodeURIComponent('Permintaan: ' + d.get('topik'))}&body=${encodeURIComponent(body)}`;
-    const ok = document.getElementById('ok');
-    if (ok) ok.hidden = false;
-  });
+  if (f) {
+    const btn = document.getElementById('cf-kirim') as HTMLButtonElement;
+    const boxErr = document.getElementById('cf-err') as HTMLElement;
+    const boxOk = document.getElementById('cf-ok') as HTMLElement;
+
+    const bidang = (n: string) => f.querySelector(`[data-f="${n}"]`) as HTMLElement | null;
+    const sahEmail = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);
+
+    const aturan: Record<string, (v: string) => boolean> = {
+      nama: (v) => v.trim().length > 1,
+      email: (v) => sahEmail(v.trim()),
+      pesan: (v) => v.trim().length >= 20,
+    };
+
+    function nilai(n: string) {
+      const w = bidang(n);
+      if (!w) return true;
+      const el = w.querySelector('.inp,.ta') as HTMLInputElement | HTMLTextAreaElement;
+      const ok = aturan[n](el.value);
+      w.classList.toggle('is-err', !ok);
+      const m = w.querySelector('[data-msg]') as HTMLElement | null;
+      if (m) m.hidden = ok;
+      el.setAttribute('aria-invalid', String(!ok));
+      return ok;
+    }
+
+    // validasi saat meninggalkan field, lalu langsung saat mengetik bila sudah merah
+    Object.keys(aturan).forEach((n) => {
+      const w = bidang(n);
+      const el = w?.querySelector('.inp,.ta') as HTMLElement | null;
+      el?.addEventListener('blur', () => nilai(n));
+      el?.addEventListener('input', () => { if (w!.classList.contains('is-err')) nilai(n); });
+    });
+
+    f.addEventListener('submit', (e) => {
+      e.preventDefault();
+      boxOk.hidden = true;
+      const hasil = Object.keys(aturan).map(nilai);
+      if (hasil.includes(false)) {
+        boxErr.hidden = false;
+        (f.querySelector('.is-err .inp,.is-err .ta') as HTMLElement | null)?.focus();
+        return;
+      }
+      boxErr.hidden = true;
+
+      btn.classList.add('is-load');
+      btn.disabled = true;
+
+      const d = new FormData(f);
+      const body = [
+        `Nama: ${d.get('nama')}`,
+        `Email: ${d.get('email')}`,
+        `Perusahaan: ${d.get('perusahaan') || '-'}`,
+        `Kebutuhan: ${d.get('topik')}`,
+        `Anggaran: ${d.get('budget')}`,
+        '',
+        String(d.get('pesan')),
+      ].join('\n');
+
+      // jeda pendek agar keadaan memuat terlihat sebelum aplikasi email terbuka
+      window.setTimeout(() => {
+        window.location.href =
+          `mailto:halo@xyverse.my.id?subject=${encodeURIComponent('Permintaan: ' + d.get('topik'))}` +
+          `&body=${encodeURIComponent(body)}`;
+        btn.classList.remove('is-load');
+        btn.disabled = false;
+        boxOk.hidden = false;
+        boxOk.scrollIntoView({ block: 'nearest' });
+      }, 420);
+    });
+  }
 </script>

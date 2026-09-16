@@ -1,0 +1,43 @@
+---
+/** Ikon garis 24×24 bersama. Pemakaian: <Ikon n="cek" /> */
+interface Props { n: string; k?: string; s?: number }
+const { n, k = '', s = 24 } = Astro.props;
+
+export const IKON: Record<string, string> = {
+  cek:      '<path d="m5 12.5 4.5 4.5L19 7"/>',
+  cekBulat: '<circle cx="12" cy="12" r="9.3"/><path d="m8.3 12.3 2.6 2.6 4.8-5"/>',
+  silang:   '<path d="M18 6 6 18M6 6l12 12"/>',
+  awas:     '<path d="M12 3.6 1.9 20.4h20.2z"/><path d="M12 10v4.4M12 17.4v.2"/>',
+  info:     '<circle cx="12" cy="12" r="9.3"/><path d="M12 11v5.4M12 7.7v.2"/>',
+  bahaya:   '<circle cx="12" cy="12" r="9.3"/><path d="M12 7.4v5.2M12 16.2v.2"/>',
+  panahBwh: '<path d="m6 9 6 6 6-6"/>',
+  panahKan: '<path d="m9 6 6 6-6 6"/>',
+  cari:     '<circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/>',
+  kunci:    '<rect x="4" y="10.5" width="16" height="11" rx="2.4"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/>',
+  orang:    '<circle cx="12" cy="8" r="3.6"/><path d="M4.8 20.4a7.2 7.2 0 0 1 14.4 0"/>',
+  mata:     '<path d="M2 12s3.6-6.4 10-6.4S22 12 22 12s-3.6 6.4-10 6.4S2 12 2 12Z"/><circle cx="12" cy="12" r="2.7"/>',
+  mataTutup:'<path d="M4 4.5 20 19.8"/><path d="M9.6 6.1A9.9 9.9 0 0 1 12 5.6c6.4 0 10 6.4 10 6.4a17 17 0 0 1-3.5 4.2M6.2 8A17 17 0 0 0 2 12s3.6 6.4 10 6.4a10 10 0 0 0 2.9-.4"/><path d="M9.9 9.9a2.9 2.9 0 0 0 4.1 4.1"/>',
+  kotak:    '<path d="M3 7.5 12 3l9 4.5v9L12 21l-9-4.5z"/><path d="M3 7.5 12 12m0 9V12m9-4.5L12 12"/>',
+  dok:      '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/>',
+  tulis:    '<path d="M4 20h4L19 9a2.4 2.4 0 0 0-3.4-3.4L4.6 16.6z"/><path d="m14.5 6.5 3 3"/>',
+  sampah:   '<path d="M4 7h16M10 4h4M6 7l1 13h10l1-13"/><path d="M10 11v6M14 11v6"/>',
+  tambah:   '<path d="M12 5v14M5 12h14"/>',
+  segar:    '<path d="M20.5 12a8.5 8.5 0 1 1-2.6-6.1"/><path d="M20.5 4v5h-5"/>',
+  keluar:   '<path d="M15 4h3.5A1.5 1.5 0 0 1 20 5.5v13a1.5 1.5 0 0 1-1.5 1.5H15"/><path d="M10 8 6 12l4 4M6 12h9"/>',
+  pesawat:  '<path d="M21.5 2.5 2 10.2l7.4 2.4L11.8 20z"/><path d="M21.5 2.5 9.4 12.6"/>',
+  kosong:   '<path d="M4.5 7.5 12 4l7.5 3.5v9L12 20l-7.5-3.5z"/><path d="M4.5 7.5 12 11l7.5-3.5"/>',
+  layar:    '<rect x="2.5" y="4" width="19" height="13" rx="2"/><path d="M8 21h8M12 17v4"/>',
+  gambar:   '<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.6" cy="9.4" r="1.7"/><path d="m3.5 17 4.8-4.4 3.4 3 3-2.6 5.8 5"/>',
+  tag:      '<path d="M3 12.5V4h8.5L21 13.5 12.5 22z"/><circle cx="7.6" cy="7.6" r="1.4"/>',
+  bola:     '<circle cx="12" cy="12" r="9.3"/><path d="M3 12h18"/><path d="M12 2.8a15 15 0 0 1 0 18.4 15 15 0 0 1 0-18.4"/>',
+  roda:     '<circle cx="12" cy="12" r="3.1"/><path d="M19.9 15a1.7 1.7 0 0 0 .34 1.88l.06.06a2 2 0 1 1-2.84 2.84l-.06-.06a1.7 1.7 0 0 0-2.88 1.2v.18a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-3-1.22l-.06.06a2 2 0 1 1-2.84-2.84l.06-.06A1.7 1.7 0 0 0 4.1 15a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.22-3l-.06-.06a2 2 0 1 1 2.84-2.84l.06.06A1.7 1.7 0 0 0 11 4.1V4a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 3 1.22l.06-.06a2 2 0 1 1 2.84 2.84l-.06.06A1.7 1.7 0 0 0 19.9 11H20a2 2 0 1 1 0 4z"/>',
+};
+
+const d = IKON[n] ?? '';
+---
+<svg
+  viewBox="0 0 24 24" width={s} height={s} class={k}
+  fill="none" stroke="currentColor" stroke-width="1.7"
+  stroke-linecap="round" stroke-linejoin="round"
+  aria-hidden="true" set:html={d}
+/>

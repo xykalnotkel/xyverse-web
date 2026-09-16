@@ -4,6 +4,7 @@ import { BAHASA, SEMUA_LANG, LANG_BAWAAN, langDariPath, tanpaPrefiks, type Lang 
 import { DESC_SITUS, TAGLINE } from '../i18n/data';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
+import '../styles/ui.css';
 
 interface Props {
   title?: string;
@@ -174,6 +175,12 @@ html[data-theme='dark']{
   --btn-g-br:rgba(255,255,255,.16); --btn-g-brh:rgba(255,255,255,.26);
   --btn-g-in:rgba(255,255,255,.07); --btn-g-sh:rgba(0,0,0,.5);
   --btn-g-amb:rgba(0,0,0,.34); --btn-g-gloss:rgba(255,255,255,.06);
+  /* status */
+  --ok:#34d399;   --ok-bg:rgba(16,185,129,.13);   --ok-br:rgba(16,185,129,.34);
+  --err:#f87171;  --err-bg:rgba(239,68,68,.13);   --err-br:rgba(239,68,68,.36);
+  --warn:#fbbf24; --warn-bg:rgba(245,158,11,.13); --warn-br:rgba(245,158,11,.34);
+  --info:#60a5fa; --info-bg:rgba(59,130,246,.13); --info-br:rgba(59,130,246,.34);
+  --skel-1:rgba(255,255,255,.045); --skel-2:rgba(255,255,255,.1);
 }
 html[data-theme='light']{
   --bg:#ffffff; --bg-2:#f7f6f9; --surface:#f2f0f6; --card:#ffffff;
@@ -188,6 +195,12 @@ html[data-theme='light']{
   --btn-g-br:rgba(20,15,40,.2); --btn-g-brh:rgba(20,15,40,.32);
   --btn-g-in:rgba(255,255,255,.9); --btn-g-sh:rgba(20,15,40,.13);
   --btn-g-amb:rgba(20,15,40,.09); --btn-g-gloss:rgba(255,255,255,.75);
+  /* status */
+  --ok:#047857;   --ok-bg:rgba(16,185,129,.1);    --ok-br:rgba(4,120,87,.3);
+  --err:#b91c1c;  --err-bg:rgba(239,68,68,.08);   --err-br:rgba(185,28,28,.28);
+  --warn:#b45309; --warn-bg:rgba(245,158,11,.11); --warn-br:rgba(180,83,9,.28);
+  --info:#1d4ed8; --info-bg:rgba(59,130,246,.09); --info-br:rgba(29,78,216,.26);
+  --skel-1:rgba(20,15,40,.055); --skel-2:rgba(20,15,40,.11);
 }
 
 *{box-sizing:border-box;margin:0;padding:0}

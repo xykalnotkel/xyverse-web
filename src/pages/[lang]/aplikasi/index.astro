@@ -11,6 +11,7 @@ const t = pakaiT(lang);
 const r = (p = '') => rute(lang, p);
 import Base from '../../../layouts/Base.astro';
 import PageHead from '../../../components/PageHead.astro';
+import Ilustrasi from '../../../components/Ilustrasi.astro';
 import { SITE, APLIKASI } from '../../../data/site';
 
 const c = APL[lang];
@@ -49,6 +50,9 @@ const ld = {
     title={c.judul}
     lead={c.lead}
   />
+
+  <div class="wrap hero-ilus"><Ilustrasi nama="hero-apps" alt="" prioritas /></div>
+
 
   <section class="sect">
     <div class="wrap">
@@ -113,6 +117,8 @@ const ld = {
 </Base>
 
 <style>
+.hero-ilus{margin:8px auto 0;max-width:840px}
+.hero-ilus :global(.ilus){box-shadow:var(--shadow-h)}
 .apps{display:grid;grid-template-columns:1fr 1fr;gap:22px}
 @media(max-width:900px){.apps{grid-template-columns:1fr}}
 .app{
