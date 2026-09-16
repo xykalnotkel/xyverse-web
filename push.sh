@@ -25,8 +25,10 @@ if [ ! -f .gitignore ]; then
   exit 1
 fi
 
-BOCOR=$(grep -rIl -E 'sk_live|re_[A-Za-z0-9]{20,}|ghp_|github_pat_|AIza[0-9A-Za-z_-]{30,}|CLOUDINARY_URL' \
-  --exclude-dir={node_modules,dist,.git,.astro} . 2>/dev/null || true)
+POLA='sk_live|re_[A-Za-z0-9]{20,}|ghp_|github_pat_|AIza[0-9A-Za-z_-]{30,}|CLOUDINARY_URL'
+BOCOR=$(grep -rIl -E "$POLA" \
+  --exclude-dir={node_modules,dist,.git,.astro} \
+  --exclude=push.sh --exclude=.gitignore . 2>/dev/null || true)
 if [ -n "$BOCOR" ]; then
   merah "!! Pola mirip kredensial ditemukan di:"
   echo "$BOCOR"
