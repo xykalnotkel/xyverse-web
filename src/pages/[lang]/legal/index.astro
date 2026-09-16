@@ -1,0 +1,96 @@
+---
+import { jalurBahasa, rute } from '../../../i18n/config';
+import { pakaiT } from '../../../i18n/ui';
+import { LEGAL_HAL } from '../../../i18n/halaman/legal';
+import { LEGAL_SLUG } from '../../../i18n/data';
+
+export function getStaticPaths() { return jalurBahasa(); }
+
+const { lang } = Astro.props;
+const t = pakaiT(lang);
+const r = (p = '') => rute(lang, p);
+import Base from '../../../layouts/Base.astro';
+import PageHead from '../../../components/PageHead.astro';
+import { SITE } from '../../../data/site';
+
+const c = LEGAL_HAL[lang];
+const IKS: Record<string,string> = {'syarat-layanan':'doc','kebijakan-privasi':'shield','kebijakan-cookie':'cookie','kebijakan-penggunaan':'scale','kebijakan-pengembalian':'coin','sla':'gauge','lisensi':'code','dmca':'flag','keamanan':'lock'};
+const dok = LEGAL_SLUG.map((sl) => ({ h: r(`legal/${sl}`), t: c.judulDok[sl], d: c.descDok[sl], ik: IKS[sl] }));
+
+const IK: Record<string, string> = {
+  doc: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/>',
+  shield: '<path d="M12 2.5 4.5 5.8v5.4c0 4.7 3.2 9 7.5 10.3 4.3-1.3 7.5-5.6 7.5-10.3V5.8z"/><path d="m9 12 2 2 4-4"/>',
+  cookie: '<circle cx="12" cy="12" r="9.3"/><circle cx="9" cy="9.5" r="1.1" fill="currentColor" stroke="none"/><circle cx="14.5" cy="11" r="1.1" fill="currentColor" stroke="none"/><circle cx="10.5" cy="15" r="1.1" fill="currentColor" stroke="none"/>',
+  scale: '<path d="M12 3v18M7 21h10M5 8h14M5 8 2.5 14h5zM19 8l2.5 6h-5z"/>',
+  coin: '<circle cx="12" cy="12" r="9.3"/><path d="M14.5 9.2A3 3 0 0 0 12 8c-1.7 0-2.6.9-2.6 2s.9 1.8 2.6 2 2.6.9 2.6 2-.9 2-2.6 2a3 3 0 0 1-2.5-1.2M12 6.4v11.2"/>',
+  gauge: '<path d="M4 17a9 9 0 1 1 16 0"/><path d="m12 13 4-3.5"/><circle cx="12" cy="17" r="1.6"/>',
+  code: '<polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>',
+  flag: '<path d="M4 21V4M4 5h11l-1.6 3.4L15 12H4"/>',
+  lock: '<rect x="4" y="10.5" width="16" height="11" rx="2.4"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/>',
+};
+
+const ld = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: c.ldName,
+  url: `${SITE.url}${r("legal")}`,
+  hasPart: dok.map((d) => ({ '@type': 'WebPage', name: d.t, url: `${SITE.url}${d.h}` })),
+};
+---
+
+<Base
+  lang={lang}
+  title={`${c.metaTitle} — ${SITE.nama}`}
+  desc={c.metaDesc}
+  ogTag={c.ogTag}
+  jsonld={ld}
+>
+  <PageHead
+    eyebrow={c.eyebrow}
+    title={c.judul}
+    lead={c.lead}
+  />
+
+  <section class="sect" style="padding-top:44px">
+    <div class="wrap">
+      <div class="grid g3">
+        {dok.map((d: any) => (
+          <a href={d.h} class="card reveal dcard">
+            <span class="ic">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" set:html={IK[d.ik]} />
+            </span>
+            <h2>{d.t}</h2>
+            <p>{d.d}</p>
+            <span class="go">{c.baca}</span>
+          </a>
+        ))}
+      </div>
+
+      <div class="note reveal">
+        <h3>{c.noteH3}</h3>
+        <p>{c.noteP}</p>
+        <a href={`mailto:${SITE.emailLegal}`} class="btn btn-p">{c.noteB}</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+.dcard{display:flex;flex-direction:column}
+.ic{
+  width:44px;height:44px;border-radius:8px;display:grid;place-items:center;margin-bottom:16px;
+  background:color-mix(in srgb,var(--pur) 13%,transparent);color:var(--brand);
+  border:1px solid color-mix(in srgb,var(--pur) 26%,transparent);transition:.25s var(--ease);
+}
+.dcard:hover .ic{background:var(--pur);color:#fff}
+.ic svg{width:21px;height:21px}
+.dcard h2{font-size:18px;margin-bottom:8px;line-height:1.3}
+.dcard p{color:var(--txt-2);font-size:14.3px;flex:1}
+.go{margin-top:16px;font-size:13.5px;font-weight:600;color:var(--brand)}
+.note{
+  margin-top:26px;border:1px solid var(--line);border-radius:8px;padding:34px;
+  background:var(--card);text-align:center;
+}
+.note h3{font-size:20px;margin-bottom:9px}
+.note p{color:var(--txt-2);font-size:15px;max-width:60ch;margin:0 auto 20px}
+</style>

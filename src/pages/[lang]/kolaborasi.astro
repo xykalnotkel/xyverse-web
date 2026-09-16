@@ -1,0 +1,136 @@
+---
+import { jalurBahasa, rute } from '../../i18n/config';
+import { pakaiT } from '../../i18n/ui';
+import { KOLABORASI } from '../../i18n/halaman/kolaborasi';
+
+export function getStaticPaths() { return jalurBahasa(); }
+
+const { lang } = Astro.props;
+const t = pakaiT(lang);
+const r = (p = '') => rute(lang, p);
+import Base from '../../layouts/Base.astro';
+import PageHead from '../../components/PageHead.astro';
+import { SITE } from '../../data/site';
+
+const c = KOLABORASI[lang];
+
+const IK = {
+  share: '<circle cx="18" cy="5" r="2.6"/><circle cx="6" cy="12" r="2.6"/><circle cx="18" cy="19" r="2.6"/><path d="m8.3 10.8 7.4-4.3M8.3 13.2l7.4 4.3"/>',
+  box: '<path d="M21 8.5 12 3.5 3 8.5v7l9 5 9-5z"/><path d="m3 8.5 9 5 9-5M12 13.5v7"/>',
+  video: '<rect x="2.5" y="5.5" width="14" height="13" rx="2.4"/><path d="m16.5 10 5-3v10l-5-3z"/>',
+  cap: '<path d="M12 3 2 8l10 5 10-5z"/><path d="M6 10.5V16c0 1.7 2.7 3 6 3s6-1.3 6-3v-5.5"/>',
+  plug: '<path d="M9 2.5v6M15 2.5v6M6.5 8.5h11v3a5.5 5.5 0 0 1-11 0z"/><path d="M12 17v4.5"/>',
+  mic: '<rect x="9" y="2.5" width="6" height="11" rx="3"/><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v3.5M8.5 21.5h7"/>',
+};
+
+const ld = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: c.metaTitle,
+  url: `${SITE.url}/kolaborasi`,
+  description: c.ldDesc,
+};
+---
+
+<Base
+  lang={lang}
+  title={`${c.metaTitle} — ${SITE.nama}`}
+  desc={c.metaDesc}
+  ogTag={c.ogTag}
+  jsonld={ld}
+>
+  <PageHead
+    eyebrow={c.eyebrow}
+    title={c.judul}
+    lead={c.lead}
+  />
+
+  <section class="sect" style="padding-top:40px">
+    <div class="wrap">
+      <div class="grid g3">
+        {c.jenis.map((j: any) => (
+          <article class="kcard reveal" style={`--c:${j.warna}`}>
+            <span class="kik">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" set:html={IK[j.ik]} />
+            </span>
+            <h2>{j.t}</h2>
+            <p class="kd">{j.d}</p>
+            <ul class="poin">
+              {j.poin.map((p: string) => (
+                <li>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span>{p}</span>
+                </li>
+              ))}
+            </ul>
+            <a href={r('kontak')} class="btn btn-g btn-sm">{j.cta}</a>
+          </article>
+        ))}
+      </div>
+
+      <div class="alur reveal">
+        <h2 class="st">{c.h2alur}</h2>
+        <div class="agrid">
+          {c.alur.map((a: any, i: number) => (
+            <div class="astep">
+              <span class="anum">{i + 1}</span>
+              <strong>{a.t}</strong>
+              <small>{a.d}</small>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div class="cta reveal">
+        <h2>{c.ctaH2}</h2>
+        <p>{c.ctaP}</p>
+        <div class="act">
+          <a href={r('kontak')} class="btn btn-p">{c.ctaB1}</a>
+          <a href={r('sponsor')} class="btn btn-g">{c.ctaB2}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+.kcard{
+  display:flex;flex-direction:column;border:1px solid var(--line);border-radius:12px;
+  padding:24px;background:var(--card);box-shadow:var(--shadow);
+  transition:border-color .16s ease,box-shadow .16s ease;
+}
+.kcard:hover{border-color:color-mix(in srgb,var(--c) 45%,transparent);box-shadow:var(--shadow-h)}
+.kik{
+  width:42px;height:42px;border-radius:9px;display:grid;place-items:center;margin-bottom:15px;
+  background:color-mix(in srgb,var(--c) 13%,transparent);
+  border:1px solid color-mix(in srgb,var(--c) 30%,transparent);color:var(--c);
+}
+.kik svg{width:20px;height:20px}
+.kcard h2{font-size:17.5px;margin-bottom:8px}
+.kd{font-size:14px;color:var(--txt-2);line-height:1.65;margin-bottom:15px}
+.poin{list-style:none;padding:0;display:grid;gap:8px;margin-bottom:20px;flex:1}
+.poin li{display:flex;gap:9px;font-size:13.5px;color:var(--txt-2);line-height:1.55}
+.poin svg{width:14px;height:14px;flex:none;margin-top:3px;color:var(--c)}
+.kcard .btn{align-self:flex-start}
+
+.alur{margin-top:48px}
+.st{font-size:23px;margin-bottom:20px}
+.agrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+@media(max-width:900px){.agrid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.agrid{grid-template-columns:1fr}}
+.astep{border:1px solid var(--line);border-radius:10px;padding:20px;background:var(--card);box-shadow:var(--shadow)}
+.anum{
+  display:grid;place-items:center;width:28px;height:28px;border-radius:7px;margin-bottom:11px;
+  background:var(--pur);color:#fff;font-size:13px;font-weight:700;
+}
+.astep strong{display:block;font-size:15px;margin-bottom:5px}
+.astep small{font-size:13.3px;color:var(--txt-2);line-height:1.6}
+
+.cta{
+  margin-top:48px;border:1px solid var(--line);border-radius:12px;padding:34px;
+  background:var(--card);text-align:center;box-shadow:var(--shadow);
+}
+.cta h2{font-size:21px;margin-bottom:9px}
+.cta p{color:var(--txt-2);font-size:15px;max-width:58ch;margin:0 auto 20px}
+.cta .act{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+</style>

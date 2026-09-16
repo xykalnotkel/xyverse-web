@@ -57,11 +57,11 @@ const IK: Record<string, string> = {
 .lbl{font-size:11.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--txt-2)}
 .row{display:flex;gap:7px;flex-wrap:wrap}
 .row a,.row button{
-  width:38px;height:38px;border-radius:10px;display:grid;place-items:center;cursor:pointer;
-  border:1px solid var(--line);background:var(--card);color:var(--txt-2);
-  transition:.22s var(--ease);
+  width:34px;height:34px;border-radius:var(--rb);display:grid;place-items:center;cursor:pointer;
+  border:1px solid var(--line-s);background:var(--card);color:var(--txt-2);
+  transition:background .14s ease,color .14s ease,border-color .14s ease;
 }
-.row a:hover,.row button:hover{transform:translateY(-3px);color:#fff;border-color:transparent}
+.row a:hover,.row button:hover{color:#fff;border-color:transparent}
 .row a[data-k='wa']:hover{background:#25d366}
 .row a[data-k='x']:hover{background:#000}
 .row a[data-k='fb']:hover{background:#1877f2}

@@ -1,138 +1,97 @@
 ---
-import { SITE, SOSMED, LEGAL_NAV, APLIKASI } from '../data/site';
+import { SITE, SOSMED, APLIKASI } from '../data/site';
+import { langDariPath, rute } from '../i18n/config';
+import { pakaiT } from '../i18n/ui';
+import { sumberNav, legalNav, APLIKASI_TEKS, DESC_SITUS } from '../i18n/data';
 import SosmedIkon from './SosmedIkon.astro';
 
 const year = new Date().getFullYear();
+const lang = langDariPath(Astro.url.pathname);
+const t = pakaiT(lang);
+const r = (p = '') => rute(lang, p);
+const SUMBER = sumberNav(lang);
+const LEGAL = legalNav(lang);
 
 const kolom = [
   {
-    h: 'Layanan',
+    h: t('foot.layanan'),
     l: [
-      ['Sewa Cloud PC', '/cloud-pc'],
-      ['Produksi Apps', '/#layanan'],
-      ['Software Custom', '/#layanan'],
-      ['Tools & Automation', '/#layanan'],
-      ['Harga', '/harga'],
-    ],
+      [t('sheet.sewaCloudPc'), r('cloud-pc')],
+      [t('sheet.produksiApps'), r() + '#layanan'],
+      [t('sheet.softwareCustom'), r() + '#layanan'],
+      [t('sheet.tools'), r() + '#layanan'],
+      [t('nav.harga'), r('harga')],
+    ] as [string, string][],
   },
   {
-    h: 'Aplikasi',
+    h: t('foot.aplikasi'),
     l: [
-      ...APLIKASI.map((a) => [a.nama, `/aplikasi/${a.slug}`] as [string, string]),
-      ['Semua Aplikasi', '/aplikasi'],
-      ['Unduh', '/aplikasi#unduh'],
-    ],
+      ...APLIKASI.map((a) => [a.nama, r(`aplikasi/${a.slug}`)] as [string, string]),
+      [t('sheet.semuaAplikasi'), r('aplikasi')],
+      [t('foot.unduh'), r('aplikasi') + '#unduh'],
+    ] as [string, string][],
   },
   {
-    h: 'Jelajahi',
+    h: t('foot.jelajahi'),
     l: [
-      ['Proyek', '/proyek/'],
-      ['Blog', '/blog/'],
-      ['Berita', '/berita/'],
-      ['Tentang', '/tentang'],
-      ['Tim', '/tentang#tim'],
-    ],
+      [t('sheet.proyek'), r('proyek')],
+      [t('foot.blog'), r('blog')],
+      [t('foot.berita'), r('berita')],
+      [t('nav.tentang'), r('tentang')],
+      [t('sheet.tim'), r('tentang') + '#tim'],
+    ] as [string, string][],
   },
   {
-    h: 'Legal',
-    l: LEGAL_NAV.slice(0, 6).map((x) => [x.t, x.href] as [string, string]),
+    h: t('foot.sumber'),
+    l: SUMBER.slice(0, 5).map((x) => [x.t, r(x.slug)] as [string, string]),
+  },
+  {
+    h: t('foot.komunitas'),
+    l: [
+      ...SUMBER.slice(5).map((x) => [x.t, r(x.slug)] as [string, string]),
+      [t('um.hubungiKami'), r('kontak')],
+    ] as [string, string][],
+  },
+  {
+    h: t('foot.legal'),
+    l: LEGAL.slice(0, 6).map((x) => [x.t, r(`legal/${x.slug}`)] as [string, string]),
   },
 ];
 ---
 
-<!-- ===== TEPI ATAS FOOTER: BENTUK MORPHING ===== -->
-<div class="tepi" aria-hidden="true">
-  <svg viewBox="0 0 1440 170" preserveAspectRatio="none" class="tsvg">
+<footer>
+  <svg class="tepi-svg" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true">
     <defs>
-      <linearGradient id="fisi" x1="0" y1="0" x2="0.35" y2="1">
-        <stop offset="0%" stop-color="var(--bg-2)" />
-        <stop offset="100%" stop-color="var(--bg-2)" />
-      </linearGradient>
-      <linearGradient id="ftepi" x1="0" y1="0" x2="1" y2="0">
-        <stop offset="0%" stop-color="var(--pur-d)" stop-opacity="0" />
-        <stop offset="22%" stop-color="var(--pur)" stop-opacity=".7" />
-        <stop offset="50%" stop-color="var(--pur-l)" stop-opacity="1" />
-        <stop offset="78%" stop-color="var(--pur)" stop-opacity=".7" />
-        <stop offset="100%" stop-color="var(--pur-d)" stop-opacity="0" />
-      </linearGradient>
-      <linearGradient id="fhalo" x1="0" y1="0" x2="1" y2="0">
+      <linearGradient id="fbibir" x1="0" y1="0" x2="1" y2="0">
         <stop offset="0%" stop-color="var(--pur)" stop-opacity="0" />
-        <stop offset="50%" stop-color="var(--pur-l)" stop-opacity=".85" />
+        <stop offset="26%" stop-color="var(--pur)" stop-opacity=".45" />
+        <stop offset="50%" stop-color="var(--pur-l)" stop-opacity=".7" />
+        <stop offset="74%" stop-color="var(--pur)" stop-opacity=".45" />
         <stop offset="100%" stop-color="var(--pur)" stop-opacity="0" />
       </linearGradient>
-      <filter id="fkabur" x="-20%" y="-120%" width="140%" height="340%">
-        <feGaussianBlur stdDeviation="11" />
-      </filter>
     </defs>
 
-    <!-- BADAN FOOTER: bentuk blob yang morphing, inilah tepi kartunya -->
-    <path class="isi" fill="url(#fisi)"
-      d="M0,92 C150,36 330,128 520,84 C700,42 820,116 1000,86 C1160,58 1310,104 1440,70 L1440,170 L0,170 Z">
-      <animate attributeName="d" dur="17s" repeatCount="indefinite" calcMode="spline"
-        keyTimes="0;0.34;0.67;1" keySplines="0.45 0 0.55 1;0.45 0 0.55 1;0.45 0 0.55 1"
-        values="
-          M0,92 C150,36 330,128 520,84 C700,42 820,116 1000,86 C1160,58 1310,104 1440,70 L1440,170 L0,170 Z;
-          M0,74 C170,118 320,40 520,72 C710,102 850,34 1010,74 C1170,112 1300,58 1440,96 L1440,170 L0,170 Z;
-          M0,104 C180,62 340,122 540,96 C720,72 860,130 1020,94 C1180,58 1320,86 1440,62 L1440,170 L0,170 Z;
-          M0,92 C150,36 330,128 520,84 C700,42 820,116 1000,86 C1160,58 1310,104 1440,70 L1440,170 L0,170 Z" />
-    </path>
+    <!-- lapisan belakang: lengkung kedua, memberi kedalaman -->
+    <path class="tl-blkg" fill="var(--bg-2)" opacity=".45"
+      d="M0,58 C210,10 330,86 540,56 C760,24 880,92 1080,62 C1240,38 1350,74 1440,46 L1440,121 L0,121 Z" />
 
-    <!-- halo kabur tepat di bibir bentuk -->
-    <path class="halo" fill="none" stroke="url(#fhalo)" stroke-width="5" filter="url(#fkabur)"
-      d="M0,92 C150,36 330,128 520,84 C700,42 820,116 1000,86 C1160,58 1310,104 1440,70">
-      <animate attributeName="d" dur="17s" repeatCount="indefinite" calcMode="spline"
-        keyTimes="0;0.34;0.67;1" keySplines="0.45 0 0.55 1;0.45 0 0.55 1;0.45 0 0.55 1"
-        values="
-          M0,92 C150,36 330,128 520,84 C700,42 820,116 1000,86 C1160,58 1310,104 1440,70;
-          M0,74 C170,118 320,40 520,72 C710,102 850,34 1010,74 C1170,112 1300,58 1440,96;
-          M0,104 C180,62 340,122 540,96 C720,72 860,130 1020,94 C1180,58 1320,86 1440,62;
-          M0,92 C150,36 330,128 520,84 C700,42 820,116 1000,86 C1160,58 1310,104 1440,70" />
-    </path>
+    <!-- lengkung utama: menyatu dengan badan footer di bawahnya -->
+    <path class="tl-isi" fill="var(--bg-2)"
+      d="M0,40 C180,86 340,8 560,46 C770,82 900,18 1090,50 C1250,76 1360,34 1440,64 L1440,121 L0,121 Z" />
 
-    <!-- garis tipis mengikuti persis tepi bentuk -->
-    <path class="bibir" fill="none" stroke="url(#ftepi)" stroke-width="1.7" stroke-linecap="round"
-      d="M0,92 C150,36 330,128 520,84 C700,42 820,116 1000,86 C1160,58 1310,104 1440,70">
-      <animate attributeName="d" dur="17s" repeatCount="indefinite" calcMode="spline"
-        keyTimes="0;0.34;0.67;1" keySplines="0.45 0 0.55 1;0.45 0 0.55 1;0.45 0 0.55 1"
-        values="
-          M0,92 C150,36 330,128 520,84 C700,42 820,116 1000,86 C1160,58 1310,104 1440,70;
-          M0,74 C170,118 320,40 520,72 C710,102 850,34 1010,74 C1170,112 1300,58 1440,96;
-          M0,104 C180,62 340,122 540,96 C720,72 860,130 1020,94 C1180,58 1320,86 1440,62;
-          M0,92 C150,36 330,128 520,84 C700,42 820,116 1000,86 C1160,58 1310,104 1440,70" />
-    </path>
-
-    <!-- gema tipis di atas bentuk, memberi kesan berlapis -->
-    <path class="gema" fill="none" stroke="url(#fhalo)" stroke-width=".9" opacity=".45"
-      d="M0,66 C190,112 340,32 540,68 C740,104 870,30 1040,70 C1200,108 1330,54 1440,88">
-      <animate attributeName="d" dur="23s" repeatCount="indefinite" calcMode="spline"
-        keyTimes="0;0.5;1" keySplines="0.45 0 0.55 1;0.45 0 0.55 1"
-        values="
-          M0,66 C190,112 340,32 540,68 C740,104 870,30 1040,70 C1200,108 1330,54 1440,88;
-          M0,88 C190,42 340,110 540,74 C740,38 870,112 1040,72 C1200,34 1330,92 1440,58;
-          M0,66 C190,112 340,32 540,68 C740,104 870,30 1040,70 C1200,108 1330,54 1440,88" />
-    </path>
-
-    <!-- simpul cahaya menyusuri bibir bentuk -->
-    <circle class="simpul" r="3.2" fill="var(--pur-l)">
-      <animateMotion dur="17s" repeatCount="indefinite"
-        path="M0,92 C150,36 330,128 520,84 C700,42 820,116 1000,86 C1160,58 1310,104 1440,70" />
-      <animate attributeName="opacity" values="0;1;1;0" dur="17s" repeatCount="indefinite" />
-    </circle>
+    <!-- bibir tipis mengikuti lengkung utama -->
+    <path class="tl-bibir" fill="none" stroke="url(#fbibir)" stroke-width="1.6"
+      d="M0,40 C180,86 340,8 560,46 C770,82 900,18 1090,50 C1250,76 1360,34 1440,64" />
   </svg>
-</div>
 
-<footer>
   <div class="wrap">
     <div class="top">
       <div class="bcol">
-        <a href="/" class="brand">
+        <a href={r()} class="brand">
           <img src="/brand/mark-flat-purple.webp" alt="" width="38" height="38" />
           <span class="dsp">XYVERSE</span>
         </a>
-        <p class="tag">
-          Infrastruktur Cloud PC, produksi aplikasi &amp; software, dan tools digital
-          untuk kreator, studio, dan bisnis di Indonesia.
-        </p>
+        <p class="tag">{DESC_SITUS[lang]}</p>
 
         <a href={`mailto:${SITE.email}`} class="mail">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg>
@@ -166,53 +125,57 @@ const kolom = [
     </div>
 
     <div class="bot">
-      <span>© {year} {SITE.nama}. Semua hak dilindungi.</span>
+      <span>© {year} {SITE.nama}. {t('foot.hak')}</span>
       <div class="botlinks">
-        <a href="/legal">Pusat Legal</a>
-        <a href="/legal/kebijakan-privasi">Privasi</a>
-        <a href="/legal/syarat-layanan">Syarat</a>
-        <a href="/sitemap-index.xml">Sitemap</a>
+        <a href={r('legal')}>{t('foot.pusatLegal')}</a>
+        <a href={r('legal/kebijakan-privasi')}>{t('foot.privasi')}</a>
+        <a href={r('legal/syarat-layanan')}>{t('foot.syarat')}</a>
+        <a href="/sitemap-index.xml">{t('foot.sitemap')}</a>
       </div>
     </div>
   </div>
 </footer>
 
 <style>
-/* ===== TEPI ATAS FOOTER ===== */
-.tepi{
-  position:relative;height:170px;margin-bottom:-2px;pointer-events:none;
-  overflow:hidden;line-height:0;
-}
-.tsvg{width:100%;height:170px;display:block}
-@media(max-width:760px){
-  .tepi,.tsvg{height:110px}
-}
-.gema{display:none}
-@media(min-width:900px){.gema{display:block}}
-@media(prefers-reduced-motion:reduce){
-  .tepi animate,.tepi animateMotion{display:none}
-  .simpul{display:none}
-}
-
-/* ===== FOOTER ===== */
+/* ===== FOOTER: LATARNYA SENDIRI YANG DIBENTUK SOBEKAN ===== */
 footer{
-  border-top:0;background:var(--bg-2);padding:26px 0 30px;position:relative;margin-top:0;
+  position:relative;z-index:6;border-top:0;
+  background:var(--bg-2);            /* satu warna dengan lengkung di atasnya */
+  margin-top:-56px;                  /* naik menimpa konten di atasnya */
+  padding:52px 0 30px;
 }
-footer::before{
-  content:'';position:absolute;inset:0;pointer-events:none;
-  background:radial-gradient(ellipse 52% 62% at 50% 0%,var(--glow),transparent 62%);
-  opacity:.5;
+@media(max-width:760px){
+  footer{margin-top:-30px;padding-top:36px}
 }
-footer > .wrap{position:relative;z-index:2}
 
-.top{display:grid;grid-template-columns:1.9fr 1fr 1fr 1fr 1fr;gap:38px}
-@media(max-width:1040px){.top{grid-template-columns:1fr 1fr 1fr;gap:34px}}
+/* lengkung diletakkan TEPAT di atas kotak footer, lalu ditumpuk 1px -> tanpa celah */
+.tepi-svg{
+  position:absolute;left:0;right:0;bottom:100%;
+  width:100%;height:120px;margin-bottom:-1px;
+  display:block;pointer-events:none;
+}
+@media(max-width:760px){.tepi-svg{height:78px}}
+.tl-blkg{display:none}
+@media(min-width:900px){.tl-blkg{display:block}}
+
+footer::before{
+  content:'';position:absolute;inset:0;pointer-events:none;z-index:1;
+  background:radial-gradient(ellipse 52% 46% at 50% 22%,var(--glow),transparent 62%);
+  opacity:.55;
+}
+
+/* isi footer HARUS di atas ketiga lapisan latar */
+footer > .wrap{position:relative;z-index:3}
+
+.top{display:grid;grid-template-columns:1.6fr repeat(6,1fr);gap:30px}
+@media(max-width:1240px){.top{grid-template-columns:1.4fr repeat(3,1fr);gap:30px}}
+@media(max-width:1040px){.top{grid-template-columns:1fr 1fr 1fr;gap:32px}}
 @media(max-width:700px){.top{grid-template-columns:1fr 1fr}}
 @media(max-width:480px){.top{grid-template-columns:1fr}}
 
 .brand{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.16em;margin-bottom:16px;font-size:15px}
 .brand img{transition:transform .3s var(--ease)}
-.brand:hover img{transform:rotate(-8deg) scale(1.07)}
+.brand:hover img{transform:none}
 .tag{color:var(--txt-2);font-size:14.5px;max-width:36ch;margin-bottom:18px}
 
 .mail{display:inline-flex;align-items:center;gap:9px;font-size:14.5px;font-weight:600;color:var(--brand);transition:.2s}
@@ -224,16 +187,16 @@ address svg{width:16px;height:16px;flex:none;margin-top:3px;color:var(--brand)}
 
 .sos{display:flex;gap:8px;flex-wrap:wrap;margin-top:22px}
 .sos a{
-  width:36px;height:36px;border-radius:10px;display:grid;place-items:center;
-  border:1px solid var(--line);background:var(--card);color:var(--txt-2);
-  transition:.22s var(--ease);
+  width:34px;height:34px;border-radius:var(--rb);display:grid;place-items:center;
+  border:1px solid var(--line-s);background:var(--card);color:var(--txt-2);
+  transition:background .14s ease,color .14s ease,border-color .14s ease;
 }
-.sos a:hover{color:#fff;background:var(--pur);border-color:var(--pur);transform:translateY(-3px)}
+.sos a:hover{color:#fff;background:var(--pur);border-color:var(--pur)}
 .sos :global(svg){width:16px;height:16px}
 
 .col h4{font-size:12.5px;letter-spacing:.13em;text-transform:uppercase;margin-bottom:15px;color:var(--txt);font-weight:600}
 .col a{display:block;color:var(--txt-2);font-size:14.5px;padding:5px 0;transition:.2s;width:fit-content}
-.col a:hover{color:var(--brand);transform:translateX(2px)}
+.col a:hover{color:var(--brand)}
 
 .bot{
   display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;align-items:center;

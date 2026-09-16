@@ -58,3 +58,7 @@ Disallow: /
 
 Sitemap: https://xyverse.my.id/sitemap-index.xml
 Host: https://xyverse.my.id
+
+# Umpan / Feeds
+# https://xyverse.my.id/id/rss.xml
+# https://xyverse.my.id/en/rss.xml

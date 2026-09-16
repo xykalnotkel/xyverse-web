@@ -1,0 +1,68 @@
+import type { Lang } from '../config';
+
+export const KOMUNITAS: Record<Lang, any> = {
+  id: {
+    metaTitle: 'Komunitas', ogTag: 'Komunitas',
+    metaDesc: 'Gabung komunitas Xyverse di Discord, Telegram, GitHub, dan YouTube. Ada sesi tanya jawab bulanan, kelas kilat, dan tantangan render.',
+    ldDesc: 'Kanal komunitas Xyverse: Discord, Telegram, GitHub, dan YouTube.',
+    eyebrow: 'Komunitas',
+    judul: 'Belajar lebih cepat kalau bareng-bareng.',
+    lead: 'Tempat berkumpul pengguna Xyverse — dari yang baru sewa mesin pertama sampai yang menjalankan render farm.',
+    h2kanal: 'Kanal resmi', h2keg: 'Kegiatan rutin', h2aturan: 'Aturan komunitas', h2sos: 'Semua sosial media',
+    ctaH2: 'Baru pertama gabung?',
+    ctaP: 'Masuk ke Discord, perkenalkan diri di kanal sapa, dan ceritakan apa yang sedang lu kerjakan.',
+    ctaB1: 'Gabung Discord', ctaB2: 'Cara Kontribusi',
+    kanal: [
+      { n: 'Discord', d: 'Tempat utama tanya jawab, berbagi setup, dan ngobrol santai.', anggota: 'Kanal utama', ik: 'discord' },
+      { n: 'Telegram', d: 'Pengumuman cepat dan diskusi ringan lewat ponsel.', anggota: 'Grup terbuka', ik: 'telegram' },
+      { n: 'GitHub', d: 'Laporan bug, usulan fitur, dan kode sumber yang kami buka.', anggota: 'Publik', ik: 'github' },
+      { n: 'YouTube', d: 'Tutorial video, demo fitur, dan rekaman sesi teknis.', anggota: 'Kanal resmi', ik: 'youtube' },
+    ],
+    kegiatan: [
+      { t: 'Sesi Tanya Jawab Bulanan', d: 'Ngobrol langsung dengan tim soal roadmap dan kendala teknis.', jadwal: 'Sabtu pekan pertama', ik: 'mic' },
+      { t: 'Pamer Setup', d: 'Bagikan konfigurasi Cloud PC lu, yang paling menarik dapat kredit.', jadwal: 'Setiap bulan', ik: 'monitor' },
+      { t: 'Kelas Kilat', d: 'Sesi 45 menit membahas satu topik spesifik sampai tuntas.', jadwal: 'Dua pekan sekali', ik: 'cap' },
+      { t: 'Tantangan Render', d: 'Lomba karya visual dengan hadiah kredit dan merchandise.', jadwal: 'Per kuartal', ik: 'trophy' },
+    ],
+    aturan: [
+      'Perlakukan semua orang dengan hormat, apa pun tingkat pengalamannya.',
+      'Tidak ada pertanyaan bodoh — yang baru belajar selalu disambut.',
+      'Cari dulu sebelum bertanya, tapi jangan ragu bertanya kalau buntu.',
+      'Jangan bagikan kredensial atau data pribadi siapa pun.',
+      'Promosi produk lain hanya di kanal yang disediakan.',
+      'Laporan keamanan dikirim privat, bukan di kanal publik.',
+    ],
+  },
+  en: {
+    metaTitle: 'Community', ogTag: 'Community',
+    metaDesc: 'Join the Xyverse community on Discord, Telegram, GitHub, and YouTube. Monthly Q&A sessions, quick classes, and render challenges.',
+    ldDesc: 'Xyverse community channels: Discord, Telegram, GitHub, and YouTube.',
+    eyebrow: 'Community',
+    judul: 'You learn faster in good company.',
+    lead: 'Where Xyverse users gather — from people renting their first machine to those running a render farm.',
+    h2kanal: 'Official channels', h2keg: 'Regular events', h2aturan: 'Community rules', h2sos: 'All social media',
+    ctaH2: 'Joining for the first time?',
+    ctaP: 'Hop into Discord, introduce yourself in the welcome channel, and tell us what you are working on.',
+    ctaB1: 'Join Discord', ctaB2: 'How to Contribute',
+    kanal: [
+      { n: 'Discord', d: 'The main place for questions, sharing setups, and casual conversation.', anggota: 'Main channel', ik: 'discord' },
+      { n: 'Telegram', d: 'Quick announcements and light discussion from your phone.', anggota: 'Open group', ik: 'telegram' },
+      { n: 'GitHub', d: 'Bug reports, feature requests, and the source code we publish.', anggota: 'Public', ik: 'github' },
+      { n: 'YouTube', d: 'Video tutorials, feature demos, and recorded technical sessions.', anggota: 'Official channel', ik: 'youtube' },
+    ],
+    kegiatan: [
+      { t: 'Monthly Q&A Session', d: 'Talk directly with the team about the roadmap and technical hurdles.', jadwal: 'First Saturday', ik: 'mic' },
+      { t: 'Show Your Setup', d: 'Share your Cloud PC configuration; the most interesting one earns credit.', jadwal: 'Every month', ik: 'monitor' },
+      { t: 'Lightning Class', d: 'A 45-minute session covering one specific topic end to end.', jadwal: 'Every two weeks', ik: 'cap' },
+      { t: 'Render Challenge', d: 'A visual work competition with credit and merchandise as prizes.', jadwal: 'Quarterly', ik: 'trophy' },
+    ],
+    aturan: [
+      'Treat everyone with respect, whatever their level of experience.',
+      'There are no stupid questions — beginners are always welcome.',
+      'Search before you ask, but never hesitate to ask when you are stuck.',
+      'Do not share credentials or anyone\u2019s personal data.',
+      'Promote other products only in the channels set aside for it.',
+      'Security reports go privately, not to a public channel.',
+    ],
+  },
+};

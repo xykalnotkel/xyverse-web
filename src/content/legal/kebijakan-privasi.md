@@ -1,0 +1,139 @@
+---
+title: "Kebijakan Privasi"
+desc: "Penjelasan data yang Xyverse kumpulkan, tujuan penggunaannya, cara kami melindunginya, dan hak Anda atas data tersebut."
+diperbarui: "16 September 2026"
+ringkas: "Kami hanya mengumpulkan data yang benar-benar dibutuhkan untuk menjalankan layanan. Kami tidak menjual data lu kepada siapa pun. Isi Cloud PC lu tidak kami akses tanpa izin tertulis. Lu berhak meminta salinan atau penghapusan data kapan saja."
+lang: "id"
+---
+## 1. Pendahuluan
+
+Kebijakan ini menjelaskan bagaimana Xyverse memperlakukan data pribadi Pelanggan dan pengunjung
+situs. Kami berkomitmen mematuhi Undang-Undang Nomor 27 Tahun 2022 tentang Pelindungan Data
+Pribadi serta praktik terbaik internasional.
+
+**Pengendali data:** Xyverse, Tanak Beaq, Lombok Tengah, Nusa Tenggara Barat 83562, Indonesia.
+
+## 2. Data yang kami kumpulkan
+
+### 2.1 Data yang Anda berikan langsung
+
+| Jenis data | Contoh | Tujuan |
+|---|---|---|
+| Identitas | Nama, nama perusahaan | Pembuatan akun dan penagihan |
+| Kontak | Email, nomor telepon | Komunikasi layanan dan dukungan |
+| Pembayaran | Metode dan riwayat transaksi | Pemrosesan tagihan |
+| Isi komunikasi | Pesan pada formulir kontak | Menjawab pertanyaan |
+
+Kami **tidak** menyimpan nomor kartu kredit secara utuh. Pemrosesan pembayaran ditangani
+penyedia gateway tersertifikasi PCI-DSS.
+
+### 2.2 Data yang terkumpul otomatis
+
+- Alamat IP dan perkiraan lokasi tingkat kota
+- Jenis peramban, sistem operasi, dan resolusi layar
+- Halaman yang dikunjungi beserta durasinya
+- Log teknis: waktu koneksi, durasi sesi, dan volume bandwidth Instance
+
+### 2.3 Data yang TIDAK kami kumpulkan
+
+Kami **tidak** memantau, memindai, atau membuat salinan isi berkas di dalam Cloud PC
+Pelanggan. Kami tidak merekam layar, menekan tombol, atau mengintip aktivitas di dalam sesi
+remote.
+
+## 3. Dasar hukum pemrosesan
+
+| Dasar | Penerapan |
+|---|---|
+| Pelaksanaan kontrak | Menyediakan layanan yang Anda beli |
+| Kewajiban hukum | Penyimpanan catatan pajak dan tanggapan atas perintah resmi |
+| Kepentingan sah | Keamanan sistem, pencegahan penyalahgunaan, peningkatan layanan |
+| Persetujuan | Buletin pemasaran dan cookie analitik |
+
+Persetujuan dapat ditarik kapan saja tanpa memengaruhi keabsahan pemrosesan sebelumnya.
+
+## 4. Cara kami menggunakan data
+
+1. Menyediakan, memelihara, dan memperbaiki Layanan.
+2. Memproses pembayaran dan menerbitkan tagihan.
+3. Mengirim pemberitahuan penting terkait layanan (tidak dapat ditolak selama akun aktif).
+4. Memberikan dukungan teknis atas permintaan Pelanggan.
+5. Mendeteksi dan mencegah penipuan serta penyalahgunaan.
+6. Mengirim informasi produk baru, hanya bila Anda menyetujuinya.
+
+## 5. Pembagian data kepada pihak ketiga
+
+Kami **tidak menjual data pribadi**. Data hanya dibagikan kepada:
+
+- **Penyedia infrastruktur** — pusat data tempat Instance berjalan.
+- **Pemroses pembayaran** — untuk menyelesaikan transaksi.
+- **Penyedia email transaksional** — untuk mengirim notifikasi layanan.
+- **Penegak hukum** — hanya berdasarkan perintah resmi yang sah menurut hukum Indonesia.
+
+Setiap pihak ketiga terikat perjanjian kerahasiaan dan hanya boleh memakai data untuk tujuan
+yang kami tentukan.
+
+## 6. Penyimpanan dan lokasi data
+
+Instance Pelanggan berjalan di region yang Pelanggan pilih, yaitu Singapura atau Jakarta. Data
+akun dan penagihan disimpan pada server di Indonesia.
+
+| Jenis data | Masa simpan |
+|---|---|
+| Data akun aktif | Selama akun aktif |
+| Data setelah akun ditutup | 30 hari, lalu dihapus |
+| Catatan keuangan | 10 tahun sesuai ketentuan perpajakan |
+| Log teknis | 90 hari |
+| Snapshot Instance | Sesuai paket, maksimal 30 hari |
+
+## 7. Keamanan
+
+Langkah perlindungan yang kami terapkan:
+
+- Enkripsi TLS 1.3 untuk seluruh lalu lintas data
+- Enkripsi penyimpanan pada tingkat disk
+- Isolasi penuh antar Instance pelanggan
+- Autentikasi dua langkah pada panel dan akses administratif
+- Pencatatan audit untuk setiap akses administratif
+- Peninjauan keamanan berkala pada infrastruktur
+
+Tidak ada sistem yang sepenuhnya kebal. Bila terjadi insiden yang berisiko merugikan Pelanggan,
+kami akan memberitahukan dalam waktu **maksimal 3 × 24 jam** sejak insiden diketahui,
+sebagaimana diwajibkan UU PDP.
+
+## 8. Hak Anda
+
+Sesuai UU PDP, Anda berhak untuk:
+
+1. **Mengakses** — meminta salinan data pribadi yang kami simpan.
+2. **Memperbaiki** — meminta koreksi data yang keliru.
+3. **Menghapus** — meminta penghapusan data, selama tidak bertentangan dengan kewajiban hukum.
+4. **Membatasi** — meminta pembatasan pemrosesan tertentu.
+5. **Memindahkan** — menerima data dalam format terstruktur yang dapat dibaca mesin.
+6. **Menolak** — menolak pemrosesan untuk tujuan pemasaran.
+7. **Menarik persetujuan** — kapan saja, untuk pemrosesan berbasis persetujuan.
+
+Kirim permintaan ke [privasi@xyverse.my.id](mailto:privasi@xyverse.my.id). Kami
+menanggapi paling lambat **14 hari kerja**.
+
+## 9. Data anak
+
+Layanan kami tidak ditujukan bagi anak di bawah 17 tahun. Kami tidak dengan sengaja
+mengumpulkan data anak. Bila Anda mengetahui hal tersebut terjadi, mohon segera hubungi kami
+agar data dapat dihapus.
+
+## 10. Cookie
+
+Penggunaan cookie dijelaskan terpisah pada [Kebijakan Cookie](/id/legal/kebijakan-cookie).
+
+## 11. Perubahan kebijakan
+
+Perubahan material akan diberitahukan melalui email dan pengumuman di situs minimal 30 hari
+sebelum berlaku. Riwayat versi tersedia atas permintaan.
+
+## 12. Kontak dan pengaduan
+
+- Petugas Pelindungan Data: [privasi@xyverse.my.id](mailto:privasi@xyverse.my.id)
+- Alamat: Tanak Beaq, Lombok Tengah, Nusa Tenggara Barat 83562
+
+Bila tanggapan kami dinilai belum memadai, Anda berhak menyampaikan pengaduan kepada lembaga
+pengawas pelindungan data pribadi yang berwenang di Indonesia.

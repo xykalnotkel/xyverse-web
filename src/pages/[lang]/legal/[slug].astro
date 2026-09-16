@@ -1,0 +1,23 @@
+---
+import { rute } from '../../../i18n/config';
+import Legal from '../../../layouts/Legal.astro';
+import { getCollection, render } from 'astro:content';
+import { slugKonten, filterLang } from '../../../i18n/data';
+
+export async function getStaticPaths() {
+  const LANGS = ['id', 'en'] as const;
+  const semua = await getCollection('legal');
+  return LANGS.flatMap((lang) =>
+    semua.filter(filterLang(lang)).map((d) => ({
+      params: { lang, slug: slugKonten(d.id) },
+      props: { d, lang },
+    }))
+  );
+}
+
+const { d, lang } = Astro.props;
+const { Content } = await render(d);
+---
+<Legal lang={lang} title={d.data.title} desc={d.data.desc} diperbarui={d.data.diperbarui} ringkas={d.data.ringkas}>
+  <Content />
+</Legal>

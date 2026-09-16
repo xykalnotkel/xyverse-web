@@ -102,6 +102,19 @@ export const NILAI = [
   { t: 'Berpihak pengguna', d: 'Data lu milik lu. Kami tidak menjual atau membagikannya untuk tujuan pemasaran.' },
 ];
 
+export const SUMBER_NAV = [
+  { href: '/panduan', t: 'Panduan', d: 'Tutorial langkah demi langkah' },
+  { href: '/changelog', t: 'Changelog', d: 'Riwayat pembaruan produk' },
+  { href: '/pelajari', t: 'Pelajari', d: 'Konsep dasar Cloud PC' },
+  { href: '/kontribusi', t: 'Kontribusi', d: 'Ikut membangun Xyverse' },
+  { href: '/kolaborasi', t: 'Kolaborasi', d: 'Kemitraan dan afiliasi' },
+  { href: '/sponsor', t: 'Sponsor', d: 'Dukung pengembangan' },
+  { href: '/komunitas', t: 'Komunitas', d: 'Tempat berkumpul pengguna' },
+  { href: '/status', t: 'Status', d: 'Kondisi layanan terkini' },
+  { href: '/faq', t: 'FAQ', d: 'Pertanyaan yang sering muncul' },
+  { href: '/karier', t: 'Karier', d: 'Bergabung dengan tim' },
+];
+
 export const LEGAL_NAV = [
   { href: '/legal/syarat-layanan', t: 'Syarat Layanan' },
   { href: '/legal/kebijakan-privasi', t: 'Kebijakan Privasi' },

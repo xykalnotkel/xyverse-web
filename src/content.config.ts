@@ -12,6 +12,7 @@ const blog = defineCollection({
     baca: z.number().default(5),
     unggulan: z.boolean().default(false),
     draft: z.boolean().default(false),
+    lang: z.enum(['id', 'en']).default('id'),
   }),
 });
 
@@ -24,9 +25,10 @@ const proyek = defineCollection({
     klien: z.string(),
     layanan: z.string(),
     stack: z.array(z.string()).default([]),
-    status: z.enum(['Selesai', 'Berjalan', 'Maintenance']).default('Selesai'),
+    status: z.string().default('Selesai'),
     unggulan: z.boolean().default(false),
     draft: z.boolean().default(false),
+    lang: z.enum(['id', 'en']).default('id'),
   }),
 });
 
@@ -38,7 +40,19 @@ const berita = defineCollection({
     date: z.coerce.date(),
     tag: z.string().default('Pengumuman'),
     draft: z.boolean().default(false),
+    lang: z.enum(['id', 'en']).default('id'),
   }),
 });
 
-export const collections = { blog, proyek, berita };
+const legal = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/legal' }),
+  schema: z.object({
+    title: z.string(),
+    desc: z.string(),
+    diperbarui: z.string(),
+    ringkas: z.string().optional(),
+    lang: z.enum(['id', 'en']).default('id'),
+  }),
+});
+
+export const collections = { blog, proyek, berita, legal };

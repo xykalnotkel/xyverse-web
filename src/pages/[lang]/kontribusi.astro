@@ -1,0 +1,153 @@
+---
+import { jalurBahasa, rute } from '../../i18n/config';
+import { pakaiT } from '../../i18n/ui';
+import { KONTRIBUSI } from '../../i18n/halaman/kontribusi';
+
+export function getStaticPaths() { return jalurBahasa(); }
+
+const { lang } = Astro.props;
+const t = pakaiT(lang);
+const r = (p = '') => rute(lang, p);
+import Base from '../../layouts/Base.astro';
+import PageHead from '../../components/PageHead.astro';
+import { SITE, SOSMED } from '../../data/site';
+
+const gh = SOSMED.find((s) => s.ikon === 'github')?.url || '#';
+
+const c = KONTRIBUSI[lang];
+
+const IK = {
+  bug: '<path d="M8 6a4 4 0 0 1 8 0M5 10h14M6 10v4a6 6 0 0 0 12 0v-4M2.5 12h3M18.5 12h3M4 6.5 6.5 8M20 6.5 17.5 8M4.5 18 7 16.5M19.5 18 17 16.5"/>',
+  bulb: '<path d="M9.5 18h5M10 21h4M12 2.5a6 6 0 0 0-3.5 10.9V16h7v-2.6A6 6 0 0 0 12 2.5z"/>',
+  doc: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/>',
+  pen: '<path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/>',
+  users: '<circle cx="9" cy="8" r="3.4"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16.5 5.2a3.4 3.4 0 0 1 0 6.6M18 20a6.4 6.4 0 0 0-2.5-5.1"/>',
+  flask: '<path d="M9 2.5v6L3.8 18A2 2 0 0 0 5.6 21h12.8a2 2 0 0 0 1.8-3L15 8.5v-6M8 2.5h8M7.5 14h9"/>',
+};
+
+const ld = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: c.metaTitle,
+  url: `${SITE.url}/kontribusi`,
+  description: c.ldDesc,
+};
+---
+
+<Base
+  lang={lang}
+  title={`${c.metaTitle} — ${SITE.nama}`}
+  desc={c.metaDesc}
+  ogTag={c.ogTag}
+  jsonld={ld}
+>
+  <PageHead
+    eyebrow={c.eyebrow}
+    title={c.judul}
+    lead={c.lead}
+  />
+
+  <section class="sect" style="padding-top:40px">
+    <div class="wrap">
+      <h2 class="st">{c.h2cara}</h2>
+      <div class="grid g3">
+        {c.cara.map((x: any) => (
+          <a href={r(x.h)} class="ccard reveal">
+            <span class="cik">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" set:html={IK[x.ik]} />
+            </span>
+            <h3>{x.t}</h3>
+            <p>{x.d}</p>
+            <span class="go">{x.aksi} →</span>
+          </a>
+        ))}
+      </div>
+
+      <div class="dua">
+        <div class="reveal">
+          <h2 class="st">{c.h2alur}</h2>
+          <ol class="lang">
+            {c.langkah.map((l: any) => (
+              <li>
+                <span class="num">{l.n}</span>
+                <div><strong>{l.t}</strong><p>{l.d}</p></div>
+              </li>
+            ))}
+          </ol>
+        </div>
+
+        <div class="reveal">
+          <h2 class="st">{c.h2aturan}</h2>
+          <ul class="atur">
+            {c.aturan.map((a: string) => (
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                <span>{a}</span>
+              </li>
+            ))}
+          </ul>
+          <div class="kode">
+            <strong>{c.kodeT}</strong>
+            <p>{c.kodeD}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="cta reveal">
+        <h2>{c.ctaH2}</h2>
+        <p>{c.ctaP}</p>
+        <div class="act">
+          <a href={r('kontak')} class="btn btn-p">{c.ctaB1}</a>
+          <a href={gh} target="_blank" rel="noopener noreferrer" class="btn btn-g">{c.ctaB2}</a>
+          <a href={r('komunitas')} class="btn btn-t">{c.ctaB3}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+.st{font-size:23px;margin-bottom:20px}
+.ccard{
+  display:flex;flex-direction:column;border:1px solid var(--line);border-radius:12px;
+  padding:22px;background:var(--card);box-shadow:var(--shadow);
+  transition:border-color .16s ease,box-shadow .16s ease,background .16s ease;
+}
+.ccard:hover{border-color:var(--line-s);box-shadow:var(--shadow-h);background:var(--card-h)}
+.cik{
+  width:40px;height:40px;border-radius:8px;display:grid;place-items:center;margin-bottom:14px;
+  background:var(--surface);border:1px solid var(--line);color:var(--brand);
+  transition:background .16s ease,color .16s ease,border-color .16s ease;
+}
+.ccard:hover .cik{background:var(--pur);color:#fff;border-color:var(--pur)}
+.cik svg{width:19px;height:19px}
+.ccard h3{font-size:16.5px;margin-bottom:7px}
+.ccard p{font-size:14px;color:var(--txt-2);flex:1;line-height:1.65}
+.go{margin-top:15px;font-size:13.3px;font-weight:600;color:var(--brand)}
+
+.dua{display:grid;grid-template-columns:1fr 1fr;gap:44px;margin-top:48px;align-items:start}
+@media(max-width:900px){.dua{grid-template-columns:1fr;gap:34px}}
+.lang{list-style:none;padding:0;display:grid;gap:16px}
+.lang li{display:flex;gap:14px}
+.num{
+  font-size:12px;font-weight:800;color:var(--brand);flex:none;
+  width:32px;height:32px;border-radius:7px;display:grid;place-items:center;
+  background:var(--surface);border:1px solid var(--line);
+}
+.lang strong{display:block;font-size:15px;margin-bottom:3px}
+.lang p{font-size:13.8px;color:var(--txt-2);line-height:1.6}
+.atur{list-style:none;padding:0;display:grid;gap:11px;margin-bottom:20px}
+.atur li{display:flex;gap:10px;font-size:14px;color:var(--txt-2);line-height:1.62}
+.atur svg{width:16px;height:16px;flex:none;margin-top:3px;color:#10b981}
+.kode{border:1px solid var(--line);border-radius:8px;padding:17px;background:var(--surface)}
+.kode strong{display:block;font-size:14.5px;margin-bottom:5px;color:var(--brand)}
+.kode p{font-size:13.6px;color:var(--txt-2);line-height:1.65}
+
+.cta{
+  margin-top:48px;border:1px solid var(--line);border-radius:12px;padding:34px;
+  background:var(--card);text-align:center;box-shadow:var(--shadow);
+}
+.cta h2{font-size:21px;margin-bottom:9px}
+.cta p{color:var(--txt-2);font-size:15px;max-width:54ch;margin:0 auto 20px}
+.cta .act{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+</style>

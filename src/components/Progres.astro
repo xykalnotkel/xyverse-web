@@ -12,18 +12,17 @@
 #progres{position:fixed;top:0;left:0;right:0;height:3px;z-index:120;pointer-events:none;background:transparent}
 #progres i{
   display:block;height:100%;width:0%;
-  background:linear-gradient(90deg,var(--pur),#a78bfa,var(--pur));
-  box-shadow:0 0 12px color-mix(in srgb,var(--pur) 70%,transparent);
+  background:var(--pur);
   transition:width .08s linear;
 }
 #keatas{
-  position:fixed;right:22px;bottom:22px;z-index:110;width:44px;height:44px;border-radius:13px;
+  position:fixed;right:22px;bottom:22px;z-index:110;width:44px;height:44px;border-radius:var(--rb);
   display:grid;place-items:center;cursor:pointer;opacity:0;visibility:hidden;transform:translateY(12px);
-  background:var(--card);border:1px solid var(--line);color:var(--txt-2);
-  backdrop-filter:blur(12px);transition:.28s var(--ease);
+  background:var(--card);border:1px solid var(--line-s);color:var(--txt-2);
+  box-shadow:var(--shadow);transition:.16s ease;
 }
 #keatas.on{opacity:1;visibility:visible;transform:none}
-#keatas:hover{background:var(--pur);color:#fff;border-color:transparent}
+#keatas:hover{background:var(--surface);color:var(--txt);border-color:var(--txt-2)}
 #keatas svg{width:18px;height:18px}
 @media(max-width:640px){#keatas{right:14px;bottom:14px}}
 </style>

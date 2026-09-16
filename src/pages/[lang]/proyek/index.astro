@@ -1,0 +1,100 @@
+---
+import { jalurBahasa, rute } from '../../../i18n/config';
+import { pakaiT } from '../../../i18n/ui';
+
+export function getStaticPaths() { return jalurBahasa(); }
+
+const { lang } = Astro.props;
+const t = pakaiT(lang);
+const r = (p = '') => rute(lang, p);
+import Base from '../../../layouts/Base.astro';
+import PageHead from '../../../components/PageHead.astro';
+import { getCollection } from 'astro:content';
+import { slugKonten, filterLang } from '../../../i18n/data';
+import { KOLEKSI } from '../../../i18n/halaman/koleksi';
+
+const KST: Record<string, string> = { Selesai: 'selesai', Berjalan: 'berjalan', Maintenance: 'maintenance', Completed: 'selesai', Ongoing: 'berjalan' };
+const kls = (s: string) => KST[s] ?? 'selesai';
+const K = KOLEKSI[lang];
+const c = K.proyek;
+const items = (await getCollection('proyek', filterLang(lang))).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+const layanan = [...new Set(items.map((p) => p.data.layanan))];
+const fmt = (d: Date) => d.toLocaleDateString(lang === 'en' ? 'en-GB' : 'id-ID', { month: 'long', year: 'numeric' });
+---
+
+<Base lang={lang} title={c.metaTitle} desc={c.metaDesc}>
+  <PageHead
+    eyebrow={c.eyebrow}
+    title={c.judul}
+    lead={c.lead}
+  />
+
+  <section class="sect" style="padding-top:44px">
+    <div class="wrap">
+      <div class="filters reveal">
+        <button class="chip on" data-k="all">{K.semua}</button>
+        {layanan.map((k) => <button class="chip" data-k={k}>{k}</button>)}
+      </div>
+
+      <div class="grid g2" id="list">
+        {items.map((p) => (
+          <a href={r(`proyek/${slugKonten(p.id)}`)} class="card reveal prj" data-k={p.data.layanan}>
+            <div class="top">
+              <span class="tag">{p.data.layanan}</span>
+              <span class={`st ${kls(p.data.status)}`}>{p.data.status}</span>
+            </div>
+            <h2>{p.data.title}</h2>
+            <p>{p.data.desc}</p>
+            <div class="stack">{p.data.stack.map((s) => <span>{s}</span>)}</div>
+            <div class="foot">
+              <span class="klien">{p.data.klien}</span>
+              <time datetime={p.data.date.toISOString()}>{fmt(p.data.date)}</time>
+            </div>
+          </a>
+        ))}
+      </div>
+      <p class="empty" id="empty" hidden>{c.kosong}</p>
+    </div>
+  </section>
+</Base>
+
+<style>
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px}
+.chip{padding:8px 16px;border-radius:6px;font-size:13.5px;font-weight:500;cursor:pointer;background:var(--card);border:1px solid var(--line);color:var(--txt-2);font-family:inherit;transition:.2s var(--ease)}
+.chip:hover{color:var(--txt);border-color:var(--line-s)}
+.chip.on{background:var(--pur);border-color:var(--pur);color:#fff}
+.prj{display:flex;flex-direction:column}
+.top{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:14px}
+.tag{font-size:11.5px;font-weight:600;padding:4px 10px;border-radius:6px;background:color-mix(in srgb,var(--pur) 14%,transparent);border:1px solid color-mix(in srgb,var(--pur) 28%,transparent);color:var(--brand)}
+.st{font-size:11.5px;font-weight:600;padding:4px 10px;border-radius:6px;border:1px solid var(--line);color:var(--txt-2)}
+.st.selesai{color:#10b981;border-color:color-mix(in srgb,#10b981 35%,transparent)}
+.st.berjalan{color:#f59e0b;border-color:color-mix(in srgb,#f59e0b 35%,transparent)}
+.prj h2{font-size:20px;margin-bottom:9px;line-height:1.3}
+.prj p{color:var(--txt-2);font-size:14.8px;flex:1}
+.stack{display:flex;gap:7px;flex-wrap:wrap;margin-top:18px}
+.stack span{font-size:11.5px;padding:4px 10px;border-radius:6px;background:var(--surface);border:1px solid var(--line);color:var(--txt-2)}
+.foot{display:flex;justify-content:space-between;gap:10px;margin-top:18px;padding-top:15px;border-top:1px solid var(--line);font-size:13px;color:var(--txt-2)}
+.klien{font-weight:600;color:var(--txt)}
+.empty{text-align:center;color:var(--txt-2);padding:50px 0}
+</style>
+
+<script>
+  const chips = document.querySelectorAll<HTMLButtonElement>('.chip');
+  const items = document.querySelectorAll<HTMLElement>('.prj');
+  const empty = document.getElementById('empty');
+  chips.forEach((c) =>
+    c.addEventListener('click', () => {
+      chips.forEach((x) => x.classList.toggle('on', x === c));
+      const k = c.dataset.k;
+      let n = 0;
+      items.forEach((p) => {
+        const show = k === 'all' || p.dataset.k === k;
+        p.style.display = show ? '' : 'none';
+        if (show) n++;
+      });
+      if (empty) empty.hidden = n > 0;
+    })
+  );
+</script>

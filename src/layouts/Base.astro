@@ -1,5 +1,7 @@
 ---
 import { SITE, SOSMED } from '../data/site';
+import { BAHASA, SEMUA_LANG, LANG_BAWAAN, langDariPath, tanpaPrefiks, type Lang } from '../i18n/config';
+import { DESC_SITUS, TAGLINE } from '../i18n/data';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 
@@ -15,11 +17,16 @@ interface Props {
   penulis?: string;
   noindex?: boolean;
   jsonld?: any;
+  lang?: Lang;
 }
 
+const langProp = (Astro.props as any).lang as Lang | undefined;
+const lang: Lang = langProp ?? langDariPath(Astro.url.pathname);
+const meta = BAHASA[lang];
+
 const {
-  title = `${SITE.nama} — ${SITE.tagline}`,
-  desc = SITE.desc,
+  title = `${SITE.nama} — ${TAGLINE[lang]}`,
+  desc = DESC_SITUS[lang],
   tipe = 'website',
   ogImage,
   ogTitle,
@@ -34,8 +41,9 @@ const {
 const canonical = new URL(Astro.url.pathname.replace(/\/$/, '') || '/', SITE.url).href;
 
 // OG image statis per halaman: /og/<slug>.svg (slug diturunkan dari path)
-const segmen = Astro.url.pathname.replace(/^\/|\/$/g, '').split('/').filter(Boolean);
-const ogSlug = segmen.length === 0 ? 'default' : segmen.join('-');
+const jalurMurni = tanpaPrefiks(Astro.url.pathname);
+const segmen = jalurMurni.split('/').filter(Boolean);
+const ogSlug = `${lang}-${segmen.length === 0 ? 'default' : segmen.join('-')}`;
 const ogUrl = ogImage
   ? new URL(ogImage, SITE.url).href
   : new URL(`/og/${ogSlug}.svg`, SITE.url).href;
@@ -66,13 +74,13 @@ const siteLd = {
   '@id': `${SITE.url}/#website`,
   url: SITE.url,
   name: SITE.nama,
-  description: SITE.desc,
-  inLanguage: 'id-ID',
+  description: DESC_SITUS[lang],
+  inLanguage: meta.htmlLang,
   publisher: { '@id': `${SITE.url}/#organization` },
 };
 ---
 <!doctype html>
-<html lang="id">
+<html lang={meta.htmlLang}>
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -86,7 +94,20 @@ const siteLd = {
 
 <meta property="og:type" content={tipe} />
 <meta property="og:site_name" content={SITE.nama} />
-<meta property="og:locale" content="id_ID" />
+<meta property="og:locale" content={meta.ogLocale} />
+{SEMUA_LANG.filter((l) => l !== lang).map((l) => (
+  <meta property="og:locale:alternate" content={BAHASA[l].ogLocale} />
+))}
+
+<!-- hreflang: setiap halaman menunjuk ke padanannya di bahasa lain -->
+{SEMUA_LANG.map((l) => (
+  <link
+    rel="alternate"
+    hreflang={BAHASA[l].htmlLang}
+    href={new URL(`/${l}/${jalurMurni}${jalurMurni ? '/' : ''}`, SITE.url).href}
+  />
+))}
+<link rel="alternate" hreflang="x-default" href={new URL(`/${LANG_BAWAAN}/${jalurMurni}${jalurMurni ? '/' : ''}`, SITE.url).href} />
 <meta property="og:title" content={ogTitle || title} />
 <meta property="og:description" content={desc} />
 <meta property="og:url" content={canonical} />
@@ -115,7 +136,7 @@ const siteLd = {
 <link rel="apple-touch-icon" href="/brand/mark-flat-purple.webp" />
 <link rel="manifest" href="/manifest.webmanifest" />
 <link rel="sitemap" href="/sitemap-index.xml" />
-<link rel="alternate" type="application/rss+xml" title={`Blog ${SITE.nama}`} href="/rss.xml" />
+<link rel="alternate" type="application/rss+xml" title={`Blog ${SITE.nama}`} href={`/${lang}/rss.xml`} />
 <link rel="preload" href="/brand/Sora.ttf" as="font" type="font/ttf" crossorigin />
 
 <script type="application/ld+json" set:html={JSON.stringify(orgLd)} />
@@ -135,25 +156,43 @@ const siteLd = {
 @font-face{font-family:'InterV';src:url('/brand/Inter.ttf') format('truetype');font-weight:100 900;font-display:swap}
 
 :root{
-  --pur:#8b5cf6; --pur-d:#7c3aed; --pur-l:#a78bfa;
-  --max:1200px; --r:16px;
+  --pur:#7c3aed; --pur-d:#6d28d9; --pur-l:#9f7aea;
+  --max:1200px; --r:10px;
+  --rb:6px;                       /* radius tombol, gaya Cloudflare */
   --ease:cubic-bezier(.22,.8,.3,1);
 }
 html[data-theme='dark']{
-  --bg:#0a0812; --bg-2:#100d1c; --surface:#15112310; --card:rgba(255,255,255,.035);
-  --card-h:rgba(255,255,255,.055); --line:rgba(255,255,255,.09); --line-s:rgba(139,92,246,.4);
-  --txt:#f2f0f8; --txt-2:#a29ebb; --brand:#a78bfa;
-  --glow:rgba(139,92,246,.3); --shadow:0 20px 50px -20px rgba(0,0,0,.8);
+  --bg:#0d0b14; --bg-2:#14111d; --surface:#1a1626; --card:#16131f;
+  --card-h:#1b1726; --line:rgba(255,255,255,.1); --line-s:rgba(255,255,255,.2);
+  --txt:#f1eff5; --txt-2:#9c97ad; --brand:#9f7aea;
+  --glow:rgba(124,58,237,.1);
+  --shadow:0 1px 2px rgba(0,0,0,.4);
+  --shadow-h:0 4px 12px rgba(0,0,0,.35);
+  --btn-txt:#ffffff;
+  --btn-g-1:#211d2e; --btn-g-2:#191525;
+  --btn-g-1h:#2a2539; --btn-g-2h:#211c2f;
+  --btn-g-br:rgba(255,255,255,.16); --btn-g-brh:rgba(255,255,255,.26);
+  --btn-g-in:rgba(255,255,255,.07); --btn-g-sh:rgba(0,0,0,.5);
+  --btn-g-amb:rgba(0,0,0,.34); --btn-g-gloss:rgba(255,255,255,.06);
 }
 html[data-theme='light']{
-  --bg:#ffffff; --bg-2:#faf8ff; --surface:#f7f5fd; --card:#ffffff;
-  --card-h:#ffffff; --line:rgba(17,12,40,.1); --line-s:rgba(124,58,237,.45);
-  --txt:#150f2b; --txt-2:#615a7e; --brand:#7c3aed;
-  --glow:rgba(139,92,246,.22); --shadow:0 18px 40px -18px rgba(76,29,149,.22);
+  --bg:#ffffff; --bg-2:#f7f6f9; --surface:#f2f0f6; --card:#ffffff;
+  --card-h:#ffffff; --line:rgba(20,15,40,.13); --line-s:rgba(20,15,40,.26);
+  --txt:#16121f; --txt-2:#5c5670; --brand:#6d28d9;
+  --glow:rgba(124,58,237,.07);
+  --shadow:0 1px 2px rgba(20,15,40,.07);
+  --shadow-h:0 4px 12px rgba(20,15,40,.1);
+  --btn-txt:#ffffff;
+  --btn-g-1:#ffffff; --btn-g-2:#f4f2f8;
+  --btn-g-1h:#ffffff; --btn-g-2h:#ebe8f2;
+  --btn-g-br:rgba(20,15,40,.2); --btn-g-brh:rgba(20,15,40,.32);
+  --btn-g-in:rgba(255,255,255,.9); --btn-g-sh:rgba(20,15,40,.13);
+  --btn-g-amb:rgba(20,15,40,.09); --btn-g-gloss:rgba(255,255,255,.75);
 }
 
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;scroll-padding-top:84px}
+html{scroll-behavior:smooth;scroll-padding-top:96px}
+@media(max-width:1000px){html{scroll-padding-top:82px}}
 body{
   background:var(--bg); color:var(--txt);
   font-family:'InterV',system-ui,-apple-system,'Segoe UI',sans-serif;
@@ -165,7 +204,7 @@ h1,h2,h3,h4,.dsp{font-family:'Sora',system-ui,sans-serif;font-weight:700;line-he
 a{color:inherit;text-decoration:none}
 img{max-width:100%;display:block}
 ::selection{background:var(--pur);color:#fff}
-:focus-visible{outline:2px solid var(--pur);outline-offset:3px;border-radius:4px}
+:focus-visible{outline:2px solid var(--pur);outline-offset:2px;border-radius:3px}
 
 .wrap{max-width:var(--max);margin:0 auto;padding:0 28px}
 @media(max-width:600px){.wrap{padding:0 20px}}
@@ -181,27 +220,92 @@ img{max-width:100%;display:block}
 .h2{font-size:clamp(27px,3.8vw,42px);margin-bottom:14px;max-width:16ch}
 .lead{color:var(--txt-2);font-size:clamp(15.5px,1.6vw,17.5px);max-width:58ch;line-height:1.72}
 
+/* Tombol: 2D tapi berdimensi — gradien halus, kilau tepi atas, ketebalan di bawah */
 .btn{
+  position:relative;
   display:inline-flex;align-items:center;justify-content:center;gap:8px;
-  padding:13px 24px;border-radius:12px;font-size:15px;font-weight:600;
+  padding:9px 17px;border-radius:var(--rb);
+  font-size:14px;font-weight:600;line-height:1.45;letter-spacing:-.005em;
   border:1px solid transparent;cursor:pointer;
-  transition:transform .2s var(--ease),box-shadow .25s var(--ease),background .2s,border-color .2s,color .2s;
-  font-family:inherit;white-space:nowrap;
+  font-family:inherit;white-space:nowrap;text-align:center;
+  transition:background .13s ease,border-color .13s ease,box-shadow .13s ease,
+             color .13s ease,transform .06s ease;
 }
-.btn:active{transform:translateY(1px) scale(.99)}
-.btn-p{background:var(--pur);color:#fff;box-shadow:0 6px 20px -6px var(--glow)}
-.btn-p:hover{background:var(--pur-d);transform:translateY(-2px);box-shadow:0 12px 28px -8px var(--glow)}
-.btn-g{border-color:var(--line);color:var(--txt);background:var(--card)}
-.btn-g:hover{border-color:var(--line-s);color:var(--brand);transform:translateY(-2px)}
-.btn svg{width:17px;height:17px;transition:transform .25s var(--ease)}
-.btn:hover svg{transform:translateX(3px)}
+/* kilau gloss di separuh atas */
+.btn::before{
+  content:'';position:absolute;inset:1px 1px auto 1px;height:46%;
+  border-radius:calc(var(--rb) - 1px) calc(var(--rb) - 1px) 0 0;
+  background:linear-gradient(180deg,rgba(255,255,255,.17),rgba(255,255,255,0));
+  pointer-events:none;
+}
+.btn > *{position:relative;z-index:1}
+.btn:focus-visible{outline:2px solid var(--pur);outline-offset:2px}
+.btn:disabled,.btn[aria-disabled='true']{opacity:.55;pointer-events:none;box-shadow:none}
+
+/* ---- utama: ungu dengan ketebalan ---- */
+.btn-p{
+  background:linear-gradient(180deg,#8b5cf6,#7c3aed);
+  color:var(--btn-txt);border-color:#6d28d9;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.22),
+    0 1px 0 #5b21b6,
+    0 2px 4px rgba(20,10,50,.28);
+}
+.btn-p:hover{
+  background:linear-gradient(180deg,#956bf7,#8250e8);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.26),
+    0 1px 0 #5b21b6,
+    0 3px 7px rgba(20,10,50,.32);
+}
+.btn-p:active{
+  background:linear-gradient(180deg,#6d28d9,#6023c9);
+  transform:translateY(1px);
+  box-shadow:inset 0 2px 5px rgba(30,10,70,.4),0 0 0 rgba(0,0,0,0);
+}
+
+/* ---- sekunder: putih/gelap dengan ketebalan ---- */
+.btn-g{
+  background:linear-gradient(180deg,var(--btn-g-1),var(--btn-g-2));
+  color:var(--txt);border-color:var(--btn-g-br);
+  box-shadow:
+    inset 0 1px 0 var(--btn-g-in),
+    0 1px 0 var(--btn-g-sh),
+    0 2px 4px var(--btn-g-amb);
+}
+.btn-g:hover{
+  background:linear-gradient(180deg,var(--btn-g-1h),var(--btn-g-2h));
+  border-color:var(--btn-g-brh);
+}
+.btn-g:active{
+  background:var(--btn-g-2h);
+  transform:translateY(1px);
+  box-shadow:inset 0 2px 4px var(--btn-g-amb);
+}
+.btn-g::before{background:linear-gradient(180deg,var(--btn-g-gloss),transparent)}
+
+/* ---- tersier: datar, tanpa dimensi ---- */
+.btn-t{
+  background:transparent;color:var(--brand);border-color:transparent;
+  padding-inline:11px;box-shadow:none;
+}
+.btn-t::before{display:none}
+.btn-t:hover{background:var(--surface)}
+.btn-t:active{background:var(--line);transform:translateY(1px)}
+
+/* ---- ukuran ---- */
+.btn-lg{padding:12px 23px;font-size:15px}
+.btn-sm{padding:6px 13px;font-size:13px}
+
+.btn svg{width:16px;height:16px;flex:none;position:relative;z-index:1}
 
 .card{
   background:var(--card);border:1px solid var(--line);border-radius:var(--r);
   padding:26px;position:relative;overflow:hidden;
-  transition:border-color .25s var(--ease),transform .25s var(--ease),box-shadow .25s var(--ease),background .25s;
+  box-shadow:var(--shadow);
+  transition:border-color .16s ease,box-shadow .16s ease,background .16s ease;
 }
-.card:hover{border-color:var(--line-s);transform:translateY(-3px);box-shadow:var(--shadow);background:var(--card-h)}
+.card:hover{border-color:var(--line-s);box-shadow:var(--shadow-h);background:var(--card-h)}
 
 .grid{display:grid;gap:20px}
 .g2{grid-template-columns:repeat(2,1fr)}
@@ -221,12 +325,16 @@ img{max-width:100%;display:block}
 <body>
 <a href="#main" class="skip">Lewati ke konten</a>
 <Nav />
-<main id="main"><slot /></main>
+<main id="main" class="isi-utama"><slot /></main>
 <Footer />
 
 <style>
-.skip{position:absolute;left:-999px;top:10px;z-index:200;background:var(--pur);color:#fff;padding:10px 18px;border-radius:10px}
+.skip{position:absolute;left:-999px;top:10px;z-index:200;background:var(--pur);color:#fff;padding:9px 16px;border-radius:var(--rb)}
 .skip:focus{left:20px}
+
+/* ruang aman: footer menimpa 120px, jaga konten terakhir tidak tertutup */
+.isi-utama{padding-bottom:120px}
+@media(max-width:760px){.isi-utama{padding-bottom:80px}}
 </style>
 
 <script>

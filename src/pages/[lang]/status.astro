@@ -1,0 +1,178 @@
+---
+import { jalurBahasa, rute } from '../../i18n/config';
+import { pakaiT } from '../../i18n/ui';
+import { STATUS } from '../../i18n/halaman/status';
+
+export function getStaticPaths() { return jalurBahasa(); }
+
+const { lang } = Astro.props;
+const t = pakaiT(lang);
+const r = (p = '') => rute(lang, p);
+import Base from '../../layouts/Base.astro';
+import PageHead from '../../components/PageHead.astro';
+import { SITE } from '../../data/site';
+
+const c = STATUS[lang];
+const layanan = c.layanan;
+const status: Record<string, { l: string; c: string }> = {
+  normal:    { l: c.label.normal,    c: '#10b981' },
+  degradasi: { l: c.label.degradasi, c: '#f59e0b' },
+  gangguan:  { l: c.label.gangguan,  c: '#ef4444' },
+  rawat:     { l: c.label.rawat,     c: '#3b82f6' },
+};
+
+// 90 hari uptime — mayoritas normal, beberapa insiden
+const hari = Array.from({ length: 90 }, (_, i) => {
+  if (i === 61) return 'gangguan';
+  if (i === 62 || i === 34) return 'degradasi';
+  if (i === 78) return 'rawat';
+  return 'normal';
+});
+
+const ld = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: c.ldName,
+  url: `${SITE.url}/status`,
+  description: c.ldDesc,
+};
+---
+
+<Base
+  lang={lang}
+  title={`${c.metaTitle} — ${SITE.nama}`}
+  desc={c.metaDesc}
+  ogTag={c.ogTag}
+  jsonld={ld}
+>
+  <PageHead
+    eyebrow={c.eyebrow}
+    title={c.judul}
+    lead={c.lead}
+  />
+
+  <section class="sect" style="padding-top:36px">
+    <div class="wrap">
+      <div class="ringkas reveal">
+        <span class="dot" style="--c:#10b981"></span>
+        <div>
+          <strong>{c.semuaNormal}</strong>
+          <small>{c.terakhir}</small>
+        </div>
+        <span class="up90">{c.up90} <small>{c.hari90}</small></span>
+      </div>
+
+      <div class="daftar reveal">
+        {layanan.map((l: any) => (
+          <div class="lrow">
+            <span class="dot kecil" style={`--c:${status[l.s].c}`}></span>
+            <span class="lnama">{l.t}</span>
+            <span class="lup">{l.up}</span>
+            <span class="lst" style={`--c:${status[l.s].c}`}>{status[l.s].l}</span>
+          </div>
+        ))}
+      </div>
+
+      <div class="bar90 reveal">
+        <div class="bhead">
+          <strong>{c.riwayat90}</strong>
+          <div class="legenda">
+            {Object.entries(status).map(([k, v]) => (
+              <span><i style={`background:${v.c}`}></i>{v.l}</span>
+            ))}
+          </div>
+        </div>
+        <div class="strip">
+          {hari.map((h) => <i style={`background:${status[h].c}`} title={status[h].l}></i>)}
+        </div>
+        <div class="bfoot"><span>{c.lalu}</span><span>{c.iniHari}</span></div>
+      </div>
+
+      <h2 class="st">{c.h2insiden}</h2>
+      <div class="ins">
+        {c.insiden.map((i: any) => (
+          <article class="ic reveal" style={`--c:${status[i.tingkat].c}`}>
+            <div class="ihead">
+              <div>
+                <h3>{i.jdl}</h3>
+                <time datetime={i.tgl}>{i.tglT} · {c.berlangsungSelama} {i.durasi}</time>
+              </div>
+              <span class="ibadge">{i.selesai ? c.selesai : c.berlangsung}</span>
+            </div>
+            <ol class="krono">
+              {i.kronologi.map((k: any) => (
+                <li><span class="jam">{k.j}</span><span>{k.t}</span></li>
+              ))}
+            </ol>
+          </article>
+        ))}
+      </div>
+
+      <div class="cta reveal">
+        <h2>{c.ctaH2}</h2>
+        <p>{c.ctaP}</p>
+        <div class="act">
+          <a href={r('kontak')} class="btn btn-p">{c.ctaB1}</a>
+          <a href={r('legal/sla')} class="btn btn-g">{c.ctaB2}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+.st{font-size:23px;margin:44px 0 20px}
+.ringkas{
+  display:flex;align-items:center;gap:15px;border:1px solid color-mix(in srgb,#10b981 35%,transparent);
+  border-radius:12px;padding:20px 24px;background:color-mix(in srgb,#10b981 7%,transparent);margin-bottom:26px;
+}
+.dot{width:11px;height:11px;border-radius:50%;background:var(--c);flex:none;
+  box-shadow:0 0 0 4px color-mix(in srgb,var(--c) 18%,transparent)}
+.dot.kecil{width:8px;height:8px;box-shadow:none}
+.ringkas strong{display:block;font-size:16px;margin-bottom:3px}
+.ringkas small{font-size:12.8px;color:var(--txt-2)}
+.up90{margin-left:auto;font-size:19px;font-weight:700;color:#10b981;text-align:right;line-height:1.2}
+.up90 small{display:block;font-size:11.5px;font-weight:500;color:var(--txt-2)}
+@media(max-width:620px){.ringkas{flex-wrap:wrap}.up90{margin-left:0}}
+
+.daftar{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--card);
+  box-shadow:var(--shadow);margin-bottom:26px}
+.lrow{display:flex;align-items:center;gap:12px;padding:14px 20px;border-bottom:1px solid var(--line)}
+.lrow:last-child{border-bottom:0}
+.lnama{font-size:14.5px;flex:1}
+.lup{font-size:13px;color:var(--txt-2);font-variant-numeric:tabular-nums}
+.lst{font-size:11.5px;font-weight:700;padding:3px 10px;border-radius:999px;
+  background:color-mix(in srgb,var(--c) 13%,transparent);
+  border:1px solid color-mix(in srgb,var(--c) 30%,transparent);color:var(--c)}
+
+.bar90{border:1px solid var(--line);border-radius:12px;padding:20px 22px;background:var(--card);
+  box-shadow:var(--shadow)}
+.bhead{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:13px;flex-wrap:wrap}
+.bhead strong{font-size:15px}
+.legenda{display:flex;gap:13px;flex-wrap:wrap}
+.legenda span{display:flex;align-items:center;gap:5px;font-size:11.8px;color:var(--txt-2)}
+.legenda i{width:9px;height:9px;border-radius:2px;display:block}
+.strip{display:flex;gap:2px;height:34px}
+.strip i{flex:1;border-radius:2px;min-width:2px;transition:transform .12s ease}
+.strip i:hover{transform:scaleY(1.14)}
+.bfoot{display:flex;justify-content:space-between;margin-top:8px;font-size:11.8px;color:var(--txt-2)}
+
+.ins{display:grid;gap:14px}
+.ic{border:1px solid var(--line);border-radius:12px;padding:22px;background:var(--card);
+  box-shadow:var(--shadow);border-left:3px solid var(--c)}
+.ihead{display:flex;justify-content:space-between;gap:14px;margin-bottom:15px;flex-wrap:wrap}
+.ic h3{font-size:16.5px;margin-bottom:4px}
+.ic time{font-size:13px;color:var(--txt-2)}
+.ibadge{font-size:11px;font-weight:700;padding:3px 10px;border-radius:999px;height:fit-content;
+  background:color-mix(in srgb,var(--c) 13%,transparent);
+  border:1px solid color-mix(in srgb,var(--c) 30%,transparent);color:var(--c)}
+.krono{list-style:none;padding:0;display:grid;gap:9px}
+.krono li{display:flex;gap:13px;font-size:13.8px;color:var(--txt-2);line-height:1.6}
+.jam{font-family:ui-monospace,monospace;font-size:12.5px;color:var(--brand);flex:none;font-weight:600}
+
+.cta{margin-top:44px;border:1px solid var(--line);border-radius:12px;padding:34px;
+  background:var(--card);text-align:center;box-shadow:var(--shadow)}
+.cta h2{font-size:21px;margin-bottom:9px}
+.cta p{color:var(--txt-2);font-size:15px;max-width:58ch;margin:0 auto 20px}
+.cta .act{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+</style>

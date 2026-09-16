@@ -1,0 +1,162 @@
+---
+import { jalurBahasa, rute } from '../../i18n/config';
+import { pakaiT } from '../../i18n/ui';
+import { PANDUAN } from '../../i18n/halaman/panduan';
+
+export function getStaticPaths() { return jalurBahasa(); }
+
+const { lang } = Astro.props;
+const t = pakaiT(lang);
+const r = (p = '') => rute(lang, p);
+import Base from '../../layouts/Base.astro';
+import PageHead from '../../components/PageHead.astro';
+import { SITE } from '../../data/site';
+
+const c = PANDUAN[lang];
+const kategori = c.kategori;
+
+const IK: Record<string, string> = {
+  rocket: '<path d="M5 13c-1.5 1.5-2 5-2 5s3.5-.5 5-2M14.5 4.5c3-3 6.5-2 6.5-2s1 3.5-2 6.5l-8 8-4.5-4.5z"/><circle cx="15" cy="9" r="1.4"/>',
+  server: '<rect x="3" y="4" width="18" height="7" rx="2"/><rect x="3" y="13" width="18" height="7" rx="2"/><path d="M7 7.5h.01M7 16.5h.01"/>',
+  monitor: '<rect x="2.5" y="3.5" width="19" height="13" rx="2"/><path d="M8.5 20.5h7M12 16.5v4"/>',
+  grid: '<rect x="3" y="3" width="7.5" height="7.5" rx="1.6"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="1.6"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="1.6"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="1.6"/>',
+  shield: '<path d="M12 2.5 4.5 5.8v5.4c0 4.7 3.2 9 7.5 10.3 4.3-1.3 7.5-5.6 7.5-10.3V5.8z"/><path d="m9 12 2 2 4-4"/>',
+  wrench: '<path d="M14.5 6a4.5 4.5 0 0 0 5.9 5.9L21 21H3l9.1-9.1A4.5 4.5 0 0 0 18 6z"/>',
+};
+
+const total = kategori.reduce((n: number, k: any) => n + k.item.length, 0);
+
+const ld = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: c.ldName,
+  url: `${SITE.url}/panduan`,
+  description: `${total}${c.ldDescB}`,
+};
+---
+
+<Base
+  lang={lang}
+  title={`${c.metaTitle} — ${SITE.nama}`}
+  desc={`${total}${c.metaDescB}`}
+  ogTag={c.ogTag}
+  jsonld={ld}
+>
+  <PageHead
+    eyebrow={c.eyebrow}
+    title={c.judul}
+    lead={`${total}${c.leadB}`}
+  />
+
+  <section class="sect" style="padding-top:40px">
+    <div class="wrap">
+      <div class="cari">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>
+        </svg>
+        <input type="search" id="q" placeholder={c.cariPh} aria-label={c.cariAria} />
+      </div>
+
+      <div id="hasil" class="kosong" hidden>{c.kosong}</div>
+
+      {kategori.map((k: any) => (
+        <div class="kat reveal" data-kat>
+          <div class="khead">
+            <span class="kik">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" set:html={IK[k.ik]} />
+            </span>
+            <h2>{k.h}</h2>
+            <span class="jml">{k.item.length}</span>
+          </div>
+          <div class="list">
+            {k.item.map((it: any) => (
+              <a href={r('kontak')} class="pit" data-cari={`${it.t} ${it.d}`.toLowerCase()}>
+                <div class="ptx">
+                  <strong>{it.t}</strong>
+                  <small>{it.d}</small>
+                </div>
+                <span class="menit">{it.m}</span>
+              </a>
+            ))}
+          </div>
+        </div>
+      ))}
+
+      <div class="cta reveal">
+        <h2>{c.ctaH2}</h2>
+        <p>{c.ctaP}</p>
+        <div class="act">
+          <a href={r('kontak')} class="btn btn-p">Usulkan Topik</a>
+          <a href={r('faq')} class="btn btn-g">Lihat FAQ</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+.cari{position:relative;margin-bottom:30px;max-width:520px}
+.cari svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:17px;height:17px;color:var(--txt-2)}
+.cari input{
+  width:100%;padding:11px 15px 11px 40px;border-radius:7px;
+  border:1px solid var(--line-s);background:var(--card);color:var(--txt);
+  font-family:inherit;font-size:14.5px;transition:border-color .14s ease,box-shadow .14s ease;
+}
+.cari input:focus{outline:none;border-color:var(--pur);box-shadow:0 0 0 3px var(--glow)}
+.kosong{padding:30px;text-align:center;color:var(--txt-2);font-size:14.5px;
+  border:1px dashed var(--line-s);border-radius:8px;margin-bottom:26px}
+
+.kat{margin-bottom:34px}
+.khead{display:flex;align-items:center;gap:11px;margin-bottom:14px}
+.kik{
+  width:34px;height:34px;border-radius:7px;display:grid;place-items:center;flex:none;
+  background:var(--surface);border:1px solid var(--line);color:var(--brand);
+}
+.kik svg{width:17px;height:17px}
+.khead h2{font-size:18px}
+.jml{
+  margin-left:auto;font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:999px;
+  background:var(--surface);border:1px solid var(--line);color:var(--txt-2);
+}
+.list{display:grid;gap:7px}
+.pit{
+  display:flex;align-items:center;gap:16px;justify-content:space-between;
+  border:1px solid var(--line);border-radius:8px;padding:14px 17px;
+  background:var(--card);box-shadow:var(--shadow);
+  transition:border-color .16s ease,background .16s ease,box-shadow .16s ease;
+}
+.pit:hover{border-color:var(--line-s);background:var(--card-h);box-shadow:var(--shadow-h)}
+.ptx strong{display:block;font-size:15px;margin-bottom:3px}
+.ptx small{font-size:13.2px;color:var(--txt-2);line-height:1.55}
+.menit{
+  font-size:11.5px;font-weight:600;padding:4px 10px;border-radius:999px;white-space:nowrap;
+  background:var(--surface);border:1px solid var(--line);color:var(--txt-2);flex:none;
+}
+.cta{
+  margin-top:10px;border:1px solid var(--line);border-radius:12px;padding:34px;
+  background:var(--card);text-align:center;box-shadow:var(--shadow);
+}
+.cta h2{font-size:21px;margin-bottom:9px}
+.cta p{color:var(--txt-2);font-size:15px;max-width:54ch;margin:0 auto 20px}
+.cta .act{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+</style>
+
+<script>
+  const q = document.getElementById('q') as HTMLInputElement | null;
+  const kosong = document.getElementById('hasil');
+  q?.addEventListener('input', () => {
+    const v = q.value.trim().toLowerCase();
+    let tampil = 0;
+    document.querySelectorAll<HTMLElement>('[data-kat]').forEach((kat) => {
+      let ada = 0;
+      kat.querySelectorAll<HTMLElement>('.pit').forEach((it) => {
+        const cocok = !v || (it.dataset.cari || '').includes(v);
+        it.style.display = cocok ? '' : 'none';
+        if (cocok) ada++;
+      });
+      kat.style.display = ada ? '' : 'none';
+      tampil += ada;
+    });
+    if (kosong) kosong.hidden = tampil > 0;
+  });
+</script>

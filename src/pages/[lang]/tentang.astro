@@ -1,0 +1,226 @@
+---
+import { jalurBahasa, rute } from '../../i18n/config';
+import { pakaiT } from '../../i18n/ui';
+import { TENTANG } from '../../i18n/halaman/tentang';
+import { NILAI_TEKS, TIM_TEKS, ALAMAT } from '../../i18n/data';
+
+export function getStaticPaths() { return jalurBahasa(); }
+
+const { lang } = Astro.props;
+const t = pakaiT(lang);
+const r = (p = '') => rute(lang, p);
+import Base from '../../layouts/Base.astro';
+import PageHead from '../../components/PageHead.astro';
+import SosmedIkon from '../../components/SosmedIkon.astro';
+import { SITE, TIM as TIM_DATA, SOSMED, APLIKASI } from '../../data/site';
+
+const c = TENTANG[lang];
+const linimasa = c.linimasa;
+const angka = c.angka;
+const NILAI = NILAI_TEKS[lang];
+const TIM = TIM_DATA.map((t) => ({ ...t, ...TIM_TEKS[lang][t.inisial] }));
+const ALM = ALAMAT[lang];
+
+const ld = {
+  '@context': 'https://schema.org',
+  '@type': 'AboutPage',
+  name: `${c.metaTitle} ${SITE.nama}`,
+  url: `${SITE.url}/tentang`,
+  mainEntity: {
+    '@type': 'Organization',
+    name: SITE.nama,
+    url: SITE.url,
+    email: SITE.email,
+    foundingDate: String(SITE.berdiri),
+    sameAs: SOSMED.map((s) => s.url),
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: SITE.alamat.jalan,
+      addressLocality: SITE.alamat.kota,
+      addressRegion: SITE.alamat.provinsi,
+      postalCode: SITE.alamat.pos,
+      addressCountry: SITE.alamat.negaraKode,
+    },
+    founder: { '@type': 'Person', name: TIM[0].nama, jobTitle: TIM[0].peran },
+    employee: TIM.map((t) => ({ '@type': 'Person', name: t.nama, jobTitle: t.peran })),
+  },
+};
+---
+
+<Base
+  lang={lang}
+  title={`Tentang — ${SITE.nama}`}
+  desc={c.metaDesc}
+  ogTag={c.ogTag}
+  jsonld={ld}
+>
+  <PageHead
+    eyebrow={c.eyebrow}
+    title={c.judul}
+    lead={c.lead}
+  />
+
+  <section class="sect">
+    <div class="wrap">
+      <div class="angka">
+        {angka.map((a) => (
+          <div class="acell reveal"><b>{a.n}</b><span>{a.l}</span></div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="sect">
+    <div class="wrap two">
+      <div class="reveal">
+        <span class="eyebrow">{c.ceritaEye}</span>
+        <h2>{c.ceritaH2}</h2>
+        <p>{c.ceritaP1}</p>
+        <p>{c.ceritaP2}</p>
+        <p>{c.ceritaP3a}{SITE.alamat.kota}, {ALM.provinsi}{c.ceritaP3b}</p>
+      </div>
+
+      <div class="nilai">
+        {NILAI.map((n: any) => (
+          <div class="ncard reveal">
+            <h3>{n.t}</h3>
+            <p>{n.d}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="sect" id="tim">
+    <div class="wrap">
+      <span class="eyebrow">{c.timEye}</span>
+      <h2 class="st">{c.timH2}</h2>
+      <div class="grid g3">
+        {TIM.map((t: any) => (
+          <article class="card reveal tcard">
+            <div class="ttop">
+              <span class="av">{t.inisial}</span>
+              <div>
+                <h3>{t.nama}</h3>
+                <p class="pr">{t.peran}</p>
+              </div>
+            </div>
+            <p class="bio">{t.bio}</p>
+            <ul class="fokus">
+              {t.fokus.map((f: string) => <li>{f}</li>)}
+            </ul>
+            {(t.sosmed.github || t.sosmed.x) && (
+              <div class="tsos">
+                {t.sosmed.github && (
+                  <a href={t.sosmed.github} target="_blank" rel="noopener noreferrer" aria-label={`GitHub ${t.nama}`}><SosmedIkon nama="github" /></a>
+                )}
+                {t.sosmed.x && (
+                  <a href={t.sosmed.x} target="_blank" rel="noopener noreferrer" aria-label={`X ${t.nama}`}><SosmedIkon nama="x" /></a>
+                )}
+              </div>
+            )}
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="sect">
+    <div class="wrap">
+      <span class="eyebrow">{c.jalanEye}</span>
+      <h2 class="st">{c.jalanH2}</h2>
+      <ol class="lm">
+        {linimasa.map((l) => (
+          <li class="reveal">
+            <span class="th">{l.th}</span>
+            <div>
+              <strong>{l.j}</strong>
+              <p>{l.d}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="sect">
+    <div class="wrap">
+      <span class="eyebrow">{c.ikutiEye}</span>
+      <h2 class="st">{c.ikutiH2}</h2>
+      <div class="sos">
+        {SOSMED.map((s) => (
+          <a href={s.url} target="_blank" rel="noopener noreferrer" class="scard reveal">
+            <SosmedIkon nama={s.ikon} />
+            <div><strong>{s.nama}</strong><small>{s.handle}</small></div>
+          </a>
+        ))}
+      </div>
+
+      <div class="cta reveal">
+        <h2>{c.ctaH2}</h2>
+        <p>{c.ctaP}</p>
+        <div class="act">
+          <a href={r('kontak')} class="btn btn-p">{c.ctaB1}</a>
+          <a href={r('aplikasi')} class="btn btn-g">{c.ctaB2}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+.angka{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+@media(max-width:760px){.angka{grid-template-columns:repeat(2,1fr)}}
+.acell{border:1px solid var(--line);border-radius:7px;padding:22px;background:var(--card);text-align:center}
+.acell b{display:block;font-size:clamp(24px,3.4vw,33px);color:var(--brand);letter-spacing:-1.2px}
+.acell span{font-size:13px;color:var(--txt-2)}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+@media(max-width:900px){.two{grid-template-columns:1fr;gap:32px}}
+.two h2{font-size:clamp(23px,3.2vw,31px);margin-bottom:16px}
+.two p{color:var(--txt-2);margin-bottom:14px;line-height:1.78}
+.nilai{display:grid;gap:12px}
+.ncard{border:1px solid var(--line);border-radius:7px;padding:20px;background:var(--card)}
+.ncard h3{font-size:16.5px;margin-bottom:6px;color:var(--brand)}
+.ncard p{font-size:14.2px;color:var(--txt-2);margin:0}
+
+.st{font-size:clamp(23px,3.2vw,31px);margin-bottom:24px}
+.tcard{display:flex;flex-direction:column}
+.ttop{display:flex;align-items:center;gap:13px;margin-bottom:14px}
+.av{
+  width:50px;height:50px;border-radius:6px;display:grid;place-items:center;flex-shrink:0;
+  background:linear-gradient(135deg,var(--pur),#a78bfa);color:#fff;font-weight:800;font-size:17px;
+}
+.tcard h3{font-size:17.5px}
+.pr{font-size:13px;color:var(--brand);font-weight:600;margin-top:2px}
+.bio{font-size:14.2px;color:var(--txt-2);line-height:1.7;flex:1}
+.fokus{display:flex;flex-wrap:wrap;gap:6px;list-style:none;padding:0;margin-top:16px}
+.fokus li{font-size:11.5px;font-weight:600;padding:4px 10px;border-radius:7px;background:var(--surface);border:1px solid var(--line);color:var(--txt-2)}
+.tsos{display:flex;gap:8px;margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
+.tsos a{width:34px;height:34px;border-radius:6px;display:grid;place-items:center;border:1px solid var(--line);color:var(--txt-2);transition:.2s var(--ease)}
+.tsos a:hover{background:var(--pur);color:#fff;border-color:transparent}
+.tsos :global(svg){width:15px;height:15px}
+
+.lm{list-style:none;padding:0;display:grid;gap:0;position:relative}
+.lm li{display:grid;grid-template-columns:96px 1fr;gap:22px;padding:20px 0;border-bottom:1px solid var(--line)}
+.lm li:last-child{border-bottom:0}
+@media(max-width:640px){.lm li{grid-template-columns:1fr;gap:6px}}
+.th{font-size:14px;font-weight:800;color:var(--brand);letter-spacing:.06em}
+.lm strong{display:block;font-size:16.5px;margin-bottom:5px}
+.lm p{font-size:14.2px;color:var(--txt-2)}
+
+.sos{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:11px}
+.scard{
+  display:flex;align-items:center;gap:12px;border:1px solid var(--line);border-radius:8px;
+  padding:14px 16px;background:var(--card);transition:.24s var(--ease);
+}
+.scard:hover{border-color:color-mix(in srgb,var(--pur) 42%,transparent)}
+.scard :global(svg){width:19px;height:19px;color:var(--brand);flex-shrink:0}
+.scard strong{display:block;font-size:14.5px}
+.scard small{font-size:12.3px;color:var(--txt-2)}
+
+.cta{margin-top:34px;border:1px solid var(--line);border-radius:8px;padding:38px;background:var(--card);text-align:center}
+.cta h2{font-size:24px;margin-bottom:10px}
+.cta p{color:var(--txt-2);max-width:56ch;margin:0 auto 22px}
+.cta .act{display:flex;gap:11px;justify-content:center;flex-wrap:wrap}
+</style>

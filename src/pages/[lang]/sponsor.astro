@@ -1,0 +1,167 @@
+---
+import { jalurBahasa, rute } from '../../i18n/config';
+import { pakaiT } from '../../i18n/ui';
+import { SPONSOR } from '../../i18n/halaman/sponsor';
+
+export function getStaticPaths() { return jalurBahasa(); }
+
+const { lang } = Astro.props;
+const t = pakaiT(lang);
+const r = (p = '') => rute(lang, p);
+import Base from '../../layouts/Base.astro';
+import PageHead from '../../components/PageHead.astro';
+import { SITE } from '../../data/site';
+
+const c = SPONSOR[lang];
+
+const IK = {
+  bank: '<path d="M3 10h18M5 10v8M9.5 10v8M14.5 10v8M19 10v8M2.5 21h19M12 3 2.5 7.5h19z"/>',
+  qr: '<rect x="3" y="3" width="7" height="7" rx="1.4"/><rect x="14" y="3" width="7" height="7" rx="1.4"/><rect x="3" y="14" width="7" height="7" rx="1.4"/><path d="M14 14h3v3h-3zM20 14v3M14 20h3M20 20v1"/>',
+  coin: '<circle cx="12" cy="12" r="9.2"/><path d="M14.5 9.2A3 3 0 0 0 12 8c-1.7 0-2.6.9-2.6 2s.9 1.8 2.6 2 2.6.9 2.6 2-.9 2-2.6 2a3 3 0 0 1-2.5-1.2M12 6.4v11.2"/>',
+};
+
+const ld = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: c.metaTitle,
+  url: `${SITE.url}/sponsor`,
+  description: c.ldDesc,
+};
+---
+
+<Base
+  lang={lang}
+  title={`${c.metaTitle} — ${SITE.nama}`}
+  desc={c.metaDesc}
+  ogTag={c.ogTag}
+  jsonld={ld}
+>
+  <PageHead
+    eyebrow={c.eyebrow}
+    title={c.judul}
+    lead={c.lead}
+  />
+
+  <section class="sect" style="padding-top:40px">
+    <div class="wrap">
+      <div class="tiers">
+        {c.tier.map((x: any) => (
+          <article class={`tc reveal ${x.unggul ? 'unggul' : ''}`} style={`--c:${x.warna}`}>
+            {x.unggul && <span class="pop">{c.pop}</span>}
+            <h2>{x.t}</h2>
+            <div class="harga"><strong>{x.h}</strong><small>{c.perBulan}</small></div>
+            <p class="td">{x.d}</p>
+            <ul class="dpt">
+              {x.dpt.map((d: string) => (
+                <li>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span>{d}</span>
+                </li>
+              ))}
+            </ul>
+            <a href={r('kontak')} class={`btn ${x.unggul ? 'btn-p' : 'btn-g'}`}>{c.jadi} {x.t}</a>
+          </article>
+        ))}
+      </div>
+
+      <div class="dua">
+        <div class="reveal">
+          <h2 class="st">{c.h2dana}</h2>
+          <div class="dana">
+            {c.dana.map((d: any) => (
+              <div class="drow" style={`--c:${d.c}`}>
+                <div class="dtop"><strong>{d.t}</strong><span>{d.n}%</span></div>
+                <div class="bar"><i style={`width:${d.n}%`}></i></div>
+                <small>{d.d}</small>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div class="reveal">
+          <h2 class="st">{c.h2cara}</h2>
+          <div class="cgrid">
+            {c.cara.map((x: any) => (
+              <div class="cc">
+                <span class="cik">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" set:html={IK[x.ik]} />
+                </span>
+                <div><strong>{x.t}</strong><small>{x.d}</small></div>
+              </div>
+            ))}
+          </div>
+          <div class="catat">
+            <strong>{c.catatT}</strong>
+            <p>{c.catatD}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="cta reveal">
+        <h2>{c.ctaH2}</h2>
+        <p>{c.ctaP}</p>
+        <div class="act">
+          <a href={r('kontak')} class="btn btn-p">{c.ctaB1}</a>
+          <a href={r('kolaborasi')} class="btn btn-g">{c.ctaB2}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+.tiers{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+@media(max-width:1040px){.tiers{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.tiers{grid-template-columns:1fr}}
+.tc{
+  position:relative;display:flex;flex-direction:column;
+  border:1px solid var(--line);border-radius:12px;padding:24px;background:var(--card);
+  box-shadow:var(--shadow);transition:border-color .16s ease,box-shadow .16s ease;
+}
+.tc:hover{border-color:color-mix(in srgb,var(--c) 50%,transparent);box-shadow:var(--shadow-h)}
+.tc.unggul{border-color:var(--pur)}
+.pop{
+  position:absolute;top:-10px;left:50%;transform:translateX(-50%);
+  font-size:10.5px;font-weight:700;padding:3px 11px;border-radius:999px;white-space:nowrap;
+  background:var(--pur);color:#fff;
+}
+.tc h2{font-size:17px;margin-bottom:10px;color:var(--c)}
+.harga{margin-bottom:12px}
+.harga strong{display:block;font-size:23px;letter-spacing:-.8px}
+.harga small{font-size:12.5px;color:var(--txt-2)}
+.td{font-size:13.5px;color:var(--txt-2);line-height:1.6;margin-bottom:15px}
+.dpt{list-style:none;padding:0;display:grid;gap:8px;margin-bottom:20px;flex:1}
+.dpt li{display:flex;gap:9px;font-size:13.3px;color:var(--txt-2);line-height:1.55}
+.dpt svg{width:14px;height:14px;flex:none;margin-top:3px;color:var(--c)}
+
+.dua{display:grid;grid-template-columns:1fr 1fr;gap:44px;margin-top:52px;align-items:start}
+@media(max-width:900px){.dua{grid-template-columns:1fr;gap:34px}}
+.st{font-size:23px;margin-bottom:20px}
+.dana{display:grid;gap:18px}
+.drow .dtop{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:7px}
+.drow strong{font-size:14.8px}
+.drow .dtop span{font-size:14px;font-weight:700;color:var(--c)}
+.bar{height:7px;border-radius:4px;background:var(--surface);overflow:hidden;border:1px solid var(--line)}
+.bar i{display:block;height:100%;background:var(--c);border-radius:4px}
+.drow small{display:block;margin-top:6px;font-size:13px;color:var(--txt-2)}
+
+.cgrid{display:grid;gap:10px;margin-bottom:18px}
+.cc{display:flex;gap:13px;align-items:center;border:1px solid var(--line);border-radius:9px;
+  padding:14px 16px;background:var(--card);box-shadow:var(--shadow)}
+.cik{width:36px;height:36px;border-radius:8px;display:grid;place-items:center;flex:none;
+  background:var(--surface);border:1px solid var(--line);color:var(--brand)}
+.cik svg{width:17px;height:17px}
+.cc strong{display:block;font-size:14.5px}
+.cc small{font-size:13px;color:var(--txt-2)}
+.catat{border:1px solid var(--line);border-radius:9px;padding:17px;background:var(--surface)}
+.catat strong{display:block;font-size:14.5px;margin-bottom:5px;color:var(--brand)}
+.catat p{font-size:13.5px;color:var(--txt-2);line-height:1.6}
+
+.cta{
+  margin-top:52px;border:1px dashed var(--line-s);border-radius:12px;padding:38px;
+  background:var(--card);text-align:center;
+}
+.cta h2{font-size:21px;margin-bottom:9px}
+.cta p{color:var(--txt-2);font-size:15px;max-width:54ch;margin:0 auto 20px}
+.cta .act{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+</style>

@@ -2,17 +2,44 @@
 import Base from '../layouts/Base.astro';
 import { SITE } from '../data/site';
 
-const tautan = [
-  { h: '/cloud-pc', t: 'Sewa Cloud PC', d: 'Spesifikasi, region, dan cara kerjanya' },
-  { h: '/aplikasi', t: 'Aplikasi', d: 'XyDesk dan XyCloudStore' },
-  { h: '/harga', t: 'Harga', d: 'Paket dan simulasi biaya' },
-  { h: '/blog', t: 'Blog', d: 'Panduan dan catatan teknis' },
-  { h: '/proyek', t: 'Proyek', d: 'Pekerjaan yang pernah kami kerjakan' },
-  { h: '/kontak', t: 'Kontak', d: 'Bicara langsung dengan kami' },
-];
+const T = {
+  id: {
+    title: 'Halaman tidak ditemukan',
+    desc: 'Halaman yang lu cari tidak ada atau sudah dipindahkan.',
+    h1: 'Halaman ini hilang di suatu tempat.',
+    lead: 'Tautannya mungkin salah ketik, atau halamannya sudah kami pindahkan. Coba salah satu tujuan di bawah ini.',
+    foot1: 'Masih buntu? ', footA: 'Kabari kami', foot2: ' dan kami bantu carikan.',
+    tautan: [
+      { s: 'cloud-pc', t: 'Sewa Cloud PC', d: 'Spesifikasi, region, dan cara kerjanya' },
+      { s: 'aplikasi', t: 'Aplikasi', d: 'XyDesk dan XyCloudStore' },
+      { s: 'harga', t: 'Harga', d: 'Paket dan simulasi biaya' },
+      { s: 'blog', t: 'Blog', d: 'Panduan dan catatan teknis' },
+      { s: 'proyek', t: 'Proyek', d: 'Pekerjaan yang pernah kami kerjakan' },
+      { s: 'kontak', t: 'Kontak', d: 'Bicara langsung dengan kami' },
+    ],
+  },
+  en: {
+    title: 'Page not found',
+    desc: 'The page you are looking for does not exist or has been moved.',
+    h1: 'This page went missing somewhere.',
+    lead: 'The link may have a typo, or we may have moved the page. Try one of the destinations below.',
+    foot1: 'Still stuck? ', footA: 'Let us know', foot2: ' and we will help you find it.',
+    tautan: [
+      { s: 'cloud-pc', t: 'Cloud PC rental', d: 'Specs, regions, and how it works' },
+      { s: 'aplikasi', t: 'Apps', d: 'XyDesk and XyCloudStore' },
+      { s: 'harga', t: 'Pricing', d: 'Plans and a cost simulator' },
+      { s: 'blog', t: 'Blog', d: 'Guides and technical notes' },
+      { s: 'proyek', t: 'Projects', d: 'Work we have delivered' },
+      { s: 'kontak', t: 'Contact', d: 'Talk to us directly' },
+    ],
+  },
+} as const;
+
+const tautan = T.id.tautan;
+
 ---
 
-<Base title={`Halaman tidak ditemukan — ${SITE.nama}`} desc="Halaman yang lu cari tidak ada atau sudah dipindahkan." noindex>
+<Base title={`${T.id.title} — ${SITE.nama}`} desc={T.id.desc} noindex>
   <section class="e">
     <div class="wrap">
       <div class="code" aria-hidden="true">
@@ -32,25 +59,20 @@ const tautan = [
         </svg>
       </div>
 
-      <h1>Halaman ini hilang di suatu tempat.</h1>
-      <p class="lead">
-        Tautannya mungkin salah ketik, atau halamannya sudah kami pindahkan. Coba salah satu
-        tujuan di bawah ini.
-      </p>
+      <h1 data-i18n="h1">{T.id.h1}</h1>
+      <p class="lead" data-i18n="lead">{T.id.lead}</p>
 
       <div class="grid">
-        {tautan.map((t) => (
-          <a href={t.h} class="card">
-            <strong>{t.t}</strong>
-            <small>{t.d}</small>
+        {tautan.map((t, i) => (
+          <a href={`/id/${t.s}/`} class="card" data-slug={t.s}>
+            <strong data-i18n-link={i}>{t.t}</strong>
+            <small data-i18n-linkd={i}>{t.d}</small>
             <span class="go">→</span>
           </a>
         ))}
       </div>
 
-      <p class="foot">
-        Masih buntu? <a href="/kontak">Kabari kami</a> dan kami bantu carikan.
-      </p>
+      <p class="foot"><span data-i18n="foot1">{T.id.foot1}</span><a href="/id/kontak/" data-slug="kontak" data-i18n="footA">{T.id.footA}</a><span data-i18n="foot2">{T.id.foot2}</span></p>
     </div>
   </section>
 </Base>
@@ -65,14 +87,42 @@ h1{font-size:clamp(25px,4vw,38px);margin-bottom:14px}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:11px;text-align:left;max-width:760px;margin:0 auto}
 .card{
   display:flex;flex-direction:column;position:relative;border:1px solid var(--line);
-  border-radius:14px;padding:16px 18px;background:var(--card);transition:.24s var(--ease);
+  border-radius:8px;padding:16px 18px;background:var(--card);transition:.24s var(--ease);
 }
-.card:hover{transform:translateY(-3px);border-color:color-mix(in srgb,var(--pur) 45%,transparent)}
+.card:hover{border-color:color-mix(in srgb,var(--pur) 45%,transparent)}
 .card strong{font-size:15px;margin-bottom:3px}
 .card small{font-size:12.6px;color:var(--txt-2)}
 .card .go{position:absolute;right:16px;top:15px;color:var(--brand);opacity:0;transition:.24s var(--ease)}
-.card:hover .go{opacity:1;transform:translateX(3px)}
+.card:hover .go{opacity:1;}
 .foot{margin-top:30px;font-size:14px;color:var(--txt-2)}
 .foot a{color:var(--brand);font-weight:600}
 @media(prefers-reduced-motion:reduce){.code animate{display:none}}
 </style>
+
+<script define:vars={{ T }}>
+  (function () {
+    var l = 'id';
+    var p = location.pathname;
+    if (/^\/en(\/|$)/.test(p)) l = 'en';
+    else if (!/^\/id(\/|$)/.test(p)) {
+      try { var st = localStorage.getItem('xy-lang'); if (st === 'en') l = 'en'; } catch (e) {}
+      if (l === 'id' && (navigator.language || '').slice(0, 2) !== 'id') l = 'en';
+    }
+    var d = T[l];
+    document.documentElement.lang = l === 'en' ? 'en-US' : 'id-ID';
+    document.title = d.title + ' — Xyverse';
+    document.querySelectorAll('[data-i18n]').forEach(function (el) {
+      var k = el.getAttribute('data-i18n');
+      if (d[k] !== undefined) el.textContent = d[k];
+    });
+    document.querySelectorAll('[data-i18n-link]').forEach(function (el) {
+      el.textContent = d.tautan[+el.getAttribute('data-i18n-link')].t;
+    });
+    document.querySelectorAll('[data-i18n-linkd]').forEach(function (el) {
+      el.textContent = d.tautan[+el.getAttribute('data-i18n-linkd')].d;
+    });
+    document.querySelectorAll('[data-slug]').forEach(function (el) {
+      el.setAttribute('href', '/' + l + '/' + el.getAttribute('data-slug') + '/');
+    });
+  })();
+</script>

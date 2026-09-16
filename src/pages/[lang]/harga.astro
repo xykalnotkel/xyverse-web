@@ -1,0 +1,140 @@
+---
+import { jalurBahasa, rute } from '../../i18n/config';
+import { pakaiT } from '../../i18n/ui';
+import { HARGA } from '../../i18n/halaman/harga';
+
+export function getStaticPaths() { return jalurBahasa(); }
+
+const { lang } = Astro.props;
+const t = pakaiT(lang);
+const r = (p = '') => rute(lang, p);
+import Base from '../../layouts/Base.astro';
+
+const c = HARGA[lang];
+const cloud = c.cloud;
+const dev = c.dev;
+
+const arrow = '<path d="M5 12h14M13 6l6 6-6 6"/>';
+const check = '<polyline points="20 6 9 17 4 12"/>';
+---
+
+<Base lang={lang} title={c.metaTitle} desc={c.metaDesc}>
+  <section class="head">
+    <div class="wrap">
+      <span class="eyebrow">{c.eyebrow}</span>
+      <h1>{c.h1}</h1>
+      <p class="lead">{c.lead}</p>
+    </div>
+  </section>
+
+  <section class="sect">
+    <div class="wrap">
+      <header class="shead">
+        <div class="reveal">
+          <h2 class="h2">{c.sec1H2}</h2>
+          <p class="lead">{c.sec1Lead}</p>
+        </div>
+      </header>
+      <div class="grid g3">
+        {cloud.map((p: any) => (
+          <div class={`card reveal plan ${p.hi ? 'hi' : ''}`}>
+            {p.hi && <span class="badge">{c.populer}</span>}
+            <h3>{p.n}</h3>
+            <p class="pd">{p.d}</p>
+            <div class="price"><span class="cur">Rp</span><strong class="dsp">{p.p}</strong><span class="per">{c.perBulan}</span></div>
+            <ul>
+              {p.s.map((x: string) => (
+                <li>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" set:html={check} />
+                  {x}
+                </li>
+              ))}
+            </ul>
+            <a href={r() + '#kontak'} class={`btn ${p.hi ? 'btn-p' : 'btn-g'} pbtn`}>{c.pesan}</a>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="sect band">
+    <div class="wrap">
+      <header class="shead">
+        <div class="reveal">
+          <h2 class="h2">{c.sec2H2}</h2>
+          <p class="lead">{c.sec2Lead}</p>
+        </div>
+      </header>
+      <div class="grid g3">
+        {dev.map((p: any) => (
+          <div class="card reveal plan">
+            <h3>{p.n}</h3>
+            <div class="price">
+              {p.pre && <span class="cur">{p.pre} Rp</span>}
+              <strong class="dsp" style={p.p === 'Custom' ? 'font-size:27px' : ''}>{p.p}</strong>
+            </div>
+            <ul>
+              {p.s.map((x: string) => (
+                <li>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" set:html={check} />
+                  {x}
+                </li>
+              ))}
+            </ul>
+            <a href={r() + '#kontak'} class="btn btn-g pbtn">{c.penawaran}</a>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="sect">
+    <div class="wrap">
+      <div class="cta reveal">
+        <h2 class="h2">{c.ctaH2}</h2>
+        <p class="lead">{c.ctaP}</p>
+        <div class="row">
+          <a href={r() + '#kontak'} class="btn btn-p">{c.ctaB1} <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" set:html={arrow} /></a>
+          <a href="mailto:halo@xyverse.my.id" class="btn btn-g">halo@xyverse.my.id</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+.head{padding:78px 0 16px;position:relative;overflow:hidden}
+.head::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 50% 60% at 50% 0%,var(--glow),transparent 70%)}
+.head .wrap{position:relative;z-index:2;text-align:center}
+.head .eyebrow{justify-content:center}
+h1{font-size:clamp(31px,5vw,50px);margin-bottom:16px}
+.head .lead{margin:0 auto}
+
+.band{background:var(--bg-2);border-block:1px solid var(--line)}
+.shead{margin-bottom:42px}
+.shead .h2{margin-bottom:10px}
+
+.plan{display:flex;flex-direction:column;padding:28px}
+.plan.hi{border-color:var(--line-s);box-shadow:var(--shadow)}
+.badge{
+  position:absolute;top:0;right:0;font-size:10.5px;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;padding:6px 14px;border-bottom-left-radius:12px;background:var(--pur);color:#fff;
+}
+.plan h3{font-size:19px;margin-bottom:5px}
+.pd{color:var(--txt-2);font-size:13.5px;margin-bottom:18px}
+.price{display:flex;align-items:baseline;gap:4px;margin-bottom:24px;padding-bottom:22px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.cur{color:var(--txt-2);font-size:14px;font-weight:500}
+.price strong{font-size:34px;letter-spacing:-.04em}
+.per{color:var(--txt-2);font-size:14px}
+.plan ul{list-style:none;display:grid;gap:12px;flex:1}
+.plan li{display:flex;align-items:flex-start;gap:10px;font-size:14.5px;color:var(--txt-2)}
+.plan li svg{width:15px;height:15px;color:var(--brand);flex:none;margin-top:5px}
+.pbtn{width:100%;margin-top:26px}
+
+.cta{text-align:center;border:1px solid var(--line);border-radius:8px;padding:52px 28px;background:var(--card);box-shadow:var(--shadow);position:relative;overflow:hidden}
+.cta::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 60% 70% at 50% 0%,var(--glow),transparent 70%)}
+.cta>*{position:relative;z-index:2}
+.cta .h2{margin:0 auto 12px}
+.cta .lead{margin:0 auto}
+.row{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:26px}
+</style>

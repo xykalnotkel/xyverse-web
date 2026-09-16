@@ -6,11 +6,15 @@ export default defineConfig({
   trailingSlash: 'ignore',
   integrations: [
     sitemap({
-      filter: (page) => !page.includes('/404') && !page.includes('/og/'),
+      filter: (page) => !page.includes('/404') && !page.includes('/og/') && !page.includes('/rss.xml') && page !== 'https://xyverse.my.id/',
+      i18n: {
+        defaultLocale: 'id',
+        locales: { id: 'id-ID', en: 'en-US' },
+      },
       changefreq: 'weekly',
       lastmod: new Date(),
       serialize(item) {
-        if (item.url === 'https://xyverse.my.id/') item.priority = 1.0;
+        if (/^https:\/\/xyverse\.my\.id\/(id|en)\/?$/.test(item.url)) item.priority = 1.0;
         else if (/\/(cloud-pc|harga|aplikasi)/.test(item.url)) item.priority = 0.9;
         else if (/\/(blog|proyek|berita)\/$/.test(item.url)) item.priority = 0.8;
         else if (/\/(legal|kebijakan|syarat|lisensi)/.test(item.url)) item.priority = 0.3;

@@ -2,10 +2,20 @@
 import Base from './Base.astro';
 import Prose from '../components/Prose.astro';
 import Bagikan from '../components/Bagikan.astro';
-import { SITE, LEGAL_NAV } from '../data/site';
+import { SITE } from '../data/site';
+import { rute, type Lang } from '../i18n/config';
+import { legalNav } from '../i18n/data';
 
-interface Props { title: string; desc: string; diperbarui: string; ringkas?: string }
-const { title, desc, diperbarui, ringkas } = Astro.props;
+interface Props { title: string; desc: string; diperbarui: string; ringkas?: string; lang?: Lang }
+const { title, desc, diperbarui, ringkas, lang = 'id' } = Astro.props;
+const r = (p = '') => rute(lang, p);
+const L = {
+  id: { beranda: 'Beranda', legal: 'Legal', remah: 'Remah roti', upd: 'Terakhir diperbarui:',
+        dok: 'Dokumen Legal', navDok: 'Navigasi dokumen legal', tanya: 'Ada pertanyaan soal dokumen ini?', tldr: 'Ringkasnya' },
+  en: { beranda: 'Home', legal: 'Legal', remah: 'Breadcrumb', upd: 'Last updated:',
+        dok: 'Legal Documents', navDok: 'Legal document navigation', tanya: 'Questions about this document?', tldr: 'In short' },
+}[lang];
+const NAV = legalNav(lang);
 const path = Astro.url.pathname;
 
 const ld = {
@@ -19,37 +29,37 @@ const ld = {
   breadcrumb: {
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Beranda', item: SITE.url },
-      { '@type': 'ListItem', position: 2, name: 'Legal', item: `${SITE.url}/legal` },
+      { '@type': 'ListItem', position: 1, name: L.beranda, item: `${SITE.url}${r()}` },
+      { '@type': 'ListItem', position: 2, name: L.legal, item: `${SITE.url}${r('legal')}` },
       { '@type': 'ListItem', position: 3, name: title },
     ],
   },
 };
 ---
 
-<Base title={`${title} — ${SITE.nama}`} desc={desc} ogTag="Legal" jsonld={ld}>
+<Base lang={lang} title={`${title} — ${SITE.nama}`} desc={desc} ogTag={L.legal} jsonld={ld}>
   <div class="head">
     <div class="wrap">
-      <nav class="crumb" aria-label="Remah roti">
-        <a href="/">Beranda</a><span>/</span><a href="/legal">Legal</a><span>/</span><span aria-current="page">{title}</span>
+      <nav class="crumb" aria-label={L.remah}>
+        <a href={r()}>{L.beranda}</a><span>/</span><a href={r('legal')}>{L.legal}</a><span>/</span><span aria-current="page">{title}</span>
       </nav>
       <h1>{title}</h1>
       <p class="lead">{desc}</p>
-      <p class="upd">Terakhir diperbarui: <strong>{diperbarui}</strong></p>
+      <p class="upd">{L.upd} <strong>{diperbarui}</strong></p>
     </div>
   </div>
 
   <div class="wrap layout">
     <aside class="side">
       <div class="sbox">
-        <h2>Dokumen Legal</h2>
-        <nav aria-label="Navigasi dokumen legal">
-          {LEGAL_NAV.map((l) => (
-            <a href={l.href} class={path.startsWith(l.href) ? 'on' : ''}>{l.t}</a>
+        <h2>{L.dok}</h2>
+        <nav aria-label={L.navDok}>
+          {NAV.map((l) => (
+            <a href={r(`legal/${l.slug}`)} class={path.startsWith(r(`legal/${l.slug}`)) ? 'on' : ''}>{l.t}</a>
           ))}
         </nav>
         <div class="shelp">
-          <p>Ada pertanyaan soal dokumen ini?</p>
+          <p>{L.tanya}</p>
           <a href={`mailto:${SITE.emailLegal}`} class="btn btn-g">{SITE.emailLegal}</a>
         </div>
       </div>
@@ -58,7 +68,7 @@ const ld = {
     <article class="main">
       {ringkas && (
         <div class="tldr">
-          <strong>Ringkasnya</strong>
+          <strong>{L.tldr}</strong>
           <p>{ringkas}</p>
         </div>
       )}
@@ -81,11 +91,11 @@ h1{font-size:clamp(27px,4.2vw,41px);margin-bottom:14px}
 
 .layout{display:grid;grid-template-columns:262px 1fr;gap:48px;align-items:start;padding-block:44px 80px}
 @media(max-width:940px){.layout{grid-template-columns:1fr;gap:26px}}
-.side{position:sticky;top:98px}
+.side{position:sticky;top:106px}
 @media(max-width:940px){.side{position:static}}
 .sbox{border:1px solid var(--line);border-radius:var(--r);background:var(--card);padding:18px}
 .sbox h2{font-size:12px;letter-spacing:.13em;text-transform:uppercase;color:var(--txt-2);margin-bottom:12px}
-.sbox nav a{display:block;font-size:14px;color:var(--txt-2);padding:8px 11px;border-radius:9px;transition:.18s var(--ease)}
+.sbox nav a{display:block;font-size:14px;color:var(--txt-2);padding:8px 11px;border-radius:6px;transition:.18s var(--ease)}
 .sbox nav a:hover{color:var(--txt);background:var(--surface)}
 .sbox nav a.on{color:var(--brand);background:color-mix(in srgb,var(--pur) 12%,transparent);font-weight:600}
 .shelp{margin-top:16px;padding-top:16px;border-top:1px solid var(--line)}

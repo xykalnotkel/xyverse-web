@@ -1,0 +1,122 @@
+---
+import { jalurBahasa, rute } from '../../i18n/config';
+import { pakaiT } from '../../i18n/ui';
+import { CLOUDPC } from '../../i18n/halaman/cloudpc';
+
+export function getStaticPaths() { return jalurBahasa(); }
+
+const { lang } = Astro.props;
+const t = pakaiT(lang);
+const r = (p = '') => rute(lang, p);
+import Base from '../../layouts/Base.astro';
+
+const c = CLOUDPC[lang];
+const uses = c.uses;
+const specs = c.specs;
+
+const arrow = '<path d="M5 12h14M13 6l6 6-6 6"/>';
+---
+
+<Base lang={lang} title={c.metaTitle} desc={c.metaDesc}>
+  <section class="head">
+    <div class="wrap hin">
+      <div>
+        <span class="eyebrow">{c.eyebrow}</span>
+        <h1>{c.h1}</h1>
+        <p class="lead">{c.lead}</p>
+        <div class="row">
+          <a href={r('harga')} class="btn btn-p">{c.btnHarga} <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" set:html={arrow} /></a>
+          <a href={r() + '#kontak'} class="btn btn-g">{c.btnKonsul}</a>
+        </div>
+      </div>
+      <figure class="art">
+        <img src="/brand/illus-dark.webp" alt={c.altIlus} class="d" />
+        <img src="/brand/illus-light.webp" alt="" class="l" aria-hidden="true" />
+      </figure>
+    </div>
+  </section>
+
+  <section class="sect">
+    <div class="wrap">
+      <header class="shead">
+        <div class="reveal">
+          <span class="eyebrow">{c.useEye}</span>
+          <h2 class="h2">{c.useH2}</h2>
+        </div>
+        <p class="lead reveal">Satu mesin, banyak kemungkinan — tinggal sesuaikan spesifikasinya.</p>
+      </header>
+      <div class="grid g3">
+        {uses.map((u) => (
+          <div class="card reveal uc">
+            <h3>{u.t}</h3>
+            <p>{u.d}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="sect band">
+    <div class="wrap">
+      <header class="shead">
+        <div class="reveal">
+          <span class="eyebrow">{c.specEye}</span>
+          <h2 class="h2">{c.specH2}</h2>
+        </div>
+        <p class="lead reveal">{c.specLead}</p>
+      </header>
+      <div class="spec reveal">
+        {specs.map(([k, v]) => (
+          <div class="srow"><span class="sk">{k}</span><span class="sv">{v}</span></div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="sect">
+    <div class="wrap">
+      <div class="cta reveal">
+        <h2 class="h2">{c.ctaH2}</h2>
+        <p class="lead">{c.ctaP}</p>
+        <div class="row" style="justify-content:center">
+          <a href={r() + '#kontak'} class="btn btn-p">{c.ctaB1} <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" set:html={arrow} /></a>
+          <a href="mailto:halo@xyverse.my.id" class="btn btn-g">halo@xyverse.my.id</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+.head{padding:70px 0 20px;position:relative;overflow:hidden}
+.head::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 55% 45% at 18% 10%,var(--glow),transparent 70%)}
+.hin{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:center}
+@media(max-width:940px){.hin{grid-template-columns:1fr;gap:34px}.art{order:-1}}
+h1{font-size:clamp(31px,5vw,50px);margin-bottom:18px;max-width:14ch}
+.row{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}
+.art{position:relative;display:grid;place-items:center}
+.art::before{content:'';position:absolute;width:80%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,var(--glow),transparent 66%);filter:blur(14px)}
+.art img{position:relative;z-index:2;width:100%;height:auto}
+html[data-theme='dark'] .art .l{display:none}
+html[data-theme='light'] .art .d{display:none}
+
+.band{background:var(--bg-2);border-block:1px solid var(--line)}
+.shead{display:grid;grid-template-columns:1fr 1fr;gap:34px;align-items:end;margin-bottom:42px}
+@media(max-width:820px){.shead{grid-template-columns:1fr;gap:12px;margin-bottom:30px}}
+
+.uc h3{font-size:18px;margin-bottom:8px}
+.uc p{color:var(--txt-2);font-size:14.5px}
+
+.spec{border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--card)}
+.srow{display:grid;grid-template-columns:240px 1fr;gap:20px;padding:17px 24px;border-bottom:1px solid var(--line);font-size:14.8px}
+.srow:last-child{border:0}
+.sk{color:var(--txt);font-weight:600}
+.sv{color:var(--txt-2)}
+@media(max-width:640px){.srow{grid-template-columns:1fr;gap:4px}}
+
+.cta{text-align:center;border:1px solid var(--line);border-radius:8px;padding:52px 28px;background:var(--card);box-shadow:var(--shadow);position:relative;overflow:hidden}
+.cta::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 60% 70% at 50% 0%,var(--glow),transparent 70%)}
+.cta>*{position:relative;z-index:2}
+.cta .h2{margin:0 auto 12px}
+.cta .lead{margin:0 auto}
+</style>

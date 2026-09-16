@@ -125,3 +125,49 @@ Seluruh animasi dimatikan pada `prefers-reduced-motion: reduce`.
 Hampir semua teks lintas halaman berasal dari `src/data/site.ts` — email, alamat, media
 sosial, daftar aplikasi, anggota tim, dan navigasi legal. Ubah di satu tempat, seluruh situs
 ikut menyesuaikan.
+
+## Internasionalisasi (i18n)
+
+Situs berjalan dua bahasa: **Indonesia (`id`, bawaan)** dan **Inggris (`en`)**.
+Setiap rute diberi prefiks bahasa — `/id/harga/`, `/en/harga/` — dan `/` adalah
+shim yang mengalihkan sesuai `localStorage['xy-lang']` lalu `navigator.language`.
+
+### Struktur
+
+| Berkas | Isi |
+|---|---|
+| `src/i18n/config.ts` | Daftar bahasa, `rute()`, `jalurBahasa()`, helper path |
+| `src/i18n/ui.ts` | String antarmuka bersama (nav, sheet, footer, umum) |
+| `src/i18n/data.ts` | Data terterjemah: alamat, aplikasi, tim, nilai, slug sumber & legal, `filterLang()` |
+| `src/i18n/halaman/*.ts` | Satu kamus per halaman: `export const X: Record<Lang, any>` |
+| `src/content/<koleksi>/en/*.md` | Terjemahan konten; dibedakan lewat frontmatter `lang` |
+
+### Menambah halaman baru
+
+1. Buat `src/pages/[lang]/nama.astro` dengan boilerplate:
+   `export function getStaticPaths() { return jalurBahasa(); }` +
+   `const { lang } = Astro.props; const r = (p = '') => rute(lang, p);`
+2. Buat `src/i18n/halaman/nama.ts` berisi kunci `id` dan `en` yang paralel.
+3. Semua tautan internal wajib lewat `r('tujuan')`, jangan `href="/tujuan"`.
+4. Teruskan `lang={lang}` ke `<Base>` / `<Legal>`.
+
+### Menambah artikel dua bahasa
+
+Tulis `src/content/blog/slug.md` (ID) dan `src/content/blog/en/slug.md`
+dengan `lang: "en"`. Slug URL sama di kedua bahasa; awalan `en/` dilucuti
+oleh `slugKonten()`.
+
+### SEO per bahasa
+
+- `hreflang` `id-ID` / `en-US` / `x-default` pada setiap halaman
+- `og:locale` + `og:locale:alternate`, gambar OG terpisah `og/<lang>-<slug>.svg`
+- Sitemap memakai opsi `i18n` @astrojs/sitemap sehingga tiap URL membawa alternatnya
+- Umpan RSS terpisah: `/id/rss.xml` dan `/en/rss.xml` (`/rss.xml` mengalihkan ke ID)
+- Halaman `404` tunggal yang menerjemahkan dirinya sendiri di sisi klien
+
+### Dokumen legal
+
+Sembilan dokumen kini hidup sebagai koleksi konten di `src/content/legal/`
+(ID) dan `src/content/legal/en/`, dirender oleh `src/pages/[lang]/legal/[slug].astro`.
+Sebelumnya isinya ditulis sebagai markdown di dalam `.astro` sehingga **tidak pernah
+dirender** — perbaikan itu termasuk dalam perubahan ini.
