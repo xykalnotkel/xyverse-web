@@ -1,0 +1,53 @@
+---
+// Bilah kemajuan baca + tombol kembali ke atas
+---
+<div id="progres" role="progressbar" aria-label="Kemajuan membaca" aria-valuemin="0" aria-valuemax="100"><i></i></div>
+<button id="keatas" aria-label="Kembali ke atas" title="Kembali ke atas">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 19V5M5 12l7-7 7 7"/>
+  </svg>
+</button>
+
+<style>
+#progres{position:fixed;top:0;left:0;right:0;height:3px;z-index:120;pointer-events:none;background:transparent}
+#progres i{
+  display:block;height:100%;width:0%;
+  background:linear-gradient(90deg,var(--pur),#a78bfa,var(--pur));
+  box-shadow:0 0 12px color-mix(in srgb,var(--pur) 70%,transparent);
+  transition:width .08s linear;
+}
+#keatas{
+  position:fixed;right:22px;bottom:22px;z-index:110;width:44px;height:44px;border-radius:13px;
+  display:grid;place-items:center;cursor:pointer;opacity:0;visibility:hidden;transform:translateY(12px);
+  background:var(--card);border:1px solid var(--line);color:var(--txt-2);
+  backdrop-filter:blur(12px);transition:.28s var(--ease);
+}
+#keatas.on{opacity:1;visibility:visible;transform:none}
+#keatas:hover{background:var(--pur);color:#fff;border-color:transparent}
+#keatas svg{width:18px;height:18px}
+@media(max-width:640px){#keatas{right:14px;bottom:14px}}
+</style>
+
+<script>
+  const bar = document.querySelector('#progres i') as HTMLElement | null;
+  const box = document.getElementById('progres');
+  const up = document.getElementById('keatas');
+
+  const hitung = () => {
+    const h = document.documentElement;
+    const total = h.scrollHeight - h.clientHeight;
+    const pct = total > 0 ? Math.min(100, Math.max(0, (h.scrollTop / total) * 100)) : 0;
+    if (bar) bar.style.width = pct + '%';
+    box?.setAttribute('aria-valuenow', String(Math.round(pct)));
+    up?.classList.toggle('on', h.scrollTop > 600);
+  };
+
+  hitung();
+  window.addEventListener('scroll', hitung, { passive: true });
+  window.addEventListener('resize', hitung, { passive: true });
+
+  up?.addEventListener('click', () => {
+    const halus = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    window.scrollTo({ top: 0, behavior: halus ? 'smooth' : 'auto' });
+  });
+</script>

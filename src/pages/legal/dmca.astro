@@ -1,0 +1,83 @@
+---
+import Legal from '../../layouts/Legal.astro';
+import { SITE } from '../../data/site';
+---
+<Legal
+  title="DMCA & Hak Cipta"
+  desc="Prosedur pelaporan pelanggaran hak cipta pada layanan Xyverse beserta mekanisme sanggahan."
+  diperbarui="16 September 2026"
+  ringkas="Kalau ada karya lu dilanggar di layanan kami, kirim laporan lengkap ke alamat di bawah. Kami tanggapi dalam 24 jam kerja. Pelanggan yang kontennya dilaporkan berhak mengajukan sanggahan."
+>
+
+## 1. Komitmen kami
+
+Xyverse menghormati hak kekayaan intelektual dan menindaklanjuti laporan pelanggaran hak cipta
+yang sah, sesuai Undang-Undang Nomor 28 Tahun 2014 tentang Hak Cipta serta praktik yang sejalan
+dengan Digital Millennium Copyright Act untuk pelapor dari luar negeri.
+
+## 2. Agen penerima laporan
+
+| Keterangan | Data |
+|---|---|
+| Alamat email | <a href={`mailto:${SITE.emailAbuse}`}>{SITE.emailAbuse}</a> |
+| Subjek email | Laporan Pelanggaran Hak Cipta |
+| Alamat surat | {SITE.alamat.jalan}, {SITE.alamat.kota}, {SITE.alamat.provinsi} {SITE.alamat.pos}, Indonesia |
+| Bahasa | Indonesia atau Inggris |
+
+## 3. Isi laporan yang sah
+
+Laporan wajib memuat seluruh unsur berikut:
+
+1. **Identitas pelapor** — nama lengkap, alamat, email, dan nomor telepon yang dapat dihubungi.
+2. **Identifikasi karya** — uraian karya berhak cipta yang diduga dilanggar, sertakan tautan karya asli bila ada.
+3. **Lokasi materi** — URL lengkap atau alamat IP tempat materi yang dilaporkan berada. Laporan tanpa lokasi spesifik tidak dapat kami proses.
+4. **Bukti kepemilikan** — nomor pendaftaran hak cipta, tanggal publikasi pertama, atau bukti lain yang memadai.
+5. **Pernyataan itikad baik** — pernyataan bahwa penggunaan materi tersebut tidak diizinkan oleh pemilik hak, kuasanya, maupun undang-undang.
+6. **Pernyataan kebenaran** — pernyataan bahwa informasi dalam laporan akurat dan, di bawah ancaman sanksi sumpah palsu, pelapor berwenang bertindak atas nama pemilik hak.
+7. **Tanda tangan** — tanda tangan fisik atau elektronik pemilik hak atau kuasanya.
+
+Laporan yang tidak lengkap akan kami kembalikan dengan penjelasan unsur yang kurang.
+
+## 4. Alur penanganan
+
+| Waktu | Langkah |
+|---|---|
+| 0–24 jam kerja | Laporan diterima dan diperiksa kelengkapannya |
+| 1–2 hari kerja | Pelanggan terkait diberitahu dan diminta menanggapi |
+| 3–5 hari kerja | Bila tidak ada tanggapan, materi dinonaktifkan aksesnya |
+| Setelahnya | Pelapor diberitahu hasil tindakan |
+
+Untuk kasus yang sangat jelas dan berdampak besar, kami dapat menonaktifkan akses lebih cepat.
+
+## 5. Sanggahan
+
+Pelanggan yang materinya dinonaktifkan dapat mengajukan sanggahan dengan memuat:
+
+1. Identitas dan kontak lengkap.
+2. Identifikasi materi yang dinonaktifkan beserta lokasi sebelumnya.
+3. Pernyataan di bawah ancaman sanksi sumpah palsu bahwa penonaktifan terjadi karena kekeliruan atau salah identifikasi.
+4. Pernyataan kesediaan tunduk pada yurisdiksi pengadilan yang berwenang.
+5. Tanda tangan.
+
+Kirim ke <a href={`mailto:${SITE.emailLegal}`}>{SITE.emailLegal}</a>. Sanggahan akan kami
+teruskan kepada pelapor. Bila dalam **10 hari kerja** pelapor tidak menempuh jalur hukum,
+materi dapat dipulihkan.
+
+## 6. Pelanggar berulang
+
+Akun yang menerima **tiga laporan sah** yang tidak berhasil disanggah akan dihentikan permanen
+tanpa pengembalian dana.
+
+## 7. Laporan yang keliru
+
+Menyampaikan laporan palsu dapat menimbulkan tanggung jawab hukum atas kerugian yang timbul,
+termasuk biaya jasa hukum. Mohon pastikan Anda benar-benar pemilik hak atau kuasanya sebelum
+melapor.
+
+## 8. Privasi pelapor
+
+Isi laporan, termasuk identitas pelapor, akan kami teruskan kepada pelanggan yang dilaporkan
+karena hal itu diperlukan agar yang bersangkutan dapat menanggapi secara adil. Bila Anda
+keberatan, sebutkan hal tersebut dan kami akan mencari jalan tengah yang wajar.
+
+</Legal>

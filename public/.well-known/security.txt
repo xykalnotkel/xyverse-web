@@ -1,0 +1,5 @@
+Contact: mailto:keamanan@xyverse.my.id
+Expires: 2027-12-31T23:59:59.000Z
+Preferred-Languages: id, en
+Canonical: https://xyverse.my.id/.well-known/security.txt
+Policy: https://xyverse.my.id/legal/keamanan

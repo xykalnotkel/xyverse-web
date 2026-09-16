@@ -1,0 +1,78 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE } from '../data/site';
+
+const tautan = [
+  { h: '/cloud-pc', t: 'Sewa Cloud PC', d: 'Spesifikasi, region, dan cara kerjanya' },
+  { h: '/aplikasi', t: 'Aplikasi', d: 'XyDesk dan XyCloudStore' },
+  { h: '/harga', t: 'Harga', d: 'Paket dan simulasi biaya' },
+  { h: '/blog', t: 'Blog', d: 'Panduan dan catatan teknis' },
+  { h: '/proyek', t: 'Proyek', d: 'Pekerjaan yang pernah kami kerjakan' },
+  { h: '/kontak', t: 'Kontak', d: 'Bicara langsung dengan kami' },
+];
+---
+
+<Base title={`Halaman tidak ditemukan — ${SITE.nama}`} desc="Halaman yang lu cari tidak ada atau sudah dipindahkan." noindex>
+  <section class="e">
+    <div class="wrap">
+      <div class="code" aria-hidden="true">
+        <svg viewBox="0 0 320 120" fill="none">
+          <defs>
+            <linearGradient id="g4" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#8b5cf6"/><stop offset="100%" stop-color="#a78bfa"/>
+            </linearGradient>
+          </defs>
+          <text x="160" y="92" text-anchor="middle" font-size="104" font-weight="800" fill="url(#g4)" letter-spacing="-6">404</text>
+          <path d="M20,104 C70,84 110,124 160,104 C210,84 250,124 300,104" stroke="url(#g4)" stroke-width="2" fill="none" opacity=".6">
+            <animate attributeName="d" dur="7s" repeatCount="indefinite"
+              values="M20,104 C70,84 110,124 160,104 C210,84 250,124 300,104;
+                      M20,104 C70,124 110,84 160,104 C210,124 250,84 300,104;
+                      M20,104 C70,84 110,124 160,104 C210,84 250,124 300,104"/>
+          </path>
+        </svg>
+      </div>
+
+      <h1>Halaman ini hilang di suatu tempat.</h1>
+      <p class="lead">
+        Tautannya mungkin salah ketik, atau halamannya sudah kami pindahkan. Coba salah satu
+        tujuan di bawah ini.
+      </p>
+
+      <div class="grid">
+        {tautan.map((t) => (
+          <a href={t.h} class="card">
+            <strong>{t.t}</strong>
+            <small>{t.d}</small>
+            <span class="go">→</span>
+          </a>
+        ))}
+      </div>
+
+      <p class="foot">
+        Masih buntu? <a href="/kontak">Kabari kami</a> dan kami bantu carikan.
+      </p>
+    </div>
+  </section>
+</Base>
+
+<style>
+.e{padding:78px 0 90px;text-align:center;position:relative;overflow:hidden}
+.e::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 48% 54% at 50% 0%,var(--glow),transparent 70%)}
+.e .wrap{position:relative;z-index:2}
+.code svg{width:min(300px,72vw);height:auto;margin:0 auto 12px;display:block}
+h1{font-size:clamp(25px,4vw,38px);margin-bottom:14px}
+.lead{max-width:50ch;margin:0 auto 34px;color:var(--txt-2)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:11px;text-align:left;max-width:760px;margin:0 auto}
+.card{
+  display:flex;flex-direction:column;position:relative;border:1px solid var(--line);
+  border-radius:14px;padding:16px 18px;background:var(--card);transition:.24s var(--ease);
+}
+.card:hover{transform:translateY(-3px);border-color:color-mix(in srgb,var(--pur) 45%,transparent)}
+.card strong{font-size:15px;margin-bottom:3px}
+.card small{font-size:12.6px;color:var(--txt-2)}
+.card .go{position:absolute;right:16px;top:15px;color:var(--brand);opacity:0;transition:.24s var(--ease)}
+.card:hover .go{opacity:1;transform:translateX(3px)}
+.foot{margin-top:30px;font-size:14px;color:var(--txt-2)}
+.foot a{color:var(--brand);font-weight:600}
+@media(prefers-reduced-motion:reduce){.code animate{display:none}}
+</style>

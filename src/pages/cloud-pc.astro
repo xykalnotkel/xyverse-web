@@ -1,0 +1,130 @@
+---
+import Base from '../layouts/Base.astro';
+
+const uses = [
+  { t: 'Rendering & 3D', d: 'Blender, After Effects, DaVinci Resolve. Render farm pribadi yang bisa dinyalakan saat deadline mepet.' },
+  { t: 'Cloud Gaming', d: 'Main game berat lewat Parsec dengan latensi rendah di region Singapore dan Jakarta.' },
+  { t: 'AI & Data', d: 'Fine-tuning model, notebook Jupyter, dan pipeline data tanpa perlu beli GPU sendiri.' },
+  { t: 'Development', d: 'Environment coding yang konsisten untuk tim, lengkap dengan Docker dan CI runner.' },
+  { t: 'Trading & Bot', d: 'VPS stabil 24/7 untuk bot trading, MetaTrader, dan automation yang tidak boleh mati.' },
+  { t: 'Kantor Remote', d: 'Satu mesin kerja yang bisa diakses karyawan dari rumah, kafe, atau laptop lama.' },
+];
+
+const specs = [
+  ['Sistem Operasi', 'Windows 11 Pro · Windows Server · Ubuntu 22.04'],
+  ['Metode Akses', 'RDP, Parsec, AnyDesk, atau langsung dari browser'],
+  ['Penyimpanan', 'NVMe SSD berkecepatan tinggi, dapat diperluas kapan saja'],
+  ['Jaringan', 'Bandwidth unmetered, region Singapore & Jakarta'],
+  ['Backup', 'Snapshot otomatis mingguan (paket Creator ke atas)'],
+  ['Keamanan', 'Instance terisolasi, firewall terkelola, opsi dedicated IP'],
+];
+
+const arrow = '<path d="M5 12h14M13 6l6 6-6 6"/>';
+---
+
+<Base title="Sewa Cloud PC — Xyverse" desc="Sewa Cloud PC bertenaga GPU untuk rendering, gaming, AI, dan development. Aktif dalam hitungan menit, akses dari perangkat apa pun.">
+  <section class="head">
+    <div class="wrap hin">
+      <div>
+        <span class="eyebrow">Cloud PC</span>
+        <h1>Mesin kencang, tanpa beli perangkat keras.</h1>
+        <p class="lead">
+          Nyalakan workstation bertenaga GPU dalam hitungan menit. Bayar bulanan,
+          skalakan kapan saja, akses dari laptop, tablet, bahkan ponsel.
+        </p>
+        <div class="row">
+          <a href="/harga" class="btn btn-p">Lihat Harga <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" set:html={arrow} /></a>
+          <a href="/#kontak" class="btn btn-g">Konsultasi Spek</a>
+        </div>
+      </div>
+      <figure class="art">
+        <img src="/brand/illus-dark.webp" alt="Ilustrasi infrastruktur Cloud PC" class="d" />
+        <img src="/brand/illus-light.webp" alt="" class="l" aria-hidden="true" />
+      </figure>
+    </div>
+  </section>
+
+  <section class="sect">
+    <div class="wrap">
+      <header class="shead">
+        <div class="reveal">
+          <span class="eyebrow">Use case</span>
+          <h2 class="h2">Dipakai untuk apa saja?</h2>
+        </div>
+        <p class="lead reveal">Satu mesin, banyak kemungkinan — tinggal sesuaikan spesifikasinya.</p>
+      </header>
+      <div class="grid g3">
+        {uses.map((u) => (
+          <div class="card reveal uc">
+            <h3>{u.t}</h3>
+            <p>{u.d}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="sect band">
+    <div class="wrap">
+      <header class="shead">
+        <div class="reveal">
+          <span class="eyebrow">Spesifikasi</span>
+          <h2 class="h2">Detail teknis.</h2>
+        </div>
+        <p class="lead reveal">Semua paket berjalan di infrastruktur yang sama — yang berbeda hanya alokasi sumber daya.</p>
+      </header>
+      <div class="spec reveal">
+        {specs.map(([k, v]) => (
+          <div class="srow"><span class="sk">{k}</span><span class="sv">{v}</span></div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="sect">
+    <div class="wrap">
+      <div class="cta reveal">
+        <h2 class="h2">Butuh spesifikasi khusus?</h2>
+        <p class="lead">Kami bisa rakit konfigurasi custom sesuai workload lu — multi-GPU, RAM besar, atau storage ekstra.</p>
+        <div class="row" style="justify-content:center">
+          <a href="/#kontak" class="btn btn-p">Hubungi Tim Kami <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" set:html={arrow} /></a>
+          <a href="mailto:halo@xyverse.my.id" class="btn btn-g">halo@xyverse.my.id</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+.head{padding:70px 0 20px;position:relative;overflow:hidden}
+.head::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 55% 45% at 18% 10%,var(--glow),transparent 70%)}
+.hin{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:center}
+@media(max-width:940px){.hin{grid-template-columns:1fr;gap:34px}.art{order:-1}}
+h1{font-size:clamp(31px,5vw,50px);margin-bottom:18px;max-width:14ch}
+.row{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}
+.art{position:relative;display:grid;place-items:center}
+.art::before{content:'';position:absolute;width:80%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,var(--glow),transparent 66%);filter:blur(14px)}
+.art img{position:relative;z-index:2;width:100%;height:auto}
+html[data-theme='dark'] .art .l{display:none}
+html[data-theme='light'] .art .d{display:none}
+
+.band{background:var(--bg-2);border-block:1px solid var(--line)}
+.shead{display:grid;grid-template-columns:1fr 1fr;gap:34px;align-items:end;margin-bottom:42px}
+@media(max-width:820px){.shead{grid-template-columns:1fr;gap:12px;margin-bottom:30px}}
+
+.uc h3{font-size:18px;margin-bottom:8px}
+.uc p{color:var(--txt-2);font-size:14.5px}
+
+.spec{border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--card)}
+.srow{display:grid;grid-template-columns:240px 1fr;gap:20px;padding:17px 24px;border-bottom:1px solid var(--line);font-size:14.8px}
+.srow:last-child{border:0}
+.sk{color:var(--txt);font-weight:600}
+.sv{color:var(--txt-2)}
+@media(max-width:640px){.srow{grid-template-columns:1fr;gap:4px}}
+
+.cta{text-align:center;border:1px solid var(--line);border-radius:22px;padding:52px 28px;background:var(--card);box-shadow:var(--shadow);position:relative;overflow:hidden}
+.cta::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 60% 70% at 50% 0%,var(--glow),transparent 70%)}
+.cta>*{position:relative;z-index:2}
+.cta .h2{margin:0 auto 12px}
+.cta .lead{margin:0 auto}
+</style>

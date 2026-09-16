@@ -1,0 +1,26 @@
+# dependensi
+node_modules/
+
+# hasil build
+dist/
+.astro/
+.output/
+.vercel/
+.netlify/
+
+# rahasia — JANGAN PERNAH di-commit
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+kuncikerjasama.txt
+uploads/
+
+# sistem & editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.log
+npm-debug.log*

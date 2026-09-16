@@ -1,0 +1,167 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+
+const alamat = {
+  jalan: 'Tanak Beaq, Kec. Batukliang Utara',
+  kota: 'Kabupaten Lombok Tengah',
+  prov: 'Nusa Tenggara Barat 83562',
+  negara: 'Indonesia',
+};
+const mapsQ = encodeURIComponent('Tanak Beaq, Batukliang Utara, Lombok Tengah, Nusa Tenggara Barat 83562');
+---
+
+<Base title="Kontak — Xyverse" desc="Hubungi Xyverse untuk sewa Cloud PC, produksi aplikasi, software custom, dan otomasi. Berbasis di Lombok Tengah, NTB.">
+  <PageHead
+    eyebrow="Kontak"
+    title="Mari bicarakan kebutuhan lu."
+    lead="Kirim pesan, email, atau WhatsApp. Kami balas di hari kerja yang sama."
+  />
+
+  <section class="sect" style="padding-top:44px">
+    <div class="wrap layout">
+      <div class="info">
+        <div class="ibox reveal">
+          <div class="ic">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg>
+          </div>
+          <div>
+            <h3>Email</h3>
+            <a href="mailto:halo@xyverse.my.id">halo@xyverse.my.id</a>
+            <p>Respons dalam 1×24 jam kerja</p>
+          </div>
+        </div>
+
+        <div class="ibox reveal">
+          <div class="ic">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-12.6 7.3L3 20.5l1.8-5.3A8.4 8.4 0 1 1 21 11.5z"/></svg>
+          </div>
+          <div>
+            <h3>WhatsApp</h3>
+            <a href="https://wa.me/6281234567890" target="_blank" rel="noopener">+62 812-3456-7890</a>
+            <p>Senin–Jumat, 09.00–18.00 WITA</p>
+          </div>
+        </div>
+
+        <div class="ibox reveal">
+          <div class="ic">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <div>
+            <h3>Kantor</h3>
+            <address>
+              {alamat.jalan}<br />
+              {alamat.kota}<br />
+              {alamat.prov}<br />
+              {alamat.negara}
+            </address>
+            <a href={`https://www.google.com/maps/search/?api=1&query=${mapsQ}`} target="_blank" rel="noopener" class="maps">Buka di Google Maps →</a>
+          </div>
+        </div>
+
+        <div class="ibox reveal">
+          <div class="ic">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+          </div>
+          <div>
+            <h3>Jam Operasional</h3>
+            <p class="hrs"><span>Senin – Jumat</span><strong>09.00 – 18.00</strong></p>
+            <p class="hrs"><span>Sabtu</span><strong>09.00 – 14.00</strong></p>
+            <p class="hrs"><span>Minggu</span><strong>Tutup</strong></p>
+            <p style="margin-top:8px">Support Cloud PC tetap 24/7</p>
+          </div>
+        </div>
+      </div>
+
+      <form class="cf reveal" id="cf">
+        <h2>Kirim pesan</h2>
+        <div class="frow">
+          <label>Nama<input type="text" name="nama" placeholder="Nama lengkap" required /></label>
+          <label>Email<input type="email" name="email" placeholder="nama@email.com" required /></label>
+        </div>
+        <div class="frow">
+          <label>Perusahaan <span class="opt">(opsional)</span><input type="text" name="perusahaan" placeholder="Nama perusahaan" /></label>
+          <label>Kebutuhan
+            <select name="topik">
+              <option>Sewa Cloud PC</option>
+              <option>Produksi Aplikasi</option>
+              <option>Software Custom</option>
+              <option>Tools & Automation</option>
+              <option>Kerja Sama / Partner</option>
+              <option>Lainnya</option>
+            </select>
+          </label>
+        </div>
+        <label>Estimasi anggaran <span class="opt">(opsional)</span>
+          <select name="budget">
+            <option>Belum ditentukan</option>
+            <option>Di bawah Rp5 juta</option>
+            <option>Rp5 – 20 juta</option>
+            <option>Rp20 – 50 juta</option>
+            <option>Di atas Rp50 juta</option>
+          </select>
+        </label>
+        <label>Pesan<textarea name="pesan" rows="5" placeholder="Ceritakan kebutuhan lu sedetail mungkin..." required></textarea></label>
+        <button type="submit" class="btn btn-p">Kirim Pesan</button>
+        <p class="ok" id="ok" hidden>✓ Terima kasih! Aplikasi email lu akan terbuka.</p>
+        <p class="note">Dengan mengirim, lu setuju kami menghubungi lu terkait permintaan ini.</p>
+      </form>
+    </div>
+  </section>
+</Base>
+
+<style>
+.layout{display:grid;grid-template-columns:1fr 1.15fr;gap:48px;align-items:start}
+@media(max-width:940px){.layout{grid-template-columns:1fr;gap:36px}}
+.info{display:grid;gap:14px}
+.ibox{display:flex;gap:16px;padding:22px;border:1px solid var(--line);border-radius:var(--r);background:var(--card);transition:.25s var(--ease)}
+.ibox:hover{border-color:var(--line-s)}
+.ic{width:42px;height:42px;border-radius:11px;display:grid;place-items:center;flex:none;background:color-mix(in srgb,var(--pur) 13%,transparent);border:1px solid color-mix(in srgb,var(--pur) 26%,transparent);color:var(--brand)}
+.ic svg{width:20px;height:20px}
+.ibox h3{font-size:14px;margin-bottom:5px}
+.ibox a{font-size:15px;font-weight:600;color:var(--brand)}
+.ibox a:hover{opacity:.78}
+.ibox p{font-size:13.5px;color:var(--txt-2);margin-top:3px}
+address{font-style:normal;font-size:14.5px;color:var(--txt-2);line-height:1.65}
+.maps{display:inline-block;margin-top:9px;font-size:13.5px !important}
+.hrs{display:flex;justify-content:space-between;gap:14px;max-width:230px;margin-top:4px !important}
+.hrs strong{color:var(--txt);font-weight:600}
+
+.cf{display:grid;gap:15px;align-content:start;padding:32px;border:1px solid var(--line);border-radius:20px;background:var(--card);box-shadow:var(--shadow)}
+@media(max-width:560px){.cf{padding:22px}}
+.cf h2{font-size:21px;margin-bottom:4px}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+@media(max-width:620px){.frow{grid-template-columns:1fr}}
+.cf label{display:grid;gap:7px;font-size:13px;font-weight:600;color:var(--txt-2)}
+.opt{font-weight:400;opacity:.7}
+.cf input,.cf select,.cf textarea{
+  width:100%;padding:12px 15px;border-radius:11px;border:1px solid var(--line);
+  background:var(--bg);color:var(--txt);font:inherit;font-size:14.8px;font-weight:400;outline:none;transition:.2s;
+}
+.cf input::placeholder,.cf textarea::placeholder{color:var(--txt-2);opacity:.65}
+.cf input:focus,.cf select:focus,.cf textarea:focus{border-color:var(--pur);box-shadow:0 0 0 3.5px var(--glow)}
+.cf textarea{resize:vertical;min-height:110px}
+.cf button{margin-top:5px}
+.ok{color:#10b981;font-size:14px;font-weight:500;text-align:center}
+.note{font-size:12.5px;color:var(--txt-2);text-align:center;opacity:.8}
+</style>
+
+<script>
+  const f = document.getElementById('cf') as HTMLFormElement | null;
+  f?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const d = new FormData(f);
+    const body = [
+      `Nama: ${d.get('nama')}`,
+      `Email: ${d.get('email')}`,
+      `Perusahaan: ${d.get('perusahaan') || '-'}`,
+      `Kebutuhan: ${d.get('topik')}`,
+      `Anggaran: ${d.get('budget')}`,
+      '',
+      String(d.get('pesan')),
+    ].join('\n');
+    window.location.href = `mailto:halo@xyverse.my.id?subject=${encodeURIComponent('Permintaan: ' + d.get('topik'))}&body=${encodeURIComponent(body)}`;
+    const ok = document.getElementById('ok');
+    if (ok) ok.hidden = false;
+  });
+</script>

@@ -1,0 +1,245 @@
+---
+import { SITE, SOSMED, LEGAL_NAV, APLIKASI } from '../data/site';
+import SosmedIkon from './SosmedIkon.astro';
+
+const year = new Date().getFullYear();
+
+const kolom = [
+  {
+    h: 'Layanan',
+    l: [
+      ['Sewa Cloud PC', '/cloud-pc'],
+      ['Produksi Apps', '/#layanan'],
+      ['Software Custom', '/#layanan'],
+      ['Tools & Automation', '/#layanan'],
+      ['Harga', '/harga'],
+    ],
+  },
+  {
+    h: 'Aplikasi',
+    l: [
+      ...APLIKASI.map((a) => [a.nama, `/aplikasi/${a.slug}`] as [string, string]),
+      ['Semua Aplikasi', '/aplikasi'],
+      ['Unduh', '/aplikasi#unduh'],
+    ],
+  },
+  {
+    h: 'Jelajahi',
+    l: [
+      ['Proyek', '/proyek/'],
+      ['Blog', '/blog/'],
+      ['Berita', '/berita/'],
+      ['Tentang', '/tentang'],
+      ['Tim', '/tentang#tim'],
+    ],
+  },
+  {
+    h: 'Legal',
+    l: LEGAL_NAV.slice(0, 6).map((x) => [x.t, x.href] as [string, string]),
+  },
+];
+---
+
+<!-- ===== TEPI ATAS FOOTER: BENTUK MORPHING ===== -->
+<div class="tepi" aria-hidden="true">
+  <svg viewBox="0 0 1440 170" preserveAspectRatio="none" class="tsvg">
+    <defs>
+      <linearGradient id="fisi" x1="0" y1="0" x2="0.35" y2="1">
+        <stop offset="0%" stop-color="var(--bg-2)" />
+        <stop offset="100%" stop-color="var(--bg-2)" />
+      </linearGradient>
+      <linearGradient id="ftepi" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="var(--pur-d)" stop-opacity="0" />
+        <stop offset="22%" stop-color="var(--pur)" stop-opacity=".7" />
+        <stop offset="50%" stop-color="var(--pur-l)" stop-opacity="1" />
+        <stop offset="78%" stop-color="var(--pur)" stop-opacity=".7" />
+        <stop offset="100%" stop-color="var(--pur-d)" stop-opacity="0" />
+      </linearGradient>
+      <linearGradient id="fhalo" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="var(--pur)" stop-opacity="0" />
+        <stop offset="50%" stop-color="var(--pur-l)" stop-opacity=".85" />
+        <stop offset="100%" stop-color="var(--pur)" stop-opacity="0" />
+      </linearGradient>
+      <filter id="fkabur" x="-20%" y="-120%" width="140%" height="340%">
+        <feGaussianBlur stdDeviation="11" />
+      </filter>
+    </defs>
+
+    <!-- BADAN FOOTER: bentuk blob yang morphing, inilah tepi kartunya -->
+    <path class="isi" fill="url(#fisi)"
+      d="M0,92 C150,36 330,128 520,84 C700,42 820,116 1000,86 C1160,58 1310,104 1440,70 L1440,170 L0,170 Z">
+      <animate attributeName="d" dur="17s" repeatCount="indefinite" calcMode="spline"
+        keyTimes="0;0.34;0.67;1" keySplines="0.45 0 0.55 1;0.45 0 0.55 1;0.45 0 0.55 1"
+        values="
+          M0,92 C150,36 330,128 520,84 C700,42 820,116 1000,86 C1160,58 1310,104 1440,70 L1440,170 L0,170 Z;
+          M0,74 C170,118 320,40 520,72 C710,102 850,34 1010,74 C1170,112 1300,58 1440,96 L1440,170 L0,170 Z;
+          M0,104 C180,62 340,122 540,96 C720,72 860,130 1020,94 C1180,58 1320,86 1440,62 L1440,170 L0,170 Z;
+          M0,92 C150,36 330,128 520,84 C700,42 820,116 1000,86 C1160,58 1310,104 1440,70 L1440,170 L0,170 Z" />
+    </path>
+
+    <!-- halo kabur tepat di bibir bentuk -->
+    <path class="halo" fill="none" stroke="url(#fhalo)" stroke-width="5" filter="url(#fkabur)"
+      d="M0,92 C150,36 330,128 520,84 C700,42 820,116 1000,86 C1160,58 1310,104 1440,70">
+      <animate attributeName="d" dur="17s" repeatCount="indefinite" calcMode="spline"
+        keyTimes="0;0.34;0.67;1" keySplines="0.45 0 0.55 1;0.45 0 0.55 1;0.45 0 0.55 1"
+        values="
+          M0,92 C150,36 330,128 520,84 C700,42 820,116 1000,86 C1160,58 1310,104 1440,70;
+          M0,74 C170,118 320,40 520,72 C710,102 850,34 1010,74 C1170,112 1300,58 1440,96;
+          M0,104 C180,62 340,122 540,96 C720,72 860,130 1020,94 C1180,58 1320,86 1440,62;
+          M0,92 C150,36 330,128 520,84 C700,42 820,116 1000,86 C1160,58 1310,104 1440,70" />
+    </path>
+
+    <!-- garis tipis mengikuti persis tepi bentuk -->
+    <path class="bibir" fill="none" stroke="url(#ftepi)" stroke-width="1.7" stroke-linecap="round"
+      d="M0,92 C150,36 330,128 520,84 C700,42 820,116 1000,86 C1160,58 1310,104 1440,70">
+      <animate attributeName="d" dur="17s" repeatCount="indefinite" calcMode="spline"
+        keyTimes="0;0.34;0.67;1" keySplines="0.45 0 0.55 1;0.45 0 0.55 1;0.45 0 0.55 1"
+        values="
+          M0,92 C150,36 330,128 520,84 C700,42 820,116 1000,86 C1160,58 1310,104 1440,70;
+          M0,74 C170,118 320,40 520,72 C710,102 850,34 1010,74 C1170,112 1300,58 1440,96;
+          M0,104 C180,62 340,122 540,96 C720,72 860,130 1020,94 C1180,58 1320,86 1440,62;
+          M0,92 C150,36 330,128 520,84 C700,42 820,116 1000,86 C1160,58 1310,104 1440,70" />
+    </path>
+
+    <!-- gema tipis di atas bentuk, memberi kesan berlapis -->
+    <path class="gema" fill="none" stroke="url(#fhalo)" stroke-width=".9" opacity=".45"
+      d="M0,66 C190,112 340,32 540,68 C740,104 870,30 1040,70 C1200,108 1330,54 1440,88">
+      <animate attributeName="d" dur="23s" repeatCount="indefinite" calcMode="spline"
+        keyTimes="0;0.5;1" keySplines="0.45 0 0.55 1;0.45 0 0.55 1"
+        values="
+          M0,66 C190,112 340,32 540,68 C740,104 870,30 1040,70 C1200,108 1330,54 1440,88;
+          M0,88 C190,42 340,110 540,74 C740,38 870,112 1040,72 C1200,34 1330,92 1440,58;
+          M0,66 C190,112 340,32 540,68 C740,104 870,30 1040,70 C1200,108 1330,54 1440,88" />
+    </path>
+
+    <!-- simpul cahaya menyusuri bibir bentuk -->
+    <circle class="simpul" r="3.2" fill="var(--pur-l)">
+      <animateMotion dur="17s" repeatCount="indefinite"
+        path="M0,92 C150,36 330,128 520,84 C700,42 820,116 1000,86 C1160,58 1310,104 1440,70" />
+      <animate attributeName="opacity" values="0;1;1;0" dur="17s" repeatCount="indefinite" />
+    </circle>
+  </svg>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="top">
+      <div class="bcol">
+        <a href="/" class="brand">
+          <img src="/brand/mark-flat-purple.webp" alt="" width="38" height="38" />
+          <span class="dsp">XYVERSE</span>
+        </a>
+        <p class="tag">
+          Infrastruktur Cloud PC, produksi aplikasi &amp; software, dan tools digital
+          untuk kreator, studio, dan bisnis di Indonesia.
+        </p>
+
+        <a href={`mailto:${SITE.email}`} class="mail">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg>
+          {SITE.email}
+        </a>
+
+        <address>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span>
+            {SITE.alamat.jalan}<br />
+            {SITE.alamat.kota}, {SITE.alamat.provinsi} {SITE.alamat.pos}<br />
+            {SITE.alamat.negara}
+          </span>
+        </address>
+
+        <div class="sos">
+          {SOSMED.map((s) => (
+            <a href={s.url} target="_blank" rel="noopener noreferrer me" aria-label={s.nama} title={s.nama}>
+              <SosmedIkon nama={s.ikon} />
+            </a>
+          ))}
+        </div>
+      </div>
+
+      {kolom.map((c) => (
+        <nav class="col" aria-label={c.h}>
+          <h4>{c.h}</h4>
+          {c.l.map(([t, h]) => <a href={h}>{t}</a>)}
+        </nav>
+      ))}
+    </div>
+
+    <div class="bot">
+      <span>© {year} {SITE.nama}. Semua hak dilindungi.</span>
+      <div class="botlinks">
+        <a href="/legal">Pusat Legal</a>
+        <a href="/legal/kebijakan-privasi">Privasi</a>
+        <a href="/legal/syarat-layanan">Syarat</a>
+        <a href="/sitemap-index.xml">Sitemap</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+/* ===== TEPI ATAS FOOTER ===== */
+.tepi{
+  position:relative;height:170px;margin-bottom:-2px;pointer-events:none;
+  overflow:hidden;line-height:0;
+}
+.tsvg{width:100%;height:170px;display:block}
+@media(max-width:760px){
+  .tepi,.tsvg{height:110px}
+}
+.gema{display:none}
+@media(min-width:900px){.gema{display:block}}
+@media(prefers-reduced-motion:reduce){
+  .tepi animate,.tepi animateMotion{display:none}
+  .simpul{display:none}
+}
+
+/* ===== FOOTER ===== */
+footer{
+  border-top:0;background:var(--bg-2);padding:26px 0 30px;position:relative;margin-top:0;
+}
+footer::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 52% 62% at 50% 0%,var(--glow),transparent 62%);
+  opacity:.5;
+}
+footer > .wrap{position:relative;z-index:2}
+
+.top{display:grid;grid-template-columns:1.9fr 1fr 1fr 1fr 1fr;gap:38px}
+@media(max-width:1040px){.top{grid-template-columns:1fr 1fr 1fr;gap:34px}}
+@media(max-width:700px){.top{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.top{grid-template-columns:1fr}}
+
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.16em;margin-bottom:16px;font-size:15px}
+.brand img{transition:transform .3s var(--ease)}
+.brand:hover img{transform:rotate(-8deg) scale(1.07)}
+.tag{color:var(--txt-2);font-size:14.5px;max-width:36ch;margin-bottom:18px}
+
+.mail{display:inline-flex;align-items:center;gap:9px;font-size:14.5px;font-weight:600;color:var(--brand);transition:.2s}
+.mail:hover{opacity:.75}
+.mail svg{width:17px;height:17px}
+
+address{display:flex;gap:9px;margin-top:14px;font-style:normal;font-size:13.5px;color:var(--txt-2);line-height:1.6;max-width:34ch}
+address svg{width:16px;height:16px;flex:none;margin-top:3px;color:var(--brand)}
+
+.sos{display:flex;gap:8px;flex-wrap:wrap;margin-top:22px}
+.sos a{
+  width:36px;height:36px;border-radius:10px;display:grid;place-items:center;
+  border:1px solid var(--line);background:var(--card);color:var(--txt-2);
+  transition:.22s var(--ease);
+}
+.sos a:hover{color:#fff;background:var(--pur);border-color:var(--pur);transform:translateY(-3px)}
+.sos :global(svg){width:16px;height:16px}
+
+.col h4{font-size:12.5px;letter-spacing:.13em;text-transform:uppercase;margin-bottom:15px;color:var(--txt);font-weight:600}
+.col a{display:block;color:var(--txt-2);font-size:14.5px;padding:5px 0;transition:.2s;width:fit-content}
+.col a:hover{color:var(--brand);transform:translateX(2px)}
+
+.bot{
+  display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;align-items:center;
+  margin-top:52px;padding-top:24px;border-top:1px solid var(--line);
+  color:var(--txt-2);font-size:13px;
+}
+.botlinks{display:flex;gap:18px;flex-wrap:wrap}
+.botlinks a:hover{color:var(--brand)}
+</style>

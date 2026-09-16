@@ -1,0 +1,146 @@
+---
+import Base from '../../layouts/Base.astro';
+import Prose from '../../components/Prose.astro';
+import Progres from '../../components/Progres.astro';
+import Bagikan from '../../components/Bagikan.astro';
+import { getCollection, render } from 'astro:content';
+import { SITE } from '../../data/site';
+
+export async function getStaticPaths() {
+  const items = await getCollection('proyek', ({ data }) => !data.draft);
+  return items.map((p) => ({ params: { id: p.id }, props: { p } }));
+}
+
+const { p } = Astro.props;
+const { Content } = await render(p);
+const fmt = (d: Date) => d.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' });
+
+const all = (await getCollection('proyek', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+const lain = all.filter((x) => x.id !== p.id).slice(0, 3);
+const path = `/proyek/${p.id}/`;
+
+const ld = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'CreativeWork',
+      name: p.data.title,
+      description: p.data.desc,
+      datePublished: p.data.date.toISOString(),
+      creator: { '@type': 'Organization', name: SITE.nama, url: SITE.url },
+      about: p.data.layanan,
+      keywords: p.data.stack.join(', '),
+      inLanguage: 'id-ID',
+      url: new URL(path, SITE.url).href,
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Beranda', item: SITE.url },
+        { '@type': 'ListItem', position: 2, name: 'Proyek', item: `${SITE.url}/proyek` },
+        { '@type': 'ListItem', position: 3, name: p.data.title },
+      ],
+    },
+  ],
+};
+---
+
+<Base
+  title={`${p.data.title} — Proyek Xyverse`}
+  desc={p.data.desc}
+  tipe="article"
+  ogTag={p.data.layanan}
+  terbit={p.data.date}
+  jsonld={ld}
+>
+  <Progres />
+
+  <article>
+    <header class="ah">
+      <div class="wrap">
+        <nav class="crumb" aria-label="Remah roti">
+          <a href="/">Beranda</a><span>/</span><a href="/proyek/">Proyek</a><span>/</span><span aria-current="page">{p.data.layanan}</span>
+        </nav>
+        <h1>{p.data.title}</h1>
+        <p class="lead">{p.data.desc}</p>
+      </div>
+    </header>
+
+    <div class="wrap layout">
+      <div class="main">
+        <Prose><Content /></Prose>
+        <div class="fshare"><Bagikan judul={p.data.title} path={path} ringkas={p.data.desc} /></div>
+      </div>
+
+      <aside class="side">
+        <div class="box">
+          <h3>Detail Proyek</h3>
+          <dl>
+            <dt>Klien</dt><dd>{p.data.klien}</dd>
+            <dt>Layanan</dt><dd>{p.data.layanan}</dd>
+            <dt>Status</dt><dd><span class={`st ${p.data.status.toLowerCase()}`}>{p.data.status}</span></dd>
+            <dt>Periode</dt><dd>{fmt(p.data.date)}</dd>
+          </dl>
+          {p.data.stack.length > 0 && (
+            <>
+              <h4>Teknologi</h4>
+              <div class="stack">{p.data.stack.map((s) => <span>{s}</span>)}</div>
+            </>
+          )}
+          <a href="/kontak" class="btn btn-p" style="width:100%;margin-top:22px">Proyek Serupa?</a>
+        </div>
+      </aside>
+    </div>
+
+    {lain.length > 0 && (
+      <section class="sect" style="padding-top:0">
+        <div class="wrap">
+          <h2 class="h2" style="margin-bottom:24px">Proyek lainnya</h2>
+          <div class="grid g3">
+            {lain.map((x) => (
+              <a href={`/proyek/${x.id}/`} class="card next">
+                <span class="st2">{x.data.layanan}</span>
+                <h3>{x.data.title}</h3>
+                <p>{x.data.desc}</p>
+                <small>{x.data.klien} · {fmt(x.data.date)}</small>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+  </article>
+</Base>
+
+<style>
+.crumb{display:flex;gap:9px;flex-wrap:wrap;font-size:13px;color:var(--txt-2);margin-bottom:20px}
+.crumb a:hover{color:var(--brand)}
+.fshare{margin-top:44px;padding-top:18px;border-top:1px solid var(--line)}
+.next h3{font-size:17px;margin:8px 0}
+.next p{color:var(--txt-2);font-size:14.3px}
+.next small{display:block;margin-top:12px;font-size:12.5px;color:var(--txt-2)}
+.st2{font-size:11.5px;font-weight:600;padding:4px 10px;border-radius:6px;background:color-mix(in srgb,var(--pur) 14%,transparent);border:1px solid color-mix(in srgb,var(--pur) 28%,transparent);color:var(--brand)}
+.ah{padding:46px 0 34px;position:relative;overflow:hidden}
+.ah::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 55% 60% at 25% 0%,var(--glow),transparent 70%)}
+.ah .wrap{position:relative;z-index:2}
+.back{display:inline-block;font-size:14px;color:var(--txt-2);margin-bottom:20px;transition:.2s}
+.back:hover{color:var(--brand)}
+h1{font-size:clamp(28px,4.4vw,44px);margin-bottom:16px;max-width:18ch}
+.layout{display:grid;grid-template-columns:1fr 320px;gap:50px;align-items:start;padding-bottom:70px}
+@media(max-width:940px){.layout{grid-template-columns:1fr;gap:34px}}
+.side{position:sticky;top:100px}
+@media(max-width:940px){.side{position:static}}
+.box{border:1px solid var(--line);border-radius:var(--r);background:var(--card);padding:24px}
+.box h3{font-size:16px;margin-bottom:16px}
+.box h4{font-size:12.5px;text-transform:uppercase;letter-spacing:.1em;color:var(--txt-2);margin:20px 0 10px}
+dl{display:grid;grid-template-columns:auto 1fr;gap:11px 16px;font-size:14px}
+dt{color:var(--txt-2)}
+dd{text-align:right;font-weight:600}
+.st{font-size:11.5px;font-weight:600;padding:4px 10px;border-radius:6px;border:1px solid var(--line);color:var(--txt-2)}
+.st.selesai{color:#10b981;border-color:color-mix(in srgb,#10b981 35%,transparent)}
+.st.berjalan{color:#f59e0b;border-color:color-mix(in srgb,#f59e0b 35%,transparent)}
+.stack{display:flex;gap:7px;flex-wrap:wrap}
+.stack span{font-size:11.5px;padding:4px 10px;border-radius:6px;background:var(--surface);border:1px solid var(--line);color:var(--txt-2)}
+</style>

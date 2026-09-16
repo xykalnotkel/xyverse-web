@@ -1,0 +1,102 @@
+---
+import Base from './Base.astro';
+import Prose from '../components/Prose.astro';
+import Bagikan from '../components/Bagikan.astro';
+import { SITE, LEGAL_NAV } from '../data/site';
+
+interface Props { title: string; desc: string; diperbarui: string; ringkas?: string }
+const { title, desc, diperbarui, ringkas } = Astro.props;
+const path = Astro.url.pathname;
+
+const ld = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: title,
+  description: desc,
+  url: new URL(path, SITE.url).href,
+  dateModified: diperbarui,
+  isPartOf: { '@id': `${SITE.url}/#website` },
+  breadcrumb: {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Beranda', item: SITE.url },
+      { '@type': 'ListItem', position: 2, name: 'Legal', item: `${SITE.url}/legal` },
+      { '@type': 'ListItem', position: 3, name: title },
+    ],
+  },
+};
+---
+
+<Base title={`${title} — ${SITE.nama}`} desc={desc} ogTag="Legal" jsonld={ld}>
+  <div class="head">
+    <div class="wrap">
+      <nav class="crumb" aria-label="Remah roti">
+        <a href="/">Beranda</a><span>/</span><a href="/legal">Legal</a><span>/</span><span aria-current="page">{title}</span>
+      </nav>
+      <h1>{title}</h1>
+      <p class="lead">{desc}</p>
+      <p class="upd">Terakhir diperbarui: <strong>{diperbarui}</strong></p>
+    </div>
+  </div>
+
+  <div class="wrap layout">
+    <aside class="side">
+      <div class="sbox">
+        <h2>Dokumen Legal</h2>
+        <nav aria-label="Navigasi dokumen legal">
+          {LEGAL_NAV.map((l) => (
+            <a href={l.href} class={path.startsWith(l.href) ? 'on' : ''}>{l.t}</a>
+          ))}
+        </nav>
+        <div class="shelp">
+          <p>Ada pertanyaan soal dokumen ini?</p>
+          <a href={`mailto:${SITE.emailLegal}`} class="btn btn-g">{SITE.emailLegal}</a>
+        </div>
+      </div>
+    </aside>
+
+    <article class="main">
+      {ringkas && (
+        <div class="tldr">
+          <strong>Ringkasnya</strong>
+          <p>{ringkas}</p>
+        </div>
+      )}
+      <Prose><slot /></Prose>
+      <div class="sharebar"><Bagikan judul={title} path={path} ringkas={desc} /></div>
+    </article>
+  </div>
+</Base>
+
+<style>
+.head{padding:52px 0 30px;position:relative;overflow:hidden;border-bottom:1px solid var(--line)}
+.head::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 52% 60% at 22% 0%,var(--glow),transparent 68%)}
+.head .wrap{position:relative;z-index:2}
+.crumb{display:flex;gap:9px;flex-wrap:wrap;font-size:13px;color:var(--txt-2);margin-bottom:16px}
+.crumb a:hover{color:var(--brand)}
+.crumb span[aria-current]{color:var(--txt)}
+h1{font-size:clamp(27px,4.2vw,41px);margin-bottom:14px}
+.upd{margin-top:14px;font-size:13.5px;color:var(--txt-2)}
+.upd strong{color:var(--txt)}
+
+.layout{display:grid;grid-template-columns:262px 1fr;gap:48px;align-items:start;padding-block:44px 80px}
+@media(max-width:940px){.layout{grid-template-columns:1fr;gap:26px}}
+.side{position:sticky;top:98px}
+@media(max-width:940px){.side{position:static}}
+.sbox{border:1px solid var(--line);border-radius:var(--r);background:var(--card);padding:18px}
+.sbox h2{font-size:12px;letter-spacing:.13em;text-transform:uppercase;color:var(--txt-2);margin-bottom:12px}
+.sbox nav a{display:block;font-size:14px;color:var(--txt-2);padding:8px 11px;border-radius:9px;transition:.18s var(--ease)}
+.sbox nav a:hover{color:var(--txt);background:var(--surface)}
+.sbox nav a.on{color:var(--brand);background:color-mix(in srgb,var(--pur) 12%,transparent);font-weight:600}
+.shelp{margin-top:16px;padding-top:16px;border-top:1px solid var(--line)}
+.shelp p{font-size:13px;color:var(--txt-2);margin-bottom:10px}
+.shelp .btn{width:100%;font-size:13px;padding:9px 12px}
+
+.tldr{
+  border:1px solid var(--line-s);border-radius:var(--r);padding:18px 20px;margin-bottom:30px;
+  background:color-mix(in srgb,var(--pur) 7%,transparent);
+}
+.tldr strong{display:block;font-size:11.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--brand);margin-bottom:7px}
+.tldr p{font-size:15px;color:var(--txt-2);line-height:1.68}
+.sharebar{margin-top:46px;padding-top:22px;border-top:1px solid var(--line)}
+</style>

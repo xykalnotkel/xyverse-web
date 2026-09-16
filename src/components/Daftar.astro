@@ -1,0 +1,72 @@
+---
+interface Props { headings: { depth: number; slug: string; text: string }[] }
+const { headings } = Astro.props;
+const item = headings.filter((h) => h.depth === 2 || h.depth === 3);
+---
+{item.length > 1 && (
+  <nav class="toc" aria-label="Daftar isi">
+    <details open>
+      <summary>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round">
+          <path d="M4 6h16M4 12h11M4 18h7"/>
+        </svg>
+        Daftar isi
+      </summary>
+      <ol>
+        {item.map((h) => (
+          <li class={h.depth === 3 ? 'sub' : ''}>
+            <a href={`#${h.slug}`} data-slug={h.slug}>{h.text}</a>
+          </li>
+        ))}
+      </ol>
+    </details>
+  </nav>
+)}
+
+<style>
+.toc{border:1px solid var(--line);border-radius:16px;background:var(--card);margin:0 0 34px;overflow:hidden}
+summary{
+  display:flex;align-items:center;gap:9px;padding:14px 18px;cursor:pointer;
+  font-size:12px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--txt-2);
+  list-style:none;
+}
+summary::-webkit-details-marker{display:none}
+summary svg{width:15px;height:15px;color:var(--brand)}
+summary::after{content:'−';margin-left:auto;font-size:17px;color:var(--brand)}
+details:not([open]) summary::after{content:'+'}
+ol{list-style:none;padding:0 18px 16px;margin:0;counter-reset:t}
+ol li{counter-increment:t}
+ol li a{
+  display:block;padding:7px 0 7px 26px;font-size:14.2px;color:var(--txt-2);
+  position:relative;line-height:1.5;transition:.18s var(--ease);
+}
+ol li a::before{
+  content:counter(t,decimal-leading-zero);position:absolute;left:0;top:7px;
+  font-size:11px;font-weight:700;color:var(--brand);opacity:.6;
+}
+ol li.sub a{padding-left:44px;font-size:13.6px}
+ol li.sub a::before{left:20px;content:'—';opacity:.4}
+ol li a:hover{color:var(--txt)}
+ol li a.aktif{color:var(--brand);font-weight:600}
+ol li a.aktif::before{opacity:1}
+</style>
+
+<script>
+  const tautan = Array.from(document.querySelectorAll<HTMLAnchorElement>('.toc a[data-slug]'));
+  if (tautan.length) {
+    const judul = tautan
+      .map((a) => document.getElementById(a.dataset.slug || ''))
+      .filter((el): el is HTMLElement => !!el);
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (!e.isIntersecting) continue;
+          tautan.forEach((a) => a.classList.toggle('aktif', a.dataset.slug === e.target.id));
+        }
+      },
+      { rootMargin: '-90px 0px -72% 0px', threshold: 0 }
+    );
+    judul.forEach((h) => io.observe(h));
+  }
+</script>

@@ -1,0 +1,247 @@
+---
+import { SITE, SOSMED } from '../data/site';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title?: string;
+  desc?: string;
+  tipe?: 'website' | 'article';
+  ogImage?: string;
+  ogTitle?: string;
+  ogTag?: string;
+  terbit?: Date;
+  diubah?: Date;
+  penulis?: string;
+  noindex?: boolean;
+  jsonld?: any;
+}
+
+const {
+  title = `${SITE.nama} — ${SITE.tagline}`,
+  desc = SITE.desc,
+  tipe = 'website',
+  ogImage,
+  ogTitle,
+  ogTag,
+  terbit,
+  diubah,
+  penulis,
+  noindex = false,
+  jsonld,
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname.replace(/\/$/, '') || '/', SITE.url).href;
+
+// OG image statis per halaman: /og/<slug>.svg (slug diturunkan dari path)
+const segmen = Astro.url.pathname.replace(/^\/|\/$/g, '').split('/').filter(Boolean);
+const ogSlug = segmen.length === 0 ? 'default' : segmen.join('-');
+const ogUrl = ogImage
+  ? new URL(ogImage, SITE.url).href
+  : new URL(`/og/${ogSlug}.svg`, SITE.url).href;
+
+const orgLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  '@id': `${SITE.url}/#organization`,
+  name: SITE.nama,
+  url: SITE.url,
+  logo: `${SITE.url}/brand/mark-flat-purple.webp`,
+  email: SITE.email,
+  foundingDate: String(SITE.berdiri),
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: SITE.alamat.jalan,
+    addressLocality: SITE.alamat.kota,
+    addressRegion: SITE.alamat.provinsi,
+    postalCode: SITE.alamat.pos,
+    addressCountry: SITE.alamat.negaraKode,
+  },
+  sameAs: SOSMED.map((s) => s.url),
+};
+
+const siteLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': `${SITE.url}/#website`,
+  url: SITE.url,
+  name: SITE.nama,
+  description: SITE.desc,
+  inLanguage: 'id-ID',
+  publisher: { '@id': `${SITE.url}/#organization` },
+};
+---
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>{title}</title>
+<meta name="description" content={desc} />
+<link rel="canonical" href={canonical} />
+{noindex
+  ? <meta name="robots" content="noindex, nofollow" />
+  : <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />}
+
+<meta property="og:type" content={tipe} />
+<meta property="og:site_name" content={SITE.nama} />
+<meta property="og:locale" content="id_ID" />
+<meta property="og:title" content={ogTitle || title} />
+<meta property="og:description" content={desc} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={ogUrl} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content={ogTitle || title} />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={ogTitle || title} />
+<meta name="twitter:description" content={desc} />
+<meta name="twitter:image" content={ogUrl} />
+<meta name="twitter:site" content="@xyverse_id" />
+
+{terbit && <meta property="article:published_time" content={terbit.toISOString()} />}
+{diubah && <meta property="article:modified_time" content={diubah.toISOString()} />}
+{penulis && <meta property="article:author" content={penulis} />}
+
+<meta name="theme-color" content="#0a0812" media="(prefers-color-scheme: dark)" />
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+<meta name="author" content={SITE.nama} />
+<meta name="geo.region" content="ID-NB" />
+<meta name="geo.placename" content={SITE.alamat.kota} />
+
+<link rel="icon" href="/brand/mark-flat-purple.webp" />
+<link rel="apple-touch-icon" href="/brand/mark-flat-purple.webp" />
+<link rel="manifest" href="/manifest.webmanifest" />
+<link rel="sitemap" href="/sitemap-index.xml" />
+<link rel="alternate" type="application/rss+xml" title={`Blog ${SITE.nama}`} href="/rss.xml" />
+<link rel="preload" href="/brand/Sora.ttf" as="font" type="font/ttf" crossorigin />
+
+<script type="application/ld+json" set:html={JSON.stringify(orgLd)} />
+<script type="application/ld+json" set:html={JSON.stringify(siteLd)} />
+{jsonld && <script type="application/ld+json" set:html={JSON.stringify(jsonld)} />}
+
+<script is:inline>
+  (function () {
+    const s = localStorage.getItem('xy-theme');
+    const t = s || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+    document.documentElement.dataset.theme = t;
+  })();
+</script>
+
+<style is:global>
+@font-face{font-family:'Sora';src:url('/brand/Sora.ttf') format('truetype');font-weight:100 800;font-display:swap}
+@font-face{font-family:'InterV';src:url('/brand/Inter.ttf') format('truetype');font-weight:100 900;font-display:swap}
+
+:root{
+  --pur:#8b5cf6; --pur-d:#7c3aed; --pur-l:#a78bfa;
+  --max:1200px; --r:16px;
+  --ease:cubic-bezier(.22,.8,.3,1);
+}
+html[data-theme='dark']{
+  --bg:#0a0812; --bg-2:#100d1c; --surface:#15112310; --card:rgba(255,255,255,.035);
+  --card-h:rgba(255,255,255,.055); --line:rgba(255,255,255,.09); --line-s:rgba(139,92,246,.4);
+  --txt:#f2f0f8; --txt-2:#a29ebb; --brand:#a78bfa;
+  --glow:rgba(139,92,246,.3); --shadow:0 20px 50px -20px rgba(0,0,0,.8);
+}
+html[data-theme='light']{
+  --bg:#ffffff; --bg-2:#faf8ff; --surface:#f7f5fd; --card:#ffffff;
+  --card-h:#ffffff; --line:rgba(17,12,40,.1); --line-s:rgba(124,58,237,.45);
+  --txt:#150f2b; --txt-2:#615a7e; --brand:#7c3aed;
+  --glow:rgba(139,92,246,.22); --shadow:0 18px 40px -18px rgba(76,29,149,.22);
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:84px}
+body{
+  background:var(--bg); color:var(--txt);
+  font-family:'InterV',system-ui,-apple-system,'Segoe UI',sans-serif;
+  font-size:16px; line-height:1.7; letter-spacing:-.011em;
+  -webkit-font-smoothing:antialiased; overflow-x:hidden;
+  transition:background .3s var(--ease), color .3s var(--ease);
+}
+h1,h2,h3,h4,.dsp{font-family:'Sora',system-ui,sans-serif;font-weight:700;line-height:1.14;letter-spacing:-.03em}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+::selection{background:var(--pur);color:#fff}
+:focus-visible{outline:2px solid var(--pur);outline-offset:3px;border-radius:4px}
+
+.wrap{max-width:var(--max);margin:0 auto;padding:0 28px}
+@media(max-width:600px){.wrap{padding:0 20px}}
+.sect{padding:112px 0;position:relative}
+@media(max-width:760px){.sect{padding:76px 0}}
+
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--brand);margin-bottom:16px;
+}
+.eyebrow::before{content:'';width:20px;height:1.5px;background:var(--brand);border-radius:2px}
+.h2{font-size:clamp(27px,3.8vw,42px);margin-bottom:14px;max-width:16ch}
+.lead{color:var(--txt-2);font-size:clamp(15.5px,1.6vw,17.5px);max-width:58ch;line-height:1.72}
+
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:13px 24px;border-radius:12px;font-size:15px;font-weight:600;
+  border:1px solid transparent;cursor:pointer;
+  transition:transform .2s var(--ease),box-shadow .25s var(--ease),background .2s,border-color .2s,color .2s;
+  font-family:inherit;white-space:nowrap;
+}
+.btn:active{transform:translateY(1px) scale(.99)}
+.btn-p{background:var(--pur);color:#fff;box-shadow:0 6px 20px -6px var(--glow)}
+.btn-p:hover{background:var(--pur-d);transform:translateY(-2px);box-shadow:0 12px 28px -8px var(--glow)}
+.btn-g{border-color:var(--line);color:var(--txt);background:var(--card)}
+.btn-g:hover{border-color:var(--line-s);color:var(--brand);transform:translateY(-2px)}
+.btn svg{width:17px;height:17px;transition:transform .25s var(--ease)}
+.btn:hover svg{transform:translateX(3px)}
+
+.card{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+  padding:26px;position:relative;overflow:hidden;
+  transition:border-color .25s var(--ease),transform .25s var(--ease),box-shadow .25s var(--ease),background .25s;
+}
+.card:hover{border-color:var(--line-s);transform:translateY(-3px);box-shadow:var(--shadow);background:var(--card-h)}
+
+.grid{display:grid;gap:20px}
+.g2{grid-template-columns:repeat(2,1fr)}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}
+@media(max-width:940px){.g3,.g4{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:680px){.g2,.g3,.g4{grid-template-columns:1fr}}
+
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .65s var(--ease),transform .65s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){
+  .reveal{opacity:1;transform:none;transition:none}
+  *{animation-duration:.01ms !important;animation-iteration-count:1 !important}
+}
+</style>
+</head>
+<body>
+<a href="#main" class="skip">Lewati ke konten</a>
+<Nav />
+<main id="main"><slot /></main>
+<Footer />
+
+<style>
+.skip{position:absolute;left:-999px;top:10px;z-index:200;background:var(--pur);color:#fff;padding:10px 18px;border-radius:10px}
+.skip:focus{left:20px}
+</style>
+
+<script>
+  const io = new IntersectionObserver(
+    (es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }),
+    { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+  );
+  document.querySelectorAll('.reveal').forEach((el) => {
+    const g = el.closest('.grid');
+    if (g) {
+      const i = [...g.children].indexOf(el);
+      (el as HTMLElement).style.transitionDelay = `${Math.min(i, 5) * 65}ms`;
+    }
+    io.observe(el);
+  });
+</script>
+</body>
+</html>

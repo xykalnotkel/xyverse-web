@@ -1,0 +1,115 @@
+export const SITE = {
+  nama: 'Xyverse',
+  url: 'https://xyverse.my.id',
+  tagline: 'Cloud PC, Apps & Software',
+  desc: 'Xyverse menyewakan Cloud PC berperforma tinggi dan memproduksi aplikasi, software, serta tools digital untuk kreator dan bisnis di Indonesia.',
+  email: 'halo@xyverse.my.id',
+  emailLegal: 'legal@xyverse.my.id',
+  emailPrivasi: 'privasi@xyverse.my.id',
+  emailAbuse: 'abuse@xyverse.my.id',
+  wa: '6281234567890',
+  waTampil: '+62 812-3456-7890',
+  alamat: {
+    jalan: 'Tanak Beaq, Kec. Batukliang Utara',
+    kota: 'Kabupaten Lombok Tengah',
+    provinsi: 'Nusa Tenggara Barat',
+    pos: '83562',
+    negara: 'Indonesia',
+    negaraKode: 'ID',
+  },
+  berdiri: 2024,
+};
+
+export const SOSMED = [
+  { nama: 'Instagram', url: 'https://instagram.com/xyverse.id', handle: '@xyverse.id', ikon: 'instagram' },
+  { nama: 'X', url: 'https://x.com/xyverse_id', handle: '@xyverse_id', ikon: 'x' },
+  { nama: 'GitHub', url: 'https://github.com/xykalnotkel', handle: 'xykalnotkel', ikon: 'github' },
+  { nama: 'YouTube', url: 'https://youtube.com/@xyverse', handle: '@xyverse', ikon: 'youtube' },
+  { nama: 'Discord', url: 'https://discord.gg/xyverse', handle: 'Komunitas Xyverse', ikon: 'discord' },
+  { nama: 'LinkedIn', url: 'https://linkedin.com/company/xyverse', handle: 'Xyverse', ikon: 'linkedin' },
+  { nama: 'TikTok', url: 'https://tiktok.com/@xyverse.id', handle: '@xyverse.id', ikon: 'tiktok' },
+  { nama: 'Telegram', url: 'https://t.me/xyverse', handle: '@xyverse', ikon: 'telegram' },
+];
+
+export const APLIKASI = [
+  {
+    slug: 'xydesk',
+    nama: 'XyDesk',
+    tagline: 'Klien remote desktop resmi Xyverse',
+    desc: 'Aplikasi untuk terhubung ke Cloud PC lu dengan latensi rendah. Dibangun khusus agar streaming terasa seperti memakai komputer di depan mata.',
+    platform: ['Windows', 'macOS', 'Linux', 'Android', 'iOS'],
+    warna: '#8b5cf6',
+    fitur: [
+      { t: 'Koneksi adaptif', d: 'Kualitas streaming menyesuaikan bandwidth secara otomatis tanpa memutus sesi.' },
+      { t: 'Latensi rendah', d: 'Encoding berbasis hardware GPU, rata-rata di bawah 20 ms untuk region terdekat.' },
+      { t: 'Multi-monitor', d: 'Dukungan hingga tiga layar dengan resolusi berbeda secara bersamaan.' },
+      { t: 'Transfer berkas', d: 'Seret dan lepas berkas antara perangkat lokal dan Cloud PC.' },
+      { t: 'Pemetaan periferal', d: 'Gamepad, tablet gambar, dan perangkat USB terbaca langsung di sesi remote.' },
+      { t: 'Kunci sesi', d: 'Autentikasi dua langkah dan penguncian otomatis saat sesi ditinggalkan.' },
+    ],
+    status: 'Tersedia',
+  },
+  {
+    slug: 'xycloudstore',
+    nama: 'XyCloudStore',
+    tagline: 'Pusat aplikasi dan pengelolaan instance',
+    desc: 'Kelola langganan, nyalakan atau matikan mesin, dan pasang perangkat lunak siap pakai ke Cloud PC hanya dengan satu ketukan.',
+    platform: ['Web', 'Android', 'iOS'],
+    warna: '#a78bfa',
+    fitur: [
+      { t: 'Pasang satu ketuk', d: 'Katalog perangkat lunak siap pakai: Blender, DaVinci, VS Code, Docker, dan lainnya.' },
+      { t: 'Kontrol instance', d: 'Nyalakan, matikan, atau jadwalkan mesin langsung dari ponsel.' },
+      { t: 'Pantau penggunaan', d: 'Grafik konsumsi CPU, RAM, GPU, dan biaya berjalan secara real-time.' },
+      { t: 'Kelola snapshot', d: 'Buat dan pulihkan titik simpan mesin kapan saja.' },
+      { t: 'Tagihan transparan', d: 'Rincian biaya per jam pemakaian, tanpa komponen tersembunyi.' },
+      { t: 'Akses tim', d: 'Undang anggota tim dengan peran dan batas akses yang berbeda.' },
+    ],
+    status: 'Tersedia',
+  },
+];
+
+export const TIM = [
+  {
+    nama: 'Kal',
+    peran: 'Founder & CEO',
+    inisial: 'K',
+    bio: 'Memimpin arah produk dan infrastruktur Xyverse. Memulai Xyverse dari keresahan bahwa perangkat keras mahal tidak seharusnya jadi penghalang berkarya.',
+    fokus: ['Strategi Produk', 'Infrastruktur', 'Kemitraan'],
+    sosmed: { github: 'https://github.com/xykalnotkel', x: 'https://x.com/xyverse_id' },
+  },
+  {
+    nama: 'Tim Infrastruktur',
+    peran: 'Cloud & Operations',
+    inisial: 'IN',
+    bio: 'Menjaga mesin tetap menyala, cepat, dan aman. Mengelola region, jaringan, serta pemantauan 24 jam.',
+    fokus: ['Orkestrasi GPU', 'Jaringan', 'Keamanan'],
+    sosmed: {},
+  },
+  {
+    nama: 'Tim Produk',
+    peran: 'Engineering & Design',
+    inisial: 'PR',
+    bio: 'Membangun XyDesk, XyCloudStore, dan proyek klien. Dari riset pengguna sampai rilis ke toko aplikasi.',
+    fokus: ['Aplikasi', 'Antarmuka', 'Integrasi'],
+    sosmed: {},
+  },
+];
+
+export const NILAI = [
+  { t: 'Transparan', d: 'Harga, spesifikasi, dan batasan dijelaskan apa adanya sejak awal. Tidak ada biaya kejutan di tagihan.' },
+  { t: 'Cepat', d: 'Mesin aktif dalam hitungan menit, balasan dukungan di hari kerja yang sama.' },
+  { t: 'Bisa diandalkan', d: 'Infrastruktur dipantau sepanjang waktu, dengan jalur eskalasi yang jelas saat terjadi gangguan.' },
+  { t: 'Berpihak pengguna', d: 'Data lu milik lu. Kami tidak menjual atau membagikannya untuk tujuan pemasaran.' },
+];
+
+export const LEGAL_NAV = [
+  { href: '/legal/syarat-layanan', t: 'Syarat Layanan' },
+  { href: '/legal/kebijakan-privasi', t: 'Kebijakan Privasi' },
+  { href: '/legal/kebijakan-cookie', t: 'Kebijakan Cookie' },
+  { href: '/legal/kebijakan-penggunaan', t: 'Kebijakan Penggunaan' },
+  { href: '/legal/kebijakan-pengembalian', t: 'Pengembalian Dana' },
+  { href: '/legal/sla', t: 'Jaminan Layanan (SLA)' },
+  { href: '/legal/lisensi', t: 'Lisensi' },
+  { href: '/legal/dmca', t: 'DMCA' },
+  { href: '/legal/keamanan', t: 'Keamanan' },
+];

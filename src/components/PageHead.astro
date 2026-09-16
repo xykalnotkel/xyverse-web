@@ -1,0 +1,24 @@
+---
+interface Props { eyebrow: string; title: string; lead?: string; center?: boolean }
+const { eyebrow, title, lead, center = false } = Astro.props;
+---
+<section class={`ph ${center ? 'c' : ''}`}>
+  <div class="wrap">
+    <span class="eyebrow">{eyebrow}</span>
+    <h1>{title}</h1>
+    {lead && <p class="lead">{lead}</p>}
+    <slot />
+  </div>
+</section>
+
+<style>
+.ph{padding:74px 0 8px;position:relative;overflow:hidden}
+.ph::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 52% 56% at 20% 0%,var(--glow),transparent 70%)}
+.ph .wrap{position:relative;z-index:2}
+h1{font-size:clamp(30px,4.8vw,48px);margin-bottom:16px;max-width:17ch}
+.ph.c{text-align:center}
+.ph.c::before{background:radial-gradient(ellipse 50% 60% at 50% 0%,var(--glow),transparent 70%)}
+.ph.c .eyebrow{justify-content:center}
+.ph.c h1{max-width:20ch;margin-inline:auto}
+.ph.c .lead{margin-inline:auto}
+</style>

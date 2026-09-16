@@ -1,0 +1,22 @@
+{
+  "name": "Xyverse — Cloud PC, Apps & Software",
+  "short_name": "Xyverse",
+  "description": "Sewa Cloud PC berperforma tinggi dan produksi aplikasi, software, serta tools digital.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0a0812",
+  "theme_color": "#8b5cf6",
+  "lang": "id-ID",
+  "dir": "ltr",
+  "categories": ["business", "productivity", "developer"],
+  "icons": [
+    { "src": "/brand/mark-flat-purple.webp", "sizes": "256x256", "type": "image/webp", "purpose": "any" },
+    { "src": "/brand/mark-flat-purple.webp", "sizes": "256x256", "type": "image/webp", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Sewa Cloud PC", "url": "/cloud-pc" },
+    { "name": "Harga", "url": "/harga" },
+    { "name": "Blog", "url": "/blog" }
+  ]
+}
