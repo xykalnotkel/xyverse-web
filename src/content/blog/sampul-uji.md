@@ -8,7 +8,7 @@ baca: 3
 unggulan: false
 draft: false
 lang: id
-gambar: /media/undefined
+gambar: /media/20260917-1434-sampul-uji.png
 diperbarui: '2026-09-18'
 tags:
   - uji
@@ -17,4 +17,4 @@ tags:
 
 Isi artikel uji.
 
-![Gambar di dalam isi](/media/undefined)
+![Gambar di dalam isi](/media/20260917-1434-sampul-uji.png)
