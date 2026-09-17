@@ -8,6 +8,8 @@ npm install
 npm run dev      # http://localhost:4321
 npm run build    # hasil ke dist/
 npm run preview
+npm test         # periksa hasil build (butuh dist/, jadi build dulu)
+npm run check    # build + test sekaligus
 ```
 
 ---
@@ -70,8 +72,32 @@ Dibuat dari SVG murni di `src/lib/og.ts` — tanpa Satori, Resvg, atau font bina
 Setiap halaman memperoleh berkas sendiri di `/og/<slug>.svg`, dengan slug diturunkan
 otomatis dari path oleh `Base.astro` (mis. `/blog/parsec-vs-rdp/` → `/og/blog-parsec-vs-rdp.svg`).
 
+Nama berkasnya dibangun oleh **satu** fungsi, `jalurOG()` di `src/lib/og.ts`.
+`Base.astro` (og:image / twitter:image), halaman artikel (JSON-LD `image`), dan
+`og/[...slug].svg.ts` semuanya memanggilnya — supaya tidak ada lagi meta yang
+menunjuk berkas OG yang tidak ikut ter-build.
+
 Menambah halaman baru? Daftarkan slug-nya di `getStaticPaths()` pada
 `src/pages/og/[...slug].svg.ts`. Konten koleksi terdaftar otomatis.
+
+### Uji hasil build
+
+```bash
+npm run check
+```
+
+`scripts/uji-build.mjs` memindai `dist/` dan menuntut lima hal:
+
+| # | Yang dituntut |
+|---|---|
+| 1 | Tidak ada string UI Indonesia di halaman `/en/` |
+| 2 | `inLanguage` JSON-LD cocok dengan bahasa halaman |
+| 3 | Setiap `og:image` / `twitter:image` menunjuk berkas yang benar-benar ada |
+| 4 | Tidak ada tautan berprefiks bahasa ganda (`/en/blog/en/…`) |
+| 5 | Setiap artikel punya gambar OG di kedua bahasa |
+
+Terhadap kode sebelum perbaikan i18n, pemeriksaan 1–4 gagal. Jadi pengujian ini
+memang menangkap regresi tersebut, bukan sekadar lulus karena kebetulan.
 
 ---
 
