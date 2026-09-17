@@ -1,0 +1,97 @@
+---
+/**
+ * Isi halaman "tidak ditemukan" — dipakai oleh 404 akar, 404 per bahasa,
+ * dan 404 per bagian.
+ *
+ * Dibuat satu komponen supaya ketiganya tidak mungkin berbeda tampilan;
+ * yang membedakan hanya teks dan daftar tujuannya.
+ */
+import { rute } from '../i18n/config';
+import { GALAT, type Tujuan } from '../i18n/halaman/galat';
+import type { Lang } from '../i18n/config';
+
+interface Props {
+  lang: Lang;
+  h1: string;
+  lead: string;
+  labelCari: string;
+  tautan: Tujuan[];
+  /** Slug bagian, dipakai sebagai penanda untuk pengujian. */
+  bagian?: string;
+}
+const { lang, h1, lead, labelCari, tautan, bagian = '' } = Astro.props;
+const G = GALAT[lang];
+const r = (p = '') => rute(lang, p);
+---
+
+<section class="e" data-bagian={bagian}>
+  <div class="wrap">
+    <div class="code" aria-hidden="true">
+      <svg viewBox="0 0 320 120" fill="none">
+        <defs>
+          <linearGradient id="g4" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#8b5cf6" /><stop offset="100%" stop-color="#a78bfa" />
+          </linearGradient>
+        </defs>
+        <text x="160" y="92" text-anchor="middle" font-size="104" font-weight="800" fill="url(#g4)" letter-spacing="-6">404</text>
+        <path d="M20,104 C70,84 110,124 160,104 C210,84 250,124 300,104" stroke="url(#g4)" stroke-width="2" fill="none" opacity=".6">
+          <animate attributeName="d" dur="7s" repeatCount="indefinite"
+            values="M20,104 C70,84 110,124 160,104 C210,84 250,124 300,104;
+                    M20,104 C70,124 110,84 160,104 C210,124 250,84 300,104;
+                    M20,104 C70,84 110,124 160,104 C210,84 250,124 300,104" />
+        </path>
+      </svg>
+    </div>
+
+    <h1>{h1}</h1>
+    <p class="lead">{lead}</p>
+
+    <a class="btn btn-p cari" href={r('cari')}>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+        <circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" />
+      </svg>
+      {labelCari}
+    </a>
+
+    <div class="grid g3">
+      {tautan.map((t) => (
+        <a href={r(t.slug)} class="card">
+          <strong>{t.t}</strong>
+          <small>{t.d}</small>
+          <span class="go" aria-hidden="true">→</span>
+        </a>
+      ))}
+    </div>
+
+    <p class="foot">
+      {G.foot1}<a href={r('kontak')}>{G.footA}</a>{G.foot2}
+    </p>
+  </div>
+</section>
+
+<style>
+.e{padding:76px 0 96px;text-align:center}
+.code{margin:0 auto 6px;width:min(320px,80vw)}
+.code svg{width:100%;height:auto;display:block}
+h1{font-size:clamp(24px,3.4vw,36px);margin-bottom:12px;max-width:20ch;margin-inline:auto}
+.lead{color:var(--txt-2);font-size:clamp(15px,1.6vw,17px);max-width:52ch;margin:0 auto 26px;line-height:1.7}
+.cari{margin-bottom:38px}
+.cari svg{width:16px;height:16px}
+.grid{margin-bottom:30px;text-align:left}
+.card{
+  display:grid;gap:5px;padding:19px 20px;background:var(--card);
+  border:1px solid var(--line);border-radius:var(--r);position:relative;
+  transition:.22s var(--ease);
+}
+.card:hover{border-color:color-mix(in srgb,var(--pur) 45%,transparent);transform:translateY(-2px)}
+.card strong{font-size:15.5px;color:var(--txt)}
+.card small{font-size:13.5px;color:var(--txt-2);line-height:1.5}
+.go{position:absolute;top:17px;right:17px;color:var(--brand);opacity:.55;transition:.22s var(--ease)}
+.card:hover .go{opacity:1;transform:translateX(3px)}
+.foot{color:var(--txt-2);font-size:14.2px}
+.foot a{color:var(--brand);border-bottom:1px solid color-mix(in srgb,var(--pur) 40%,transparent)}
+@media(max-width:700px){
+  .e{padding:52px 0 70px}
+  .grid{gap:12px}
+}
+</style>

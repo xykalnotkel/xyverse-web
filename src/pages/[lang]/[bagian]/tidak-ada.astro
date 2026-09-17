@@ -1,0 +1,42 @@
+---
+/**
+ * 404 per bagian: /id/blog/tidak-ada/, /en/legal/tidak-ada/, dst.
+ *
+ * vercel.json memetakan setiap URL yang tidak cocok di bawah sebuah bagian
+ * ke halaman ini dengan status 404, jadi pengguna yang salah mengetik alamat
+ * artikel ditawari tujuan yang relevan untuk bagian itu — bukan tautan ke
+ * harga dan karier.
+ */
+import { SEMUA_LANG, type Lang } from '../../../i18n/config';
+import Base from '../../../layouts/Base.astro';
+import TidakAda from '../../../components/TidakAda.astro';
+import { GALAT, BAGIAN_404 } from '../../../i18n/halaman/galat';
+import { SITE } from '../../../data/site';
+
+export function getStaticPaths() {
+  return SEMUA_LANG.flatMap((lang) =>
+    BAGIAN_404.map((bagian) => ({ params: { lang, bagian }, props: { lang, bagian } })),
+  );
+}
+
+const { lang, bagian } = Astro.props as { lang: Lang; bagian: string };
+const G = GALAT[lang];
+const teks = G.bagi[bagian] ?? G.bagi.blog;
+---
+
+<Base
+  lang={lang}
+  title={`${teks.judul} — ${SITE.nama}`}
+  desc={teks.lead}
+  noindex
+  ogImage={`/og/${lang}-default.svg`}
+>
+  <TidakAda
+    lang={lang}
+    h1={teks.h1}
+    lead={teks.lead}
+    labelCari={teks.cari}
+    bagian={bagian}
+    tautan={teks.tautan}
+  />
+</Base>

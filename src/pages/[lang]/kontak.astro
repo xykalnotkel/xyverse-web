@@ -13,6 +13,7 @@ import PageHead from '../../components/PageHead.astro';
 import Pilih from '../../components/Pilih.astro';
 import Pesan from '../../components/Pesan.astro';
 import Ilustrasi from '../../components/Ilustrasi.astro';
+import { kirimPesan, isiForm, HONEYPOT } from '../../lib/pesan';
 import Ikon from '../../components/Ikon.astro';
 
 const alamat = {
@@ -127,7 +128,20 @@ const mapsQ = encodeURIComponent('Tanak Beaq, Batukliang Utara, Lombok Tengah, N
           <span class="f-msg" data-msg hidden><Ikon n="bahaya" />{c.errPesan}</span>
         </div>
 
+        {/*
+          Honeypot. Manusia tidak pernah melihatnya (`.hp` disembunyikan lewat
+          CSS, bukan type="hidden"), tapi bot yang mengisi semua input akan
+          mengisinya — dan server membuang pesan itu tanpa suara.
+        */}
+        <div class="hp" aria-hidden="true">
+          <label for="cf-situs">{c.fSitus}</label>
+          <input id="cf-situs" type="text" name={HONEYPOT} tabindex="-1" autocomplete="off" />
+        </div>
+
         <button type="submit" class="btn btn-p" id="cf-kirim" data-teks={c.fKirim}>{c.fKirim}</button>
+        <script type="application/json" id="cf-teks" set:html={JSON.stringify({
+          jaringan: c.errJaringan, terlaluSering: c.errTerlaluSering, gagal: c.errKirim,
+        })} />
         <p class="note">{c.fNote}</p>
       </form>
     </div>
@@ -137,6 +151,8 @@ const mapsQ = encodeURIComponent('Tanak Beaq, Batukliang Utara, Lombok Tengah, N
 <style>
 .layout{display:grid;grid-template-columns:1fr 1.15fr;gap:48px;align-items:start}
 @media(max-width:940px){.layout{grid-template-columns:1fr;gap:36px}}
+/* Disembunyikan dari manusia, tetap ada di DOM untuk bot. */
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 .info{display:grid;gap:14px}
 .ibox{display:flex;gap:16px;padding:22px;border:1px solid var(--line);border-radius:var(--r);background:var(--card);transition:.25s var(--ease)}
 .ibox:hover{border-color:var(--line-s)}
@@ -201,7 +217,8 @@ address{font-style:normal;font-size:14.5px;color:var(--txt-2);line-height:1.65}
       el?.addEventListener('input', () => { if (w!.classList.contains('is-err')) nilai(n); });
     });
 
-    f.addEventListener('submit', (e) => {
+    const TEKS = JSON.parse(document.getElementById('cf-teks')?.textContent || '{}');
+    f.addEventListener('submit', async (e) => {
       e.preventDefault();
       boxOk.hidden = true;
       const hasil = Object.keys(aturan).map(nilai);
@@ -215,27 +232,32 @@ address{font-style:normal;font-size:14.5px;color:var(--txt-2);line-height:1.65}
       btn.classList.add('is-load');
       btn.disabled = true;
 
-      const d = new FormData(f);
-      const body = [
-        `Nama: ${d.get('nama')}`,
-        `Email: ${d.get('email')}`,
-        `Perusahaan: ${d.get('perusahaan') || '-'}`,
-        `Kebutuhan: ${d.get('topik')}`,
-        `Anggaran: ${d.get('budget')}`,
-        '',
-        String(d.get('pesan')),
-      ].join('\n');
+      /*
+       * Dulu di sini ada jeda 420 ms lalu `location.href = mailto:...` dan
+       * kotak sukses ditampilkan. Itu melaporkan keberhasilan yang tidak
+       * pernah terjadi: kalau tidak ada aplikasi email terdaftar, tidak ada
+       * apa pun yang terkirim.
+       */
+      const balasan = await kirimPesan(isiForm(f));
+      btn.classList.remove('is-load');
+      btn.disabled = false;
+      btn.textContent = btn.dataset.teks || '';
 
-      // jeda pendek agar keadaan memuat terlihat sebelum aplikasi email terbuka
-      window.setTimeout(() => {
-        window.location.href =
-          `mailto:halo@xyverse.my.id?subject=${encodeURIComponent('Permintaan: ' + d.get('topik'))}` +
-          `&body=${encodeURIComponent(body)}`;
-        btn.classList.remove('is-load');
-        btn.disabled = false;
-        boxOk.hidden = false;
-        boxOk.scrollIntoView({ block: 'nearest' });
-      }, 420);
+      if (!balasan.ok) {
+        boxErr.textContent =
+          balasan.galat === 'jaringan' ? TEKS.jaringan
+          : balasan.galat === 'terlaluSering' ? TEKS.terlaluSering
+          : balasan.galat === 'gagal' ? TEKS.gagal
+          : balasan.galat;
+        boxErr.hidden = false;
+        boxErr.scrollIntoView({ block: 'nearest' });
+        return;
+      }
+
+      boxErr.hidden = true;
+      boxOk.hidden = false;
+      boxOk.scrollIntoView({ block: 'nearest' });
+      f.reset();
     });
   }
 </script>

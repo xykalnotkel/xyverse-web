@@ -20,7 +20,8 @@ export default defineConfig({
     sitemap({
       filter: (page) =>
         !page.includes('/404') && !page.includes('/og/') && !page.includes('/rss.xml')
-        && !page.includes('/cari') // hasil pencarian per kueri tidak untuk diindeks
+        && !page.includes('/cari')       // hasil pencarian per kueri tidak untuk diindeks
+        && !page.includes('/tidak-ada')  // halaman 404, sudah noindex
         && page !== 'https://xyverse.my.id/',
       i18n: {
         defaultLocale: 'id',

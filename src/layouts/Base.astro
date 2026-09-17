@@ -158,8 +158,23 @@ const siteLd = {
 :root{
   --pur:#7c3aed; --pur-d:#6d28d9; --pur-l:#9f7aea;
   --max:1200px; --r:10px;
-  --rb:6px;                       /* radius tombol, gaya Cloudflare */
+  /*
+   * Radius tombol. 8 px, bukan 6 — sedikit lebih bulat, masih tegas.
+   * Semua tombol, chip, dan kolom masukan memakai token ini, jadi mengubah
+   * satu angka di sini mengubah seluruh situs secara konsisten.
+   */
+  --rb:8px;
   --ease:cubic-bezier(.22,.8,.3,1);
+  /*
+   * Lantai tinggi untuk kontrol interaktif. Nol di desktop; 44 px di layar
+   * sentuh (WCAG 2.5.8). Lewat variabel, bukan media query per komponen,
+   * karena <style> Astro di-scope ke komponen dan tidak bisa ditimpa dari
+   * CSS global tanpa spesifikasi lebih tinggi.
+   */
+  --sentuh:0px;
+}
+@media (pointer:coarse){
+  :root{--sentuh:44px}
 }
 html[data-theme='dark']{
   --bg:#0d0b14; --bg-2:#14111d; --surface:#1a1626; --card:#16131f;
@@ -241,8 +256,7 @@ img{max-width:100%;display:block}
   border:1px solid transparent;cursor:pointer;
   font-family:inherit;white-space:nowrap;text-align:center;
   transition:background .13s ease,border-color .13s ease,box-shadow .13s ease,
-             color .13s ease,transform .06s ease;
-}
+             color .13s ease,transform .06s ease;min-height:var(--sentuh);}
 /* kilau gloss di separuh atas */
 .btn::before{
   content:'';position:absolute;inset:1px 1px auto 1px;height:46%;
@@ -307,7 +321,7 @@ img{max-width:100%;display:block}
 
 /* ---- ukuran ---- */
 .btn-lg{padding:12px 23px;font-size:15px}
-.btn-sm{padding:6px 13px;font-size:13px}
+.btn-sm{padding:6px 13px;font-size:13px;min-height:var(--sentuh)}
 
 .btn svg{width:16px;height:16px;flex:none;position:relative;z-index:1}
 

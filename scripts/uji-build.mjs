@@ -237,6 +237,9 @@ for (const col of ['blog', 'berita', 'proyek']) {
     if (!existsSync(dir)) continue;
     for (const slug of readdirSync(dir)) {
       if (!statSync(path.join(dir, slug)).isDirectory()) continue;
+      // `tidak-ada` adalah halaman 404 bagian itu, bukan artikel — ia tidak
+      // punya gambar OG sendiri dan memang menunjuk /og/<lang>-default.svg.
+      if (slug === 'tidak-ada') continue;
       const nama = `${lang}-${col}-${slug}.svg`;
       if (!ogAda.has(nama)) ogKurang.push(nama);
     }

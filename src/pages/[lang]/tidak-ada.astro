@@ -1,0 +1,45 @@
+---
+/**
+ * 404 per bahasa. Dipetakan ke URL yang tidak cocok di bawah /id/ dan /en/
+ * lewat `rewrites` di vercel.json — bukan lewat nama berkas `404.astro`,
+ * karena Astro hanya merender SATU halaman 404 (di akar) dan mengabaikan
+ * 404.astro di folder lain.
+ */
+import { SEMUA_LANG, type Lang } from '../../i18n/config';
+import Base from '../../layouts/Base.astro';
+import TidakAda from '../../components/TidakAda.astro';
+import { GALAT } from '../../i18n/halaman/galat';
+import { SITE } from '../../data/site';
+
+export function getStaticPaths() {
+  return SEMUA_LANG.map((lang) => ({ params: { lang }, props: { lang } }));
+}
+
+const { lang } = Astro.props as { lang: Lang };
+const G = GALAT[lang];
+const umum = {
+  id: { h1: 'Halaman ini hilang di suatu tempat.', lead: 'Tautannya mungkin salah ketik, atau halamannya sudah kami pindahkan.' },
+  en: { h1: 'This page went missing somewhere.', lead: 'The link may have a typo, or we may have moved the page.' },
+}[lang];
+---
+
+<Base
+  lang={lang}
+  title={`${G.meta} — ${SITE.nama}`}
+  desc={umum.lead}
+  noindex
+  ogImage={`/og/${lang}-default.svg`}
+>
+  <TidakAda
+    lang={lang}
+    h1={umum.h1}
+    lead={umum.lead}
+    labelCari={G.bagi.blog.cari}
+    bagian="umum"
+    tautan={[
+      { slug: 'cloud-pc', t: lang === 'en' ? 'Cloud PC rental' : 'Sewa Cloud PC', d: lang === 'en' ? 'Specs, regions, and how it works' : 'Spesifikasi, region, dan cara kerjanya' },
+      { slug: 'aplikasi', t: lang === 'en' ? 'Apps' : 'Aplikasi', d: 'XyDesk & XyCloudStore' },
+      { slug: 'blog', t: lang === 'en' ? 'Blog' : 'Blog', d: lang === 'en' ? 'Guides and technical notes' : 'Panduan dan catatan teknis' },
+    ]}
+  />
+</Base>

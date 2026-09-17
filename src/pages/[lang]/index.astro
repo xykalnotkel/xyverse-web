@@ -1,5 +1,9 @@
 ---
 import { jalurBahasa, rute } from '../../i18n/config';
+import Pilih from '../../components/Pilih.astro';
+import Pesan from '../../components/Pesan.astro';
+import Ikon from '../../components/Ikon.astro';
+import { URL_PESAN, HONEYPOT } from '../../lib/pesan';
 import { pakaiT } from '../../i18n/ui';
 import { BERANDA } from '../../i18n/halaman/beranda';
 
@@ -256,19 +260,49 @@ const arrow = '<path d="M5 12h14M13 6l6 6-6 6"/>';
           </a>
         </div>
 
-        <form class="cf" id="cf" action="mailto:halo@xyverse.my.id" method="post" enctype="text/plain">
+        {/*
+          Dulu: action="mailto:" + <select> native. Mailto membuka aplikasi
+          email pengguna dan sering gagal tanpa pesan; select native tampil
+          beda di tiap OS dan tidak bisa diberi gaya.
+        */}
+        <form class="cf" id="cf" novalidate data-api={URL_PESAN} data-err-umum={c.errUmum}>
+          <Pesan tipe="err" id="cf-err" sembunyi>{c.errUmum}</Pesan>
+          <Pesan tipe="ok" id="cf-ok" sembunyi>{c.fOk}</Pesan>
+
           <div class="frow">
-            <label>{c.fNama}<input type="text" name="nama" placeholder={c.fNamaPh} required /></label>
-            <label>{c.fEmail}<input type="email" name="email" placeholder="nama@email.com" required /></label>
+            <div class="f" data-f="nama">
+              <label class="f-lb" for="b-nama">{c.fNama}</label>
+              <input class="inp" id="b-nama" type="text" name="nama" placeholder={c.fNamaPh} required autocomplete="name" />
+              <span class="f-msg" data-msg hidden><Ikon n="bahaya" />{c.errNama}</span>
+            </div>
+            <div class="f" data-f="email">
+              <label class="f-lb" for="b-email">{c.fEmail}</label>
+              <input class="inp" id="b-email" type="email" name="email" placeholder="nama@email.com" required autocomplete="email" />
+              <span class="f-msg" data-msg hidden><Ikon n="bahaya" />{c.errEmail}</span>
+            </div>
           </div>
-          <label>{c.fKebutuhan}
-            <select name="topik">
-              {c.fOpsi.map((o: string) => <option>{o}</option>)}
-            </select>
-          </label>
-          <label>{c.fPesan}<textarea name="pesan" rows="4" placeholder={c.fPesanPh} required></textarea></label>
-          <button type="submit" class="btn btn-p">{c.fKirim}</button>
-          <p class="ok" id="ok" hidden>{c.fOk}</p>
+
+          <div class="f">
+            <span class="f-lb">{c.fKebutuhan}</span>
+            <Pilih nama="topik" label={c.fKebutuhan} opsi={c.fOpsi.map((o: string) => ({ v: o, t: o }))} />
+          </div>
+
+          <div class="f" data-f="pesan">
+            <label class="f-lb" for="b-pesan">{c.fPesan}</label>
+            <textarea class="ta" id="b-pesan" name="pesan" rows="4" placeholder={c.fPesanPh} required></textarea>
+            <span class="f-msg" data-msg hidden><Ikon n="bahaya" />{c.errPesan}</span>
+          </div>
+
+          {/* Honeypot: tidak terlihat manusia, diisi bot. */}
+          <div class="hp" aria-hidden="true">
+            <label for="b-situs">{c.fSitus}</label>
+            <input id="b-situs" type="text" name={HONEYPOT} tabindex="-1" autocomplete="off" />
+          </div>
+
+          <button type="submit" class="btn btn-p" id="cf-kirim" data-teks={c.fKirim}>{c.fKirim}</button>
+          <script type="application/json" id="cf-teks" set:html={JSON.stringify({
+            jaringan: c.errJaringan, terlaluSering: c.errTerlaluSering, gagal: c.errKirim,
+          })} />
         </form>
       </div>
     </div>
@@ -442,6 +476,22 @@ details[open] summary i{transform:rotate(-135deg) translateY(-2px)}
 .cmail strong{font-size:15px;font-weight:600}
 .cf{display:grid;gap:15px;align-content:start}
 .frow{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+@media(max-width:620px){.frow{grid-template-columns:1fr}}
+/* Honeypot: keluar dari aliran, tetap ada di DOM untuk bot. */
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.f{display:grid;gap:6px}
+.f-lb{font-size:13.2px;font-weight:600;color:var(--txt)}
+.inp,.ta{
+  width:100%;padding:11px 13px;border-radius:var(--rb);font:inherit;font-size:14.5px;
+  background:var(--surface);border:1px solid var(--line);color:var(--txt);
+  transition:border-color .16s ease,box-shadow .16s ease;
+}
+.ta{resize:vertical;min-height:96px;line-height:1.6}
+.inp:focus,.ta:focus{outline:0;border-color:var(--pur);box-shadow:0 0 0 3px color-mix(in srgb,var(--pur) 15%,transparent)}
+.f.is-err .inp,.f.is-err .ta{border-color:#ef4444}
+.f-msg{display:flex;align-items:center;gap:6px;font-size:12.8px;color:#f87171}
+.f-msg svg{width:14px;height:14px;flex:none}
+.cf .dd,.cf .dd-btn{width:100%}
 @media(max-width:560px){.frow{grid-template-columns:1fr}}
 .cf label{display:grid;gap:7px;font-size:13px;font-weight:600;color:var(--txt-2)}
 .cf input,.cf select,.cf textarea{
@@ -466,4 +516,95 @@ details[open] summary i{transform:rotate(-135deg) translateY(-2px)}
     const ok = document.getElementById('ok');
     if (ok) ok.hidden = false;
   });
+</script>
+
+<script is:inline>
+  /*
+   * Form kontak beranda.
+   *
+   * Validasi di klien hanya untuk kenyamanan — server mengulang semuanya.
+   * Yang penting di sini: kegagalan TIDAK dilaporkan sebagai keberhasilan.
+   * Versi lama menampilkan "✓ Terima kasih" apa pun yang terjadi.
+   */
+  (function () {
+    var f = document.getElementById('cf');
+    if (!f) return;
+    var btn = document.getElementById('cf-kirim');
+    var boxErr = document.getElementById('cf-err');
+    var boxOk = document.getElementById('cf-ok');
+    var TEKS = JSON.parse((document.getElementById('cf-teks') || {}).textContent || '{}');
+    var URL_API = f.dataset.api;
+
+    var aturan = {
+      nama: function (v) { return v.trim().length >= 2; },
+      email: function (v) { return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()); },
+      pesan: function (v) { return v.trim().length >= 10; }
+    };
+
+    function nilai(nama) {
+      var el = f.querySelector('[name="' + nama + '"]');
+      var kotak = f.querySelector('[data-f="' + nama + '"]');
+      var lulus = aturan[nama](String((el && el.value) || ''));
+      if (kotak) {
+        kotak.classList.toggle('is-err', !lulus);
+        var msg = kotak.querySelector('[data-msg]');
+        if (msg) msg.hidden = lulus;
+      }
+      return lulus;
+    }
+
+    Object.keys(aturan).forEach(function (nama) {
+      var el = f.querySelector('[name="' + nama + '"]');
+      if (el) el.addEventListener('blur', function () { nilai(nama); });
+    });
+
+    f.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (boxOk) boxOk.hidden = true;
+
+      var lulus = Object.keys(aturan).map(nilai);
+      if (lulus.indexOf(false) !== -1) {
+        if (boxErr) { boxErr.textContent = f.dataset.errUmum || ''; boxErr.hidden = false; }
+        var salah = f.querySelector('.is-err .inp,.is-err .ta');
+        if (salah) salah.focus();
+        return;
+      }
+      if (boxErr) boxErr.hidden = true;
+
+      btn.classList.add('is-load');
+      btn.disabled = true;
+
+      var isi = {};
+      new FormData(f).forEach(function (v, k) { if (typeof v === 'string') isi[k] = v; });
+
+      fetch(URL_API, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(isi)
+      })
+        .then(function (r) {
+          return r.json().catch(function () { return {}; }).then(function (d) { return { status: r.status, d: d }; });
+        })
+        .then(function (x) {
+          btn.classList.remove('is-load');
+          btn.disabled = false;
+          if (x.status === 429) return galat(TEKS.terlaluSering);
+          if (x.status < 200 || x.status >= 300) return galat(x.d.error || TEKS.gagal);
+          if (boxOk) { boxOk.hidden = false; boxOk.scrollIntoView({ block: 'nearest' }); }
+          f.reset();
+        })
+        .catch(function () {
+          btn.classList.remove('is-load');
+          btn.disabled = false;
+          galat(TEKS.jaringan);
+        });
+
+      function galat(teks) {
+        if (!boxErr) return;
+        boxErr.textContent = teks;
+        boxErr.hidden = false;
+        boxErr.scrollIntoView({ block: 'nearest' });
+      }
+    });
+  })();
 </script>

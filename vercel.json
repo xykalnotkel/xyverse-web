@@ -1,0 +1,25 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "//": [
+    "404 per bagian.",
+    "",
+    "Astro hanya merender SATU halaman 404 (dist/404.html) dan mengabaikan",
+    "berkas 404.astro di folder lain, jadi halaman khusus bagian dibuat",
+    "dengan nama biasa (tidak-ada) lalu dipetakan ke sini.",
+    "",
+    "`status: 404` membuat Vercel menyajikan halaman itu TETAP dengan kode",
+    "404 — penting supaya URL yang mati tidak pernah terindeks.",
+    "",
+    "Urutan itu penting: aturan paling spesifik harus di atas. Kalau aturan",
+    "/:lang/(.*) ditaruh pertama, ia akan menelan /id/blog/apa-pun dan",
+    "halaman khusus blog tidak pernah terpakai."
+  ],
+  "rewrites": [
+    { "source": "/:lang(id|en)/blog/:path*", "destination": "/:lang/blog/tidak-ada/", "status": 404 },
+    { "source": "/:lang(id|en)/berita/:path*", "destination": "/:lang/berita/tidak-ada/", "status": 404 },
+    { "source": "/:lang(id|en)/proyek/:path*", "destination": "/:lang/proyek/tidak-ada/", "status": 404 },
+    { "source": "/:lang(id|en)/legal/:path*", "destination": "/:lang/legal/tidak-ada/", "status": 404 },
+    { "source": "/:lang(id|en)/aplikasi/:path*", "destination": "/:lang/aplikasi/tidak-ada/", "status": 404 },
+    { "source": "/:lang(id|en)/:path*", "destination": "/:lang/tidak-ada/", "status": 404 }
+  ]
+}
