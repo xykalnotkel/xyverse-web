@@ -1,5 +1,21 @@
 /** Pembuat gambar Open Graph berbasis SVG murni — dipakai oleh /og/[...slug].svg */
 
+/**
+ * Nama berkas OG: segmen path digabung dengan '-', diprefiks kode bahasa.
+ * Sumber kebenaran TUNGGAL — dipakai di sini, di layouts/Base.astro, dan di
+ * pages/og/[...slug].svg.ts, supaya <meta og:image> dan JSON-LD tidak pernah
+ * menunjuk berkas yang tidak ikut ter-build.
+ */
+export function jalurOG(lang: string, ...segmen: (string | undefined)[]) {
+  const bersih = segmen.filter(Boolean).join('-');
+  return `${lang}-${bersih || 'default'}`;
+}
+
+/** URL absolut gambar OG untuk sebuah halaman/konten. */
+export function urlOG(baseUrl: string, lang: string, ...segmen: (string | undefined)[]) {
+  return new URL(`/og/${jalurOG(lang, ...segmen)}.svg`, baseUrl).href;
+}
+
 const esc = (s: string) =>
   s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 

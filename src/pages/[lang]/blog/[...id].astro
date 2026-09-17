@@ -10,6 +10,8 @@ import { getCollection, render } from 'astro:content';
 import { slugKonten, filterLang } from '../../../i18n/data';
 import { KOLEKSI } from '../../../i18n/halaman/koleksi';
 import { SITE } from '../../../data/site';
+import { BAHASA } from '../../../i18n/config';
+import { urlOG } from '../../../lib/og';
 
 export async function getStaticPaths() {
   const LANGS = ['id', 'en'] as const;
@@ -60,16 +62,16 @@ const ld = {
         logo: { '@type': 'ImageObject', url: `${SITE.url}/brand/mark-flat-purple.webp` },
       },
       mainEntityOfPage: { '@type': 'WebPage', '@id': url },
-      image: `${SITE.url}/og.png?t=${encodeURIComponent(p.data.title)}&k=${encodeURIComponent(p.data.kategori)}`,
+      image: urlOG(SITE.url, lang, 'blog', slugKonten(p.id)),
       articleSection: p.data.kategori,
-      inLanguage: 'id-ID',
+      inLanguage: BAHASA[lang].htmlLang,
       wordCount: p.body?.split(/\s+/).length ?? undefined,
     },
     {
       '@type': 'BreadcrumbList',
       itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Beranda', item: SITE.url },
-        { '@type': 'ListItem', position: 2, name: 'Blog', item: `${SITE.url}/blog` },
+        { '@type': 'ListItem', position: 1, name: K.beranda, item: new URL(r(), SITE.url).href },
+        { '@type': 'ListItem', position: 2, name: K.blogCrumb, item: new URL(r('blog'), SITE.url).href },
         { '@type': 'ListItem', position: 3, name: p.data.title },
       ],
     },
@@ -93,7 +95,7 @@ const ld = {
     <header class="ah">
       <div class="wrap narrow">
         <nav class="crumb" aria-label={K.remah}>
-          <a href={r()}>{K.beranda}</a><span>/</span><a href={r('blog')}>Blog</a><span>/</span><span aria-current="page">{p.data.kategori}</span>
+          <a href={r()}>{K.beranda}</a><span>/</span><a href={r('blog')}>{K.blogCrumb}</a><span>/</span><span aria-current="page">{p.data.kategori}</span>
         </nav>
         <span class="tag">{p.data.kategori}</span>
         <h1>{p.data.title}</h1>
@@ -102,7 +104,7 @@ const ld = {
           <span class="av">{p.data.penulis.charAt(0)}</span>
           <div>
             <strong>{p.data.penulis}</strong>
-            <span><time datetime={p.data.date.toISOString()}>{fmt(p.data.date)}</time> · {p.data.baca} menit baca</span>
+            <span><time datetime={p.data.date.toISOString()}>{fmt(p.data.date)}</time> · {p.data.baca} {K.menitBaca}</span>
           </div>
           <div class="hshare"><Bagikan judul={p.data.title} path={path} ringkas={p.data.desc} /></div>
         </div>
@@ -127,13 +129,13 @@ const ld = {
         <nav class="pn" aria-label={c.navArtikel}>
           {sebelum ? (
             <a href={r(`blog/${slugKonten(sebelum.id)}`)} class="pncard">
-              <small>← Sebelumnya</small>
+              <small>← {K.sebelumnya}</small>
               <strong>{sebelum.data.title}</strong>
             </a>
           ) : <span />}
           {sesudah ? (
             <a href={r(`blog/${slugKonten(sesudah.id)}`)} class="pncard r">
-              <small>Berikutnya →</small>
+              <small>{K.berikutnya} →</small>
               <strong>{sesudah.data.title}</strong>
             </a>
           ) : <span />}
@@ -151,7 +153,7 @@ const ld = {
                 <span class="tag">{x.data.kategori}</span>
                 <h3>{x.data.title}</h3>
                 <p>{x.data.desc}</p>
-                <small>{fmt(x.data.date)} · {x.data.baca} menit</small>
+                <small>{fmt(x.data.date)} · {x.data.baca} {K.menit}</small>
               </a>
             ))}
           </div>

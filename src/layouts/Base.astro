@@ -2,6 +2,7 @@
 import { SITE, SOSMED } from '../data/site';
 import { BAHASA, SEMUA_LANG, LANG_BAWAAN, langDariPath, tanpaPrefiks, type Lang } from '../i18n/config';
 import { DESC_SITUS, TAGLINE } from '../i18n/data';
+import { jalurOG } from '../lib/og';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import '../styles/ui.css';
@@ -43,11 +44,9 @@ const canonical = new URL(Astro.url.pathname.replace(/\/$/, '') || '/', SITE.url
 
 // OG image statis per halaman: /og/<slug>.svg (slug diturunkan dari path)
 const jalurMurni = tanpaPrefiks(Astro.url.pathname);
-const segmen = jalurMurni.split('/').filter(Boolean);
-const ogSlug = `${lang}-${segmen.length === 0 ? 'default' : segmen.join('-')}`;
 const ogUrl = ogImage
   ? new URL(ogImage, SITE.url).href
-  : new URL(`/og/${ogSlug}.svg`, SITE.url).href;
+  : new URL(`/og/${jalurOG(lang, ...jalurMurni.split('/').filter(Boolean))}.svg`, SITE.url).href;
 
 const orgLd = {
   '@context': 'https://schema.org',

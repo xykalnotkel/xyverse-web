@@ -3,6 +3,9 @@ import type { Lang } from '../config';
 export const KOLEKSI: Record<Lang, any> = {
   id: {
     beranda: 'Beranda', remah: 'Remah roti', semua: 'Semua', unggulan: 'Unggulan',
+    // Dipakai kartu artikel dan navigasi sebelumnya/berikutnya.
+    menit: 'menit', menitBaca: 'menit baca', sebelumnya: 'Sebelumnya', berikutnya: 'Berikutnya',
+    blogCrumb: 'Blog', beritaCrumb: 'Berita', proyekCrumb: 'Proyek',
     blog: {
       metaTitle: 'Blog — Xyverse',
       metaDesc: 'Artikel, panduan teknis, dan wawasan seputar Cloud PC, pengembangan aplikasi, dan otomasi dari tim Xyverse.',
@@ -37,6 +40,9 @@ export const KOLEKSI: Record<Lang, any> = {
   },
   en: {
     beranda: 'Home', remah: 'Breadcrumb', semua: 'All', unggulan: 'Featured',
+    // Dipakai kartu artikel dan navigasi sebelumnya/berikutnya.
+    menit: 'min', menitBaca: 'min read', sebelumnya: 'Previous', berikutnya: 'Next',
+    blogCrumb: 'Blog', beritaCrumb: 'News', proyekCrumb: 'Projects',
     blog: {
       metaTitle: 'Blog — Xyverse',
       metaDesc: 'Articles, technical guides, and insight on Cloud PCs, app development, and automation from the Xyverse team.',

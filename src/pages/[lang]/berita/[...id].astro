@@ -10,6 +10,8 @@ import { getCollection, render } from 'astro:content';
 import { slugKonten, filterLang } from '../../../i18n/data';
 import { KOLEKSI } from '../../../i18n/halaman/koleksi';
 import { SITE } from '../../../data/site';
+import { BAHASA } from '../../../i18n/config';
+import { urlOG } from '../../../lib/og';
 
 export async function getStaticPaths() {
   const LANGS = ['id', 'en'] as const;
@@ -55,15 +57,15 @@ const ld = {
         logo: { '@type': 'ImageObject', url: `${SITE.url}/brand/mark-flat-purple.webp` },
       },
       mainEntityOfPage: { '@type': 'WebPage', '@id': url },
-      image: `${SITE.url}/og.png?t=${encodeURIComponent(p.data.title)}&k=${encodeURIComponent(p.data.tag)}`,
+      image: urlOG(SITE.url, lang, 'berita', slugKonten(p.id)),
       articleSection: p.data.tag,
-      inLanguage: 'id-ID',
+      inLanguage: BAHASA[lang].htmlLang,
     },
     {
       '@type': 'BreadcrumbList',
       itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Beranda', item: SITE.url },
-        { '@type': 'ListItem', position: 2, name: 'Berita', item: `${SITE.url}/berita` },
+        { '@type': 'ListItem', position: 1, name: K.beranda, item: new URL(r(), SITE.url).href },
+        { '@type': 'ListItem', position: 2, name: K.beritaCrumb, item: new URL(r('berita'), SITE.url).href },
         { '@type': 'ListItem', position: 3, name: p.data.title },
       ],
     },
@@ -86,7 +88,7 @@ const ld = {
     <header class="ah">
       <div class="wrap narrow">
         <nav class="crumb" aria-label={K.remah}>
-          <a href={r()}>{K.beranda}</a><span>/</span><a href={r('berita')}>Berita</a><span>/</span><span aria-current="page">{p.data.tag}</span>
+          <a href={r()}>{K.beranda}</a><span>/</span><a href={r('berita')}>{K.beritaCrumb}</a><span>/</span><span aria-current="page">{p.data.tag}</span>
         </nav>
         <div class="m">
           <span class="tag">{p.data.tag}</span>
@@ -112,12 +114,12 @@ const ld = {
         <nav class="pn" aria-label={c.navArtikel}>
           {sebelum ? (
             <a href={r(`berita/${slugKonten(sebelum.id)}`)} class="pncard">
-              <small>← Sebelumnya</small><strong>{sebelum.data.title}</strong>
+              <small>← {K.sebelumnya}</small><strong>{sebelum.data.title}</strong>
             </a>
           ) : <span />}
           {sesudah ? (
             <a href={r(`berita/${slugKonten(sesudah.id)}`)} class="pncard r">
-              <small>Berikutnya →</small><strong>{sesudah.data.title}</strong>
+              <small>{K.berikutnya} →</small><strong>{sesudah.data.title}</strong>
             </a>
           ) : <span />}
         </nav>

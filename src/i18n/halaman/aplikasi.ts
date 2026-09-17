@@ -4,6 +4,7 @@ export const APL: Record<Lang, any> = {
   id: {
     metaTitle: 'Aplikasi', ogTag: 'Aplikasi', ldName: 'Aplikasi Xyverse',
     metaDesc: 'XyDesk dan XyCloudStore: dua aplikasi resmi untuk mengakses dan mengelola Cloud PC Xyverse dari perangkat apa pun.',
+    remah: 'Remah roti',
     eyebrow: 'Aplikasi', judul: 'Dua aplikasi untuk semua kebutuhan Cloud PC.',
     lead: 'XyDesk menghubungkan lu ke mesin. XyCloudStore mengurus sisanya — langganan, instalasi, dan pemantauan. Keduanya gratis untuk pelanggan aktif.',
     hint: 'Sebagian besar pelanggan memakai keduanya: XyCloudStore untuk mengatur, XyDesk untuk bekerja.',
@@ -52,6 +53,7 @@ export const APL: Record<Lang, any> = {
   en: {
     metaTitle: 'Apps', ogTag: 'Apps', ldName: 'Xyverse Apps',
     metaDesc: 'XyDesk and XyCloudStore: the two official apps for reaching and managing your Xyverse Cloud PC from any device.',
+    remah: 'Breadcrumb',
     eyebrow: 'Apps', judul: 'Two apps for everything a Cloud PC needs.',
     lead: 'XyDesk connects you to the machine. XyCloudStore handles the rest — subscriptions, installs, and monitoring. Both are free for active customers.',
     hint: 'Most customers use both: XyCloudStore to manage, XyDesk to work.',

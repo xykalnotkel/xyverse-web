@@ -48,7 +48,7 @@ const fmt = (d: Date) => d.toLocaleDateString(lang === 'en' ? 'en-GB' : 'id-ID',
             <p>{p.data.desc}</p>
             <div class="foot">
               <time datetime={p.data.date.toISOString()}>{fmt(p.data.date)}</time>
-              <span>{p.data.baca} menit baca</span>
+              <span>{p.data.baca} {K.menitBaca}</span>
             </div>
           </a>
         ))}

@@ -155,7 +155,7 @@ const arrow = '<path d="M5 12h14M13 6l6 6-6 6"/>';
       </header>
       <div class="grid g2">
         {proyekTop.map((p) => (
-          <a href={r(`proyek/${p.id}`)} class="card reveal pcard">
+          <a href={r(`proyek/${slugKonten(p.id)}`)} class="card reveal pcard">
             <div class="ptop">
               <span class="ptag">{p.data.layanan}</span>
               <span class="pst">{p.data.status}</span>
@@ -183,7 +183,7 @@ const arrow = '<path d="M5 12h14M13 6l6 6-6 6"/>';
       </header>
       <div class="grid g3">
         {blogTop.map((b) => (
-          <a href={r(`blog/${b.id}`)} class="card reveal bcard">
+          <a href={r(`blog/${slugKonten(b.id)}`)} class="card reveal bcard">
             <span class="ptag">{b.data.kategori}</span>
             <h3>{b.data.title}</h3>
             <p>{b.data.desc}</p>

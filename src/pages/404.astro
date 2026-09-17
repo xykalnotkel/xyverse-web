@@ -39,7 +39,17 @@ const tautan = T.id.tautan;
 
 ---
 
-<Base title={`${T.id.title} — ${SITE.nama}`} desc={T.id.desc} noindex>
+{/*
+ * Halaman 404 tidak punya jalur bahasa (Astro merendernya sekali di /404.html),
+ * jadi slug OG yang diturunkan dari pathname ("id-404") tidak pernah ikut
+ * ter-build. Tunjuk langsung ke gambar bawaan yang memang ada.
+ */}
+<Base
+  title={`${T.id.title} — ${SITE.nama}`}
+  desc={T.id.desc}
+  noindex
+  ogImage="/og/id-default.svg"
+>
   <section class="e">
     <div class="wrap">
       <div class="code" aria-hidden="true">

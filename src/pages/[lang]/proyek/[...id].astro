@@ -9,6 +9,8 @@ import { getCollection, render } from 'astro:content';
 import { slugKonten, filterLang } from '../../../i18n/data';
 import { KOLEKSI } from '../../../i18n/halaman/koleksi';
 import { SITE } from '../../../data/site';
+import { BAHASA } from '../../../i18n/config';
+import { urlOG } from '../../../lib/og';
 
 export async function getStaticPaths() {
   const LANGS = ['id', 'en'] as const;
@@ -45,14 +47,15 @@ const ld = {
       creator: { '@type': 'Organization', name: SITE.nama, url: SITE.url },
       about: p.data.layanan,
       keywords: p.data.stack.join(', '),
-      inLanguage: 'id-ID',
+      inLanguage: BAHASA[lang].htmlLang,
+      image: urlOG(SITE.url, lang, 'proyek', slugKonten(p.id)),
       url: new URL(path, SITE.url).href,
     },
     {
       '@type': 'BreadcrumbList',
       itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Beranda', item: SITE.url },
-        { '@type': 'ListItem', position: 2, name: 'Proyek', item: `${SITE.url}/proyek` },
+        { '@type': 'ListItem', position: 1, name: K.beranda, item: new URL(r(), SITE.url).href },
+        { '@type': 'ListItem', position: 2, name: K.proyekCrumb, item: new URL(r('proyek'), SITE.url).href },
         { '@type': 'ListItem', position: 3, name: p.data.title },
       ],
     },
@@ -75,7 +78,7 @@ const ld = {
     <header class="ah">
       <div class="wrap">
         <nav class="crumb" aria-label={K.remah}>
-          <a href={r()}>{K.beranda}</a><span>/</span><a href={r('proyek')}>Proyek</a><span>/</span><span aria-current="page">{p.data.layanan}</span>
+          <a href={r()}>{K.beranda}</a><span>/</span><a href={r('proyek')}>{K.proyekCrumb}</a><span>/</span><span aria-current="page">{p.data.layanan}</span>
         </nav>
         <h1>{p.data.title}</h1>
         <p class="lead">{p.data.desc}</p>

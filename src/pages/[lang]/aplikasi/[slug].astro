@@ -1,5 +1,5 @@
 ---
-import { rute } from '../../../i18n/config';
+import { BAHASA, rute } from '../../../i18n/config';
 import { pakaiT } from '../../../i18n/ui';
 import { APL } from '../../../i18n/halaman/aplikasi';
 import { APLIKASI_TEKS } from '../../../i18n/data';
@@ -7,6 +7,7 @@ import { APLIKASI_TEKS } from '../../../i18n/data';
 import Base from '../../../layouts/Base.astro';
 import Bagikan from '../../../components/Bagikan.astro';
 import { SITE, APLIKASI } from '../../../data/site';
+import { urlOG } from '../../../lib/og';
 
 export function getStaticPaths() {
   const LANGS = ['id', 'en'] as const;
@@ -25,7 +26,7 @@ const ta = APLIKASI_TEKS[lang][app.slug];
 const unduh = c.unduh[app.slug];
 const faq = c.faq[app.slug];
 
-const path = `/aplikasi/${app.slug}`;
+const path = r(`aplikasi/${app.slug}`);
 
 const ld = {
   '@context': 'https://schema.org',
@@ -41,6 +42,8 @@ const ld = {
       offers: { '@type': 'Offer', price: '0', priceCurrency: 'IDR', availability: 'https://schema.org/InStock' },
       publisher: { '@type': 'Organization', name: SITE.nama, url: SITE.url },
       featureList: ta.fitur.map((f) => f.t),
+      image: urlOG(SITE.url, lang, 'aplikasi', app.slug),
+      inLanguage: BAHASA[lang].htmlLang,
     },
     {
       '@type': 'FAQPage',
@@ -53,8 +56,8 @@ const ld = {
     {
       '@type': 'BreadcrumbList',
       itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Beranda', item: SITE.url },
-        { '@type': 'ListItem', position: 2, name: 'Aplikasi', item: `${SITE.url}/aplikasi` },
+        { '@type': 'ListItem', position: 1, name: c.beranda, item: new URL(r(), SITE.url).href },
+        { '@type': 'ListItem', position: 2, name: c.eyebrow, item: new URL(r('aplikasi'), SITE.url).href },
         { '@type': 'ListItem', position: 3, name: app.nama },
       ],
     },
@@ -67,12 +70,12 @@ const ld = {
   title={`${app.nama} — ${ta.tagline} | ${SITE.nama}`}
   desc={ta.desc}
   ogTitle={`${app.nama} — ${ta.tagline}`}
-  ogTag="Aplikasi"
+  ogTag={c.ogTag}
   jsonld={ld}
 >
   <section class="hero" style={`--c:${app.warna}`}>
     <div class="wrap">
-      <nav class="crumb" aria-label="Remah roti">
+      <nav class="crumb" aria-label={c.remah}>
         <a href={r()}>{c.beranda}</a><span>/</span><a href={r('aplikasi')}>{c.eyebrow}</a><span>/</span><span aria-current="page">{app.nama}</span>
       </nav>
 
