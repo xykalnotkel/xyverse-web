@@ -5,7 +5,25 @@ export const KOLEKSI: Record<Lang, any> = {
     beranda: 'Beranda', remah: 'Remah roti', semua: 'Semua', unggulan: 'Unggulan',
     // Dipakai kartu artikel dan navigasi sebelumnya/berikutnya.
     menit: 'menit', menitBaca: 'menit baca', sebelumnya: 'Sebelumnya', berikutnya: 'Berikutnya',
+    // Daftar isi: tombol muat bertahap (dipakai blog, berita, proyek).
+    lebihBanyak: 'Tampilkan lebih banyak', dari: 'dari',
     blogCrumb: 'Blog', beritaCrumb: 'Berita', proyekCrumb: 'Proyek',
+    // Halaman /cari
+    cari: {
+      metaTitle: 'Cari — Xyverse',
+      metaDesc: 'Telusuri artikel, panduan, berita, studi kasus, dan dokumen hukum Xyverse.',
+      eyebrow: 'Pencarian',
+      judul: 'Cari di seluruh situs.',
+      lead: 'Judul, deskripsi, kategori, dan tag dari blog, berita, proyek, dan dokumen hukum. Pencarian berjalan di peramban lu — tidak ada kueri yang dikirim ke mana pun.',
+      placeholder: 'Ketik kata kunci… misalnya "cloud pc", "lisensi", "GPU"',
+      hasil: 'hasil', hasilSatu: 'hasil',
+      kosongJudul: 'Tidak ada yang cocok.',
+      kosongIsi: 'Coba kata yang lebih umum, atau periksa ejaannya. Kalau memang tidak ada, kabari kami dan kami buatkan.',
+      kosongTautan: 'Kabari kami',
+      semuaJenis: 'Semua',
+      memuat: 'Memuat indeks…',
+      pintasan: 'Tekan / untuk fokus ke kolom ini',
+    },
     blog: {
       metaTitle: 'Blog — Xyverse',
       metaDesc: 'Artikel, panduan teknis, dan wawasan seputar Cloud PC, pengembangan aplikasi, dan otomasi dari tim Xyverse.',
@@ -42,7 +60,25 @@ export const KOLEKSI: Record<Lang, any> = {
     beranda: 'Home', remah: 'Breadcrumb', semua: 'All', unggulan: 'Featured',
     // Dipakai kartu artikel dan navigasi sebelumnya/berikutnya.
     menit: 'min', menitBaca: 'min read', sebelumnya: 'Previous', berikutnya: 'Next',
+    // Listing: load-more button (blog, news, projects).
+    lebihBanyak: 'Show more', dari: 'of',
     blogCrumb: 'Blog', beritaCrumb: 'News', proyekCrumb: 'Projects',
+    // /search page
+    cari: {
+      metaTitle: 'Search — Xyverse',
+      metaDesc: 'Search Xyverse articles, guides, news, case studies, and legal documents.',
+      eyebrow: 'Search',
+      judul: 'Search the whole site.',
+      lead: 'Titles, descriptions, categories, and tags across the blog, news, projects, and legal documents. Searching runs in your browser — no query is ever sent anywhere.',
+      placeholder: 'Type a keyword… e.g. "cloud pc", "license", "GPU"',
+      hasil: 'results', hasilSatu: 'result',
+      kosongJudul: 'Nothing matched.',
+      kosongIsi: 'Try a broader word, or check the spelling. If it really is missing, tell us and we will write it.',
+      kosongTautan: 'Tell us',
+      semuaJenis: 'All',
+      memuat: 'Loading index…',
+      pintasan: 'Press / to focus this field',
+    },
     blog: {
       metaTitle: 'Blog — Xyverse',
       metaDesc: 'Articles, technical guides, and insight on Cloud PCs, app development, and automation from the Xyverse team.',

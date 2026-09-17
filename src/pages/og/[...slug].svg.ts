@@ -37,6 +37,12 @@ export async function getStaticPaths() {
     berita: { judul: { id: 'Pengumuman dan pembaruan layanan', en: 'Announcements and service updates' }, tag: { id: 'Berita', en: 'News' } },
     proyek: { judul: { id: 'Proyek yang pernah kami kerjakan', en: 'Projects we have delivered' }, tag: { id: 'Proyek', en: 'Projects' } },
     legal: { judul: { id: 'Pusat dokumen legal', en: 'Legal document center' }, tag: { id: 'Legal', en: 'Legal' } },
+    /*
+     * Setiap halaman yang punya <meta og:image> harus punya berkas di sini.
+     * Kalau tidak, og:image menunjuk SVG yang tidak pernah ter-build dan
+     * pratinjau tautannya kosong — persis bug /og.png yang dulu.
+     */
+    cari: { judul: { id: 'Cari di seluruh situs', en: 'Search the whole site' }, tag: { id: 'Pencarian', en: 'Search' } },
   };
 
   const halaman = SEMUA_LANG.flatMap((lang) => [

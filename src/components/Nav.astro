@@ -65,7 +65,7 @@ const menu = [
   { t: t('nav.harga'), h: r('harga') },
   {
     t: t('nav.sumber'),
-    cocok: ['blog', 'berita', 'legal', 'panduan', 'pelajari', 'changelog', 'faq', 'status'],
+    cocok: ['blog', 'berita', 'legal', 'panduan', 'pelajari', 'changelog', 'faq', 'status', 'cari'],
     panel: {
       kolom: [
         {
@@ -75,6 +75,7 @@ const menu = [
             { t: t('foot.pelajari'), d: t('sheet.pelajari.d'), h: r('pelajari'), ik: 'cap' },
             { t: 'FAQ', d: t('sheet.faq.d'), h: r('faq'), ik: 'help' },
             { t: t('foot.blog'), d: t('sheet.blog.d'), h: r('blog'), ik: 'book' },
+            { t: t('sheet.cari'), d: t('sheet.cari.d'), h: r('cari'), ik: 'search' },
           ],
         },
         {
@@ -127,6 +128,7 @@ const menu = [
 ];
 
 const IK: Record<string, string> = {
+  search: '<circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/>',
   server: '<rect x="3" y="4" width="18" height="7" rx="2"/><rect x="3" y="13" width="18" height="7" rx="2"/><path d="M7 7.5h.01M7 16.5h.01"/>',
   tag: '<path d="M11.6 3H4v7.6l9.4 9.4 7.6-7.6z"/><circle cx="7.8" cy="7.2" r="1.3"/>',
   monitor: '<rect x="2.5" y="3.5" width="19" height="13" rx="2"/><path d="M8.5 20.5h7M12 16.5v4"/>',

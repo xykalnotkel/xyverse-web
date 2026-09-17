@@ -1,0 +1,29 @@
+---
+/**
+ * Gambar sampul kartu daftar.
+ *
+ * Sengaja dibuat satu komponen supaya ketiga koleksi (blog, berita, proyek)
+ * memperlakukan gambar dengan cara yang sama: lazy, dekode asinkron, rasio
+ * tetap supaya tinggi kartu tidak berubah-ubah saat gambar datang.
+ *
+ * `rasio` berbeda per tata letak — grid tiga kolom butuh gambar lebih pendek
+ * daripada kartu lebar, kalau tidak halaman daftar jadi sangat panjang.
+ */
+interface Props {
+  src?: string;
+  alt?: string;
+  rasio?: string;
+  kelas?: string;
+}
+const { src, alt = '', rasio = '16 / 9', kelas = '' } = Astro.props;
+---
+{src && (
+  <div class={`sampul ${kelas}`} style={`--rasio:${rasio}`}>
+    <img src={src} alt={alt} loading="lazy" decoding="async" />
+  </div>
+)}
+
+<style>
+.sampul{overflow:hidden;border-radius:7px;border:1px solid var(--line);background:var(--surface);margin-bottom:16px}
+.sampul img{display:block;width:100%;aspect-ratio:var(--rasio,16/9);object-fit:cover;height:auto}
+</style>

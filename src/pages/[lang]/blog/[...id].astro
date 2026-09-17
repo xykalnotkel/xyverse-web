@@ -12,6 +12,7 @@ import { KOLEKSI } from '../../../i18n/halaman/koleksi';
 import { SITE } from '../../../data/site';
 import { BAHASA } from '../../../i18n/config';
 import { urlOG } from '../../../lib/og';
+import { gambarOG } from '../../../lib/gambar';
 
 export async function getStaticPaths() {
   const LANGS = ['id', 'en'] as const;
@@ -25,6 +26,8 @@ const { p, lang } = Astro.props;
 const t = pakaiT(lang);
 const r = (x = '') => rute(lang, x);
 const { Content, headings } = await render(p);
+// Sampul asli dipakai untuk og:image bila ada; kalau tidak, generator SVG.
+const ogGambar = gambarOG(SITE.url, p.data) ?? urlOG(SITE.url, lang, 'blog', slugKonten(p.id));
 
 const K = KOLEKSI[lang];
 const c = K.blog;
@@ -53,7 +56,7 @@ const ld = {
       headline: p.data.title,
       description: p.data.desc,
       datePublished: p.data.date.toISOString(),
-      dateModified: p.data.date.toISOString(),
+      dateModified: (p.data.diperbarui ?? p.data.date).toISOString(),
       author: { '@type': 'Person', name: p.data.penulis },
       publisher: {
         '@type': 'Organization',
@@ -62,7 +65,7 @@ const ld = {
         logo: { '@type': 'ImageObject', url: `${SITE.url}/brand/mark-flat-purple.webp` },
       },
       mainEntityOfPage: { '@type': 'WebPage', '@id': url },
-      image: urlOG(SITE.url, lang, 'blog', slugKonten(p.id)),
+      image: ogGambar,
       articleSection: p.data.kategori,
       inLanguage: BAHASA[lang].htmlLang,
       wordCount: p.body?.split(/\s+/).length ?? undefined,
@@ -84,8 +87,10 @@ const ld = {
   title={`${p.data.title} — Blog Xyverse`}
   desc={p.data.desc}
   tipe="article"
+  ogImage={ogGambar}
   ogTag={p.data.kategori}
   terbit={p.data.date}
+  diubah={p.data.diperbarui}
   penulis={p.data.penulis}
   jsonld={ld}
 >

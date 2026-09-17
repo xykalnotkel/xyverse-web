@@ -26,5 +26,17 @@
 .prose table{width:100%;border-collapse:collapse;font-size:15px;display:block;overflow-x:auto}
 .prose th,.prose td{border:1px solid var(--line);padding:11px 14px;text-align:left}
 .prose th{background:var(--surface);color:var(--txt);font-weight:600;white-space:nowrap}
-.prose img{border-radius:8px;border:1px solid var(--line)}
+/*
+ * Gambar di dalam isi.
+ *
+ * `aspect-ratio: 16/9` pada pembungkusnya adalah pengganti width/height:
+ * berkas di public/media/ tidak bisa diukur saat build, jadi tanpa ini
+ * gambar yang selesai terunduh mendorong teks ke bawah (CLS) setiap kali.
+ */
+.prose figure{margin:2em 0;display:grid;gap:10px;justify-items:center}
+.prose figure img,.prose img{
+  border-radius:8px;border:1px solid var(--line);max-width:100%;height:auto;
+  aspect-ratio:16/9;object-fit:cover;background:var(--surface);
+}
+.prose figcaption{font-size:13.4px;color:var(--txt-2);text-align:center;max-width:60ch}
 </style>

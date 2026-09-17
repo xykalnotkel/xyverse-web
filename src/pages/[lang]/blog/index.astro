@@ -10,6 +10,7 @@ const r = (p = '') => rute(lang, p);
 import Base from '../../../layouts/Base.astro';
 import PageHead from '../../../components/PageHead.astro';
 import Kosong from '../../../components/Kosong.astro';
+import Sampul from '../../../components/Sampul.astro';
 import { getCollection } from 'astro:content';
 import { slugKonten, filterLang } from '../../../i18n/data';
 import { KOLEKSI } from '../../../i18n/halaman/koleksi';
@@ -40,6 +41,7 @@ const fmt = (d: Date) => d.toLocaleDateString(lang === 'en' ? 'en-GB' : 'id-ID',
       <div class="grid g3" id="list">
         {posts.map((p) => (
           <a href={r(`blog/${slugKonten(p.id)}`)} class="card reveal post" data-k={p.data.kategori}>
+            <Sampul src={p.data.gambar} alt={p.data.title} rasio="16 / 10" />
             <div class="meta">
               <span class="tag">{p.data.kategori}</span>
               {p.data.unggulan && <span class="tag hi">{K.unggulan}</span>}
@@ -54,6 +56,13 @@ const fmt = (d: Date) => d.toLocaleDateString(lang === 'en' ? 'en-GB' : 'id-ID',
         ))}
       </div>
       <div id="empty" hidden><Kosong judul={c.kosong} /></div>
+
+      <div class="muat-lagi" id="muat" hidden>
+        <button type="button" class="tombol" id="tombol-muat">
+          <span id="teks-muat"></span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+      </div>
     </div>
   </section>
 </Base>
@@ -77,23 +86,60 @@ const fmt = (d: Date) => d.toLocaleDateString(lang === 'en' ? 'en-GB' : 'id-ID',
   display:flex;justify-content:space-between;gap:10px;margin-top:20px;padding-top:15px;
   border-top:1px solid var(--line);font-size:12.5px;color:var(--txt-2);
 }
+.muat-lagi{display:flex;justify-content:center;margin-top:34px}
+.tombol{
+  display:inline-flex;align-items:center;gap:9px;padding:12px 22px;cursor:pointer;
+  background:var(--card);border:1px solid var(--line);border-radius:8px;color:var(--txt);
+  font:inherit;font-size:14.5px;font-weight:500;transition:.2s var(--ease);
+}
+.tombol:hover{border-color:color-mix(in srgb,var(--pur) 50%,transparent);transform:translateY(-1px)}
+.tombol svg{width:15px;height:15px;color:var(--brand)}
 </style>
 
-<script>
-  const chips = document.querySelectorAll<HTMLButtonElement>('.chip');
-  const posts = document.querySelectorAll<HTMLElement>('.post');
+<script define:vars={{ lblLebih: K.lebihBanyak, lblDari: K.dari, TIAP: 12 }}>
+  /**
+   * Penyaring kategori dan muat bertahap dalam satu tempat.
+   *
+   * Keduanya harus satu sumber kebenaran karena keduanya menyembunyikan
+   * item. Kalau dipisah, yang satu akan menimpa `display` yang lain dan
+   * item muncul atau hilang tanpa sebab. Aturannya sederhana: sebuah kartu
+   * tampil hanya bila cocok dengan kategori DAN berada di dalam batas.
+   *
+   * Batas diterapkan pada hasil penyaringan, bukan pada seluruh daftar —
+   * jadi memilih "Teknis" menampilkan 12 artikel Teknis pertama, bukan
+   * 12 kartu teratas yang kebetulan Teknis-nya cuma dua.
+   */
+  const chips = Array.from(document.querySelectorAll('.chip')) as HTMLButtonElement[];
+  const posts = Array.from(document.querySelectorAll('.post')) as HTMLElement[];
   const empty = document.getElementById('empty');
+  const kotakMuat = document.getElementById('muat');
+  const tombolMuat = document.getElementById('tombol-muat');
+  const teksMuat = document.getElementById('teks-muat');
+
+  let kategoriAktif = 'all';
+  let tampil = TIAP;
+
+  const cocok = (p: HTMLElement) => kategoriAktif === 'all' || p.dataset.k === kategoriAktif;
+
+  function terapkan() {
+    const lulus = posts.filter(cocok);
+    lulus.forEach((p, i) => { p.style.display = i < tampil ? '' : 'none'; });
+    posts.forEach((p) => { if (!cocok(p)) p.style.display = 'none'; });
+
+    if (empty) empty.hidden = lulus.length > 0;
+    const sisa = lulus.length - tampil;
+    if (kotakMuat) kotakMuat.hidden = sisa <= 0;
+    if (teksMuat && sisa > 0) teksMuat.textContent = `${lblLebih} (${Math.min(TIAP, sisa)} ${lblDari} ${sisa})`;
+  }
+
   chips.forEach((c) =>
     c.addEventListener('click', () => {
       chips.forEach((x) => x.classList.toggle('on', x === c));
-      const k = c.dataset.k;
-      let n = 0;
-      posts.forEach((p) => {
-        const show = k === 'all' || p.dataset.k === k;
-        p.style.display = show ? '' : 'none';
-        if (show) n++;
-      });
-      if (empty) empty.hidden = n > 0;
+      kategoriAktif = c.dataset.k || 'all';
+      tampil = TIAP; // kategori baru mulai dari awal lagi
+      terapkan();
     })
   );
+  tombolMuat?.addEventListener('click', () => { tampil += TIAP; terapkan(); });
+  terapkan();
 </script>

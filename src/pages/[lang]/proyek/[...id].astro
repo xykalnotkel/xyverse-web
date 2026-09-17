@@ -11,6 +11,7 @@ import { KOLEKSI } from '../../../i18n/halaman/koleksi';
 import { SITE } from '../../../data/site';
 import { BAHASA } from '../../../i18n/config';
 import { urlOG } from '../../../lib/og';
+import { gambarOG } from '../../../lib/gambar';
 
 export async function getStaticPaths() {
   const LANGS = ['id', 'en'] as const;
@@ -24,6 +25,7 @@ const { p, lang } = Astro.props;
 const t = pakaiT(lang);
 const r = (x = '') => rute(lang, x);
 const { Content } = await render(p);
+const ogGambar = gambarOG(SITE.url, p.data) ?? urlOG(SITE.url, lang, 'proyek', slugKonten(p.id));
 const fmt = (d: Date) => d.toLocaleDateString(lang === 'en' ? 'en-GB' : 'id-ID', { month: 'long', year: 'numeric' });
 
 const KST: Record<string, string> = { Selesai: 'selesai', Berjalan: 'berjalan', Maintenance: 'maintenance', Completed: 'selesai', Ongoing: 'berjalan' };
@@ -48,7 +50,7 @@ const ld = {
       about: p.data.layanan,
       keywords: p.data.stack.join(', '),
       inLanguage: BAHASA[lang].htmlLang,
-      image: urlOG(SITE.url, lang, 'proyek', slugKonten(p.id)),
+      image: ogGambar,
       url: new URL(path, SITE.url).href,
     },
     {
@@ -68,8 +70,10 @@ const ld = {
   title={`${p.data.title} — Proyek Xyverse`}
   desc={p.data.desc}
   tipe="article"
+  ogImage={ogGambar}
   ogTag={p.data.layanan}
   terbit={p.data.date}
+  diubah={p.data.diperbarui}
   jsonld={ld}
 >
   <Progres />

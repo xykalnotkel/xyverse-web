@@ -88,7 +88,29 @@ export const UI = {
     'foot.privasi': 'Privasi',
     'foot.syarat': 'Syarat',
     'foot.sitemap': 'Sitemap',
-    'foot.hak': 'Semua hak dilindungi.',
+        'foot.hak': 'Semua hak dilindungi.',
+    /*
+     * Dua belas kunci di bawah ini dulu TIDAK ADA di kamus, dan `t()` jatuh ke
+     * mengembalikan kuncinya sendiri. Akibatnya setiap footer di situs ini
+     * menampilkan teks "foot.blog", "foot.status", dan seterusnya — 176-264
+     * kemunculan, di kedua bahasa. Kalau menambah tautan footer baru,
+     * kuncinya wajib ikut ditambahkan di sini dan di blok `en`.
+     */
+    'foot.blog': 'Blog',
+    'foot.berita': 'Berita',
+    'foot.panduan': 'Panduan',
+    'foot.pelajari': 'Pelajari',
+    'foot.status': 'Status',
+    'foot.changelog': 'Changelog',
+    'foot.karier': 'Karier',
+    'foot.kolaborasi': 'Kolaborasi',
+    'foot.kontribusi': 'Kontribusi',
+    'foot.sponsor': 'Sponsor',
+    'foot.sla': 'SLA',
+    'foot.keamanan': 'Keamanan',
+    'foot.cari': 'Cari',
+    'sheet.cari': 'Cari',
+    'sheet.cari.d': 'Telusuri artikel, panduan, dan dokumen',
 
     // --- Umum ---
     'um.selengkapnya': 'Selengkapnya',
@@ -210,7 +232,24 @@ export const UI = {
     'foot.privasi': 'Privacy',
     'foot.syarat': 'Terms',
     'foot.sitemap': 'Sitemap',
-    'foot.hak': 'All rights reserved.',
+        'foot.hak': 'All rights reserved.',
+    // See the note in the `id` block: these were missing and every footer on
+    // the site rendered the raw key instead of a label.
+    'foot.blog': 'Blog',
+    'foot.berita': 'News',
+    'foot.panduan': 'Guides',
+    'foot.pelajari': 'Learn',
+    'foot.status': 'Status',
+    'foot.changelog': 'Changelog',
+    'foot.karier': 'Careers',
+    'foot.kolaborasi': 'Partnerships',
+    'foot.kontribusi': 'Contribute',
+    'foot.sponsor': 'Sponsors',
+    'foot.sla': 'SLA',
+    'foot.keamanan': 'Security',
+    'foot.cari': 'Search',
+    'sheet.cari': 'Search',
+    'sheet.cari.d': 'Find articles, guides, and documents',
 
     // --- Common ---
     'um.selengkapnya': 'Read more',
