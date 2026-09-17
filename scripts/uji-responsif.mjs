@@ -34,8 +34,19 @@ if (!existsSync(DIST)) {
   process.exit(1);
 }
 
-/** Lebar layar yang diuji. 360 = ponsel kecil, 768 = tablet tegak. */
-const LEBAR = [360, 768, 1024, 1440];
+/**
+ * Lebar layar yang diuji.
+ *
+ * Setiap titik henti diapit dari kedua sisi (b-1 dan b+1) karena justru di
+ * sanalah aturan berganti — menguji 360/768/1024/1440 saja bisa melewati
+ * regresi yang hanya muncul di 641 px, misalnya. Angka 360 dan 1440 menutup
+ * kedua ujung rentang.
+ *
+ * Bisa ditimpa untuk pemeriksaan menyeluruh: LEBAR=360,641,1440 npm run test:responsif
+ */
+const LEBAR = process.env.LEBAR
+  ? process.env.LEBAR.split(',').map((n) => Number(n.trim())).filter(Boolean)
+  : [360, 480, 639, 641, 759, 761, 999, 1001, 1239, 1241, 1440];
 /** Sisa lebar wadah terhadap viewport setelah padding .wrap (2×24 px). */
 const SISI = 48;
 /** Panjang minimum target sentuh, pedoman WCAG 2.5.8. */
@@ -355,11 +366,21 @@ cek('tidak ada width/min-width tetap > 336 px', lebarTetap.size === 0,
 
 /* --- C. Titik henti yang dipakai --- */
 console.log('\n[C] Konsistensi titik henti');
+/*
+ * Kedua arah dibaca. Versi pertama pemeriksaan ini hanya melihat max-width,
+ * jadi `@media(min-width:1001px)` — titik henti sungguhan, dipakai Nav untuk
+ * menyembunyikan menu burger di layar lebar — tidak pernah terhitung.
+ *
+ * `min-width:N` adalah pelengkap persis dari `max-width:N-1`, jadi keduanya
+ * dinormalkan ke satu angka sebelum dihitung. Tanpa itu sepasang aturan yang
+ * sebenarnya satu titik henti terhitung dua.
+ */
 const semuaTitik = new Map();
 for (const f of berkasHtml) {
   const css = cssHalaman(readFileSync(f, 'utf8'));
-  for (const m of css.matchAll(/@media[^{]*max-width\s*:\s*(\d+(?:\.\d+)?)px/g)) {
-    semuaTitik.set(Number(m[1]), (semuaTitik.get(Number(m[1])) || 0) + 1);
+  for (const m of css.matchAll(/@media[^{]*?(max|min)-width\s*:\s*(\d+(?:\.\d+)?)px/g)) {
+    const n = m[1] === 'min' ? Number(m[2]) - 1 : Number(m[2]);
+    semuaTitik.set(n, (semuaTitik.get(n) || 0) + 1);
   }
 }
 const urut = [...semuaTitik.keys()].sort((a, b) => a - b);

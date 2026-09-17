@@ -338,7 +338,7 @@ h1 em{font-style:normal;color:var(--brand)}
 @media(prefers-reduced-motion:reduce){.hero-art img{animation:none}}
 html[data-theme='dark'] .hero-art .l{display:none}
 html[data-theme='light'] .hero-art .d{display:none}
-@media(max-width:940px){
+@media(max-width:1000px){
   .hero-in{grid-template-columns:1fr;gap:38px}
   .hero-art{order:-1}
   h1{max-width:none}
@@ -349,13 +349,13 @@ html[data-theme='light'] .hero-art .d{display:none}
 }
 .stat strong{display:block;font-size:clamp(25px,3.2vw,34px);color:var(--txt);margin-bottom:2px}
 .stat span{color:var(--txt-2);font-size:13.5px;line-height:1.45;display:block}
-@media(max-width:700px){.stats{grid-template-columns:1fr 1fr;gap:22px;margin-top:52px}}
+@media(max-width:760px){.stats{grid-template-columns:1fr 1fr;gap:22px;margin-top:52px}}
 
 .band{background:var(--bg-2);border-block:1px solid var(--line)}
 
 /* ---------- SECTION HEADER ---------- */
 .shead{display:grid;grid-template-columns:1fr 1fr;gap:34px;align-items:end;margin-bottom:44px}
-@media(max-width:820px){.shead{grid-template-columns:1fr;gap:14px;margin-bottom:34px}}
+@media(max-width:760px){.shead{grid-template-columns:1fr;gap:14px;margin-bottom:34px}}
 
 /* ---------- SERVICES ---------- */
 .svc{display:block;padding-bottom:30px}
@@ -383,7 +383,7 @@ html[data-theme='light'] .hero-art .d{display:none}
 
 /* ---------- SPLIT / WINDOW ---------- */
 .split{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
-@media(max-width:940px){.split{grid-template-columns:1fr;gap:40px}}
+@media(max-width:1000px){.split{grid-template-columns:1fr;gap:40px}}
 .checks{list-style:none;margin-top:26px;display:grid;gap:13px}
 .checks li{padding-left:31px;position:relative;color:var(--txt-2);font-size:15px}
 .checks li::before{
@@ -418,12 +418,12 @@ html[data-theme='light'] .hero-art .d{display:none}
 .atxt p{color:var(--txt-2);font-size:16.5px;line-height:1.75}
 .atxt p+p{margin-top:16px}
 .atxt strong{color:var(--txt);font-weight:600}
-@media(max-width:900px){.about{grid-template-columns:1fr;gap:26px}}
+@media(max-width:1000px){.about{grid-template-columns:1fr;gap:26px}}
 
 /* ---------- FAQ ---------- */
 .faq-l{display:grid;grid-template-columns:.8fr 1.2fr;gap:54px;align-items:start}
 .fsticky{position:sticky;top:110px}
-@media(max-width:900px){.faq-l{grid-template-columns:1fr;gap:30px}.fsticky{position:static}}
+@media(max-width:1000px){.faq-l{grid-template-columns:1fr;gap:30px}.fsticky{position:static}}
 .lnk{color:var(--brand);font-weight:600;border-bottom:1px solid currentColor}
 .faqs{display:grid;gap:10px}
 details{border:1px solid var(--line);border-radius:8px;background:var(--card);overflow:hidden;transition:border-color .25s}
@@ -468,7 +468,7 @@ details[open] summary i{transform:rotate(-135deg) translateY(-2px)}
 }
 .cbox::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 50% 60% at 100% 0%,var(--glow),transparent 70%)}
 .cbox>*{position:relative;z-index:2}
-@media(max-width:900px){.cbox{grid-template-columns:1fr;gap:34px;padding:30px 24px}}
+@media(max-width:1000px){.cbox{grid-template-columns:1fr;gap:34px;padding:30px 24px}}
 .cmail{display:flex;align-items:center;gap:14px;margin-top:18px;padding:14px 16px;border-radius:8px;border:1px solid var(--line);background:var(--surface);transition:.22s var(--ease)}
 .cmail:hover{border-color:var(--line-s);}
 .cmail svg{width:21px;height:21px;color:var(--brand);flex:none}
@@ -476,7 +476,7 @@ details[open] summary i{transform:rotate(-135deg) translateY(-2px)}
 .cmail strong{font-size:15px;font-weight:600}
 .cf{display:grid;gap:15px;align-content:start}
 .frow{display:grid;grid-template-columns:1fr 1fr;gap:15px}
-@media(max-width:620px){.frow{grid-template-columns:1fr}}
+@media(max-width:640px){.frow{grid-template-columns:1fr}}
 /* Honeypot: keluar dari aliran, tetap ada di DOM untuk bot. */
 .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 .f{display:grid;gap:6px}
@@ -492,7 +492,6 @@ details[open] summary i{transform:rotate(-135deg) translateY(-2px)}
 .f-msg{display:flex;align-items:center;gap:6px;font-size:12.8px;color:#f87171}
 .f-msg svg{width:14px;height:14px;flex:none}
 .cf .dd,.cf .dd-btn{width:100%}
-@media(max-width:560px){.frow{grid-template-columns:1fr}}
 .cf label{display:grid;gap:7px;font-size:13px;font-weight:600;color:var(--txt-2)}
 .cf input,.cf select,.cf textarea{
   width:100%;padding:12px 15px;border-radius:7px;border:1px solid var(--line);

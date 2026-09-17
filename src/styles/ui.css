@@ -122,7 +122,7 @@ html[data-theme='light'] .sel{
 .toasts .alert{box-shadow:0 8px 26px var(--btn-g-amb);background:var(--bg-2)}
 .toasts .alert-ok{background:color-mix(in srgb,var(--ok-bg) 60%,var(--bg-2))}
 .toasts .alert-err{background:color-mix(in srgb,var(--err-bg) 60%,var(--bg-2))}
-@media(max-width:560px){.toasts{left:16px;right:16px;bottom:12px;max-width:none}}
+@media(max-width:640px){.toasts{left:16px;right:16px;bottom:12px;max-width:none}}
 
 /* ---------- 6. BADGE / PIL ----------------------------------------------- */
 .badge{
