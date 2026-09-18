@@ -16,7 +16,7 @@ const IK = { ok: 'cekBulat', err: 'bahaya', warn: 'awas', info: 'info' } as cons
 ---
 <div class={`alert alert-${tipe} ${k}`} role={tipe === 'err' ? 'alert' : 'status'} id={id} hidden={sembunyi}>
   <Ikon n={IK[tipe]} k="a-ic" />
-  <div>
+  <div data-pesan-body>
     {judul && <strong>{judul}</strong>}
     <slot />
   </div>

@@ -477,7 +477,7 @@ html[data-theme='light'] .moon{display:block}
 #burger[aria-expanded='true'] span:nth-child(2){opacity:0}
 #burger[aria-expanded='true'] span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
 #mob{position:fixed;inset:0;margin:0;border:0;padding:0;width:100%;max-width:none;height:100vh;height:100dvh;max-height:none;overflow:hidden;color:var(--txt);background:var(--bg)}
-#mob[open]{display:flex;flex-direction:column;animation:menu-in .24s ease-out}
+#mob[open]{display:flex;flex-direction:column;animation:menu-in .28s var(--ease)}
 #mob::backdrop{background:var(--bg)}
 .mob-top{display:flex;align-items:center;justify-content:space-between;flex:none;padding:calc(16px + env(safe-area-inset-top)) max(24px,env(safe-area-inset-right)) 16px max(24px,env(safe-area-inset-left));border-bottom:1px solid var(--line)}
 .mob-top .brand{font-size:15px;letter-spacing:.14em;gap:11px}.mob-top .brand img{width:38px;height:38px}
@@ -509,7 +509,20 @@ html[data-theme='light'] .moon{display:block}
 .mob-theme{display:flex;align-items:center;gap:7px;min-height:44px;padding:8px 10px;border:0;border-radius:7px;font:inherit;font-size:12px;cursor:pointer;background:transparent;color:var(--txt-2)}
 .mob-theme svg{width:18px;height:18px}.mob-theme:hover{background:var(--surface);color:var(--txt)}
 .mob-cta{display:flex;justify-content:space-between;width:100%;max-width:812px;margin:auto;min-height:48px;padding:12px 18px}.mob-cta span{font-size:19px}
-@keyframes menu-in{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes menu-in{from{opacity:0}to{opacity:1}}
+@keyframes menu-item-in{from{opacity:0;translate:0 10px}to{opacity:1;translate:0 0}}
+#mob[open] .mob-intro,#mob[open] .mob-links>* ,#mob[open] .mob-footer{animation:menu-item-in .36s var(--ease) both}
+#mob[open] .mob-intro{animation-delay:25ms}
+#mob[open] .mob-links>:nth-child(1){animation-delay:45ms}
+#mob[open] .mob-links>:nth-child(2){animation-delay:70ms}
+#mob[open] .mob-links>:nth-child(3){animation-delay:95ms}
+#mob[open] .mob-links>:nth-child(4){animation-delay:120ms}
+#mob[open] .mob-links>:nth-child(5){animation-delay:145ms}
+#mob[open] .mob-links>:nth-child(6){animation-delay:170ms}
+#mob[open] .mob-footer{animation-delay:90ms}
+.mlink,.mgrp summary{transition:color .2s var(--ease)}
+.mbody a{transition:color .2s var(--ease),translate .2s var(--ease)}
+@media(hover:hover){.mbody a:hover{translate:3px 0}}
 @media(min-width:641px){.mbody{grid-template-columns:1fr 1fr}.mob-intro{padding-bottom:30px}}
 @media(max-width:480px){.bar{gap:10px}.right{gap:8px}.brand{font-size:14px;letter-spacing:.12em;gap:8px}.brand img{width:38px;height:38px}.bar .icon-btn{width:44px;height:44px}.mob-inner{padding-top:24px}.mlink,.mgrp summary{min-height:60px}}
 
@@ -518,6 +531,8 @@ html[data-theme='light'] .moon{display:block}
 @media(prefers-reduced-motion:reduce){
   .sheet,#tabir,.sheet .scol,.sheet .skaki,.lmenu,#mob[open]{animation:none}
   .mgrp summary svg{transition:none}
+  #mob[open] .mob-intro,#mob[open] .mob-links>*,#mob[open] .mob-footer{animation:none}
+  .mbody a:hover{translate:none}
   .sit:hover{transform:none}
   .brand:hover img,.icon-btn:hover svg,.sit:hover .sik{transform:none}
 }
@@ -599,10 +614,20 @@ html[data-theme='light'] .moon{display:block}
     if (restoreFocus && !desktop.matches) b?.focus({ preventScroll: true });
     publish();
   };
-  const closeMobile = (restoreFocus = true) => {
-    if (m?.open) m.close();
-    unlock(restoreFocus);
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  let closing: Animation | null = null;
+  const closeMobile = (restoreFocus = true, animate = true) => {
+    const finish = () => {
+      if (closing) { closing.onfinish = null; closing.cancel(); closing = null; }
+      if (m?.open) m.close();
+      unlock(restoreFocus);
+    };
+    if (!animate || reduced.matches || !m?.open) return finish();
+    if (closing) return;
+    closing = m.animate([{ opacity: getComputedStyle(m).opacity }, { opacity: 0 }], { duration: 160, easing: 'ease-out' });
+    closing.onfinish = finish;
   };
+  reduced.addEventListener('change', () => { if (reduced.matches && closing) closeMobile(true, false); });
   const openMobile = () => {
     if (!m || desktop.matches || m.open) return;
     tutupSemua();
@@ -627,10 +652,7 @@ html[data-theme='light'] .moon{display:block}
   closeButton?.addEventListener('click', () => closeMobile());
   m?.addEventListener('cancel', e => { e.preventDefault(); closeMobile(); });
   m?.addEventListener('close', () => { if (!m.open) unlock(); });
-  m?.querySelectorAll('a').forEach(a => a.addEventListener('click', () => closeMobile(false)));
-  m?.querySelectorAll('details').forEach(group => group.addEventListener('toggle', () => {
-    if (group.open) m.querySelectorAll('details').forEach(other => { if (other !== group) other.open = false; });
-  }));
+  m?.querySelectorAll('a').forEach(a => a.addEventListener('click', () => closeMobile(false, false)));
   m?.addEventListener('keydown', e => {
     if (e.key !== 'Tab') return;
     const focusable = [...m.querySelectorAll<HTMLElement>('a[href],button:not([disabled]),summary')].filter(el => el.getClientRects().length > 0);
@@ -638,8 +660,8 @@ html[data-theme='light'] .moon{display:block}
     if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last?.focus(); }
     else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first?.focus(); }
   });
-  desktop.addEventListener('change', () => { closeMobile(false); tutupSemua(); });
-  window.addEventListener('pagehide', () => closeMobile(false));
+  desktop.addEventListener('change', () => { closeMobile(false, false); tutupSemua(); });
+  window.addEventListener('pagehide', () => closeMobile(false, false));
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape' && !m?.open) {
       const trigger = pemicu.find(p => p.getAttribute('aria-expanded') === 'true');

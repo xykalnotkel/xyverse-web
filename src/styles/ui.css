@@ -1,8 +1,16 @@
 /* ==========================================================================
    Xyverse UI Kit — komponen bersama untuk situs & dashboard admin
    Bergantung pada token di Base.astro (--pur, --line, --ok, --err, dst).
-   Tanpa animasi masuk/float. Kedalaman berasal dari cahaya, bukan gerak.
+   Gerak singkat dan konsisten; hormati reduced motion.
    ========================================================================== */
+
+/* Preserve HTML hidden semantics even when component CSS declares flex/grid.
+   until-found is intentionally left to the browser's content-visibility behavior. */
+[hidden]:not([hidden="until-found"]){display:none!important}
+
+@keyframes ui-appear{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+.alert:not([hidden]),.f-msg:not([hidden]){animation:ui-appear .22s var(--ease)}
+.dd-menu:not([hidden]){transform-origin:top;animation:ui-appear .18s var(--ease)}
 
 /* ---------- 1. FIELD & LABEL -------------------------------------------- */
 .f{display:flex;flex-direction:column;gap:7px;min-width:0}

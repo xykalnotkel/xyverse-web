@@ -11,7 +11,8 @@
     "test:mandiri": "node scripts/uji-build.mjs --mandiri",
     "test:responsif": "node scripts/uji-responsif.mjs",
     "test:browser": "node scripts/uji-form-browser.mjs",
-    "test:mobile": "node scripts/uji-mobile-browser.mjs"
+    "test:mobile": "node scripts/uji-mobile-browser.mjs",
+    "test:motion": "node scripts/uji-motion-browser.mjs"
   },
   "dependencies": {
     "@astrojs/markdown-remark": "^7.3.1",

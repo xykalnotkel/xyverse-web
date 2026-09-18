@@ -264,3 +264,25 @@ BASE_URL=http://127.0.0.1:4321 npm run test:mobile
 Suite Chromium memeriksa fullscreen, fokus, scroll, anchor, bahasa, desktop resize,
 320–1000px + landscape, reduced motion, save-data, pause offscreen, serta gambar tema
 tersembunyi tidak diunduh. Suite tidak mengirim email atau mengubah produksi.
+
+
+## Form tenang & motion UI
+
+- Semua `[hidden]` (kecuali `until-found`) dipastikan `display:none!important`.
+  Ini mencegah `.alert`/`.f-msg` yang memakai flex menampilkan notif sebelum interaksi.
+- `src/lib/form-kontak.ts` menyatukan alur kedua form: initial state bersih, untouched
+  blur tidak memunculkan error, error inline setelah interaksi/submit, tanpa banner
+  validasi duplikat. Satu status server saja; guard double submit dan `aria-busy`.
+  Sukses hanya setelah respons API; gagal mempertahankan isian. Koreksi mengetik
+  menghapus error lama. Dropdown kembali ke kondisi awal sesudah sukses.
+- `src/lib/motion.ts` memakai Web Animations API bawaan untuk accordion 260ms yang
+  bisa dibalik di tengah animasi. Menu punya entrance bertahap dan exit 160ms;
+  link/resize tetap menutup langsung supaya anchor/scroll tidak terganggu.
+- Reveal offscreen 480ms; konten tetap terlihat tanpa JS. Hover/press ringan;
+  reduced-motion menonaktifkan gerak tambahan. Tidak ada dependensi baru.
+
+Sesudah build + serve: `npm run test:browser` menguji **visibilitas yang dirender**
+(bukan hanya properti hidden), ID/EN × kedua form × light/dark, initial/untouched,
+validasi, pending, double-submit, success, 429, API/network error, dan first paint
+non-JS. Semua request pengiriman dicegat mock. `npm run test:motion` memeriksa
+ukuran antara, pembalikan/klik cepat, FAQ/menu, exit dan reduced motion.

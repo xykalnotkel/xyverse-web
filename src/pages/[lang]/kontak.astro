@@ -89,7 +89,7 @@ const mapsQ = encodeURIComponent('Tanak Beaq, Batukliang Utara, Lombok Tengah, N
         </div>
       </div>
 
-      <form class="cf reveal" id="cf" novalidate>
+      <form class="cf reveal" id="cf" novalidate data-min-pesan="20">
         <h2>{c.formH2}</h2>
         <p class="order-steps">{lang === 'id' ? '1. Kirim kebutuhan → 2. Tim konfirmasi stok & penawaran → 3. Sepakati pembayaran dan aktivasi. Mengisi form ini tidak langsung menagih pembayaran.' : '1. Send your requirements → 2. Our team confirms availability and a quote → 3. Agree on payment and activation. This form does not charge you.'}</p>
         <div class="f"><label class="f-lb" for="k-paket">{lang === 'id' ? 'Paket / layanan yang diminati' : 'Package / service of interest'}</label><input class="inp" id="k-paket" name="paket" list="paket-list" maxlength="120" placeholder={lang==='id'?'Opsional — pilih paket atau tulis kebutuhan':'Optional — choose a package or service'} /><datalist id="paket-list">{settings.plans.map(p=><option value={p.name}/>)}</datalist></div>
@@ -187,87 +187,11 @@ address{font-style:normal;font-size:14.5px;color:var(--txt-2);line-height:1.65}
 </style>
 
 <script>
-  import { kirimPesan, isiForm } from '../../lib/pesan';
-
-  const paket = document.getElementById('k-paket') as HTMLInputElement | null;
-  if (paket) paket.value = (new URLSearchParams(location.search).get('paket') || '').slice(0,120);
-
-  const f = document.getElementById('cf') as HTMLFormElement | null;
-  if (f) {
-    const btn = document.getElementById('cf-kirim') as HTMLButtonElement;
-    const boxErr = document.getElementById('cf-err') as HTMLElement;
-    const boxOk = document.getElementById('cf-ok') as HTMLElement;
-
-    const bidang = (n: string) => f.querySelector(`[data-f="${n}"]`) as HTMLElement | null;
-    const sahEmail = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);
-
-    const aturan: Record<string, (v: string) => boolean> = {
-      nama: (v) => v.trim().length > 1,
-      email: (v) => sahEmail(v.trim()),
-      pesan: (v) => v.trim().length >= 20,
-    };
-
-    function nilai(n: string) {
-      const w = bidang(n);
-      if (!w) return true;
-      const el = w.querySelector('.inp,.ta') as HTMLInputElement | HTMLTextAreaElement;
-      const ok = aturan[n](el.value);
-      w.classList.toggle('is-err', !ok);
-      const m = w.querySelector('[data-msg]') as HTMLElement | null;
-      if (m) m.hidden = ok;
-      el.setAttribute('aria-invalid', String(!ok));
-      return ok;
-    }
-
-    // validasi saat meninggalkan field, lalu langsung saat mengetik bila sudah merah
-    Object.keys(aturan).forEach((n) => {
-      const w = bidang(n);
-      const el = w?.querySelector('.inp,.ta') as HTMLElement | null;
-      el?.addEventListener('blur', () => nilai(n));
-      el?.addEventListener('input', () => { if (w!.classList.contains('is-err')) nilai(n); });
-    });
-
-    const TEKS = JSON.parse(document.getElementById('cf-teks')?.textContent || '{}');
-    f.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      boxOk.hidden = true;
-      const hasil = Object.keys(aturan).map(nilai);
-      if (hasil.includes(false)) {
-        boxErr.hidden = false;
-        (f.querySelector('.is-err .inp,.is-err .ta') as HTMLElement | null)?.focus();
-        return;
-      }
-      boxErr.hidden = true;
-
-      btn.classList.add('is-load');
-      btn.disabled = true;
-
-      /*
-       * Dulu di sini ada jeda 420 ms lalu `location.href = mailto:...` dan
-       * kotak sukses ditampilkan. Itu melaporkan keberhasilan yang tidak
-       * pernah terjadi: kalau tidak ada aplikasi email terdaftar, tidak ada
-       * apa pun yang terkirim.
-       */
-      const balasan = await kirimPesan(isiForm(f));
-      btn.classList.remove('is-load');
-      btn.disabled = false;
-      btn.textContent = btn.dataset.teks || '';
-
-      if (!balasan.ok) {
-        boxErr.textContent =
-          balasan.galat === 'jaringan' ? TEKS.jaringan
-          : balasan.galat === 'terlaluSering' ? TEKS.terlaluSering
-          : balasan.galat === 'gagal' ? TEKS.gagal
-          : balasan.galat;
-        boxErr.hidden = false;
-        boxErr.scrollIntoView({ block: 'nearest' });
-        return;
-      }
-
-      boxErr.hidden = true;
-      boxOk.hidden = false;
-      boxOk.scrollIntoView({ block: 'nearest' });
-      f.reset();
-    });
+  import { pasangFormKontak } from '../../lib/form-kontak';
+  const paket = document.querySelector<HTMLInputElement>('#k-paket');
+  if (paket) {
+    paket.value = (new URLSearchParams(location.search).get('paket') || '').slice(0, 120);
+    paket.defaultValue = paket.value;
   }
+  pasangFormKontak();
 </script>
