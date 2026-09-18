@@ -36,7 +36,7 @@ export const FAQ_HAL: Record<Lang, any> = {
         { t: 'Siapa yang bisa melihat data saya?', j: 'Tidak ada. Penyimpanan dienkripsi dan tim kami tidak mengakses isi mesin lu tanpa izin tertulis, kecuali diwajibkan hukum.' },
         { t: 'Apakah ada cadangan otomatis?', j: 'Snapshot harian tersedia mulai paket Pro dengan retensi 7 hari. Paket Enterprise bisa diatur sampai 30 hari.' },
         { t: 'Bagaimana kalau saya berhenti berlangganan?', j: 'Data disimpan 30 hari setelah langganan berakhir agar lu sempat mengunduh, lalu dihapus permanen.' },
-        { t: 'Bisa lapor celah keamanan?', j: 'Sangat kami hargai. Kirim privat ke keamanan@xyverse.my.id, jangan diumumkan di kanal publik. Detailnya ada di kebijakan keamanan kami.' },
+        { t: 'Bisa lapor celah keamanan?', j: 'Sangat kami hargai. Kirim privat ke xycdigital@gmail.com, jangan diumumkan di kanal publik. Detailnya ada di kebijakan keamanan kami.' },
       ]},
       { k: 'Dukungan', ik: 'help', q: [
         { t: 'Berapa lama balasan dukungan?', j: 'Starter dalam 24 jam kerja, Pro dalam 8 jam, Enterprise dalam 1 jam untuk isu kritis sepanjang waktu.' },
@@ -81,7 +81,7 @@ export const FAQ_HAL: Record<Lang, any> = {
         { t: 'Who can see my data?', j: 'Nobody. Storage is encrypted and our team does not access the contents of your machine without written permission, unless legally compelled.' },
         { t: 'Are there automatic backups?', j: 'Daily snapshots are included from the Pro plan with 7-day retention. Enterprise can be configured up to 30 days.' },
         { t: 'What happens if I cancel my subscription?', j: 'Data is retained for 30 days after the subscription ends so you have time to download it, then permanently deleted.' },
-        { t: 'Can I report a security vulnerability?', j: 'We would be grateful. Send it privately to keamanan@xyverse.my.id rather than announcing it publicly. Details are in our security policy.' },
+        { t: 'Can I report a security vulnerability?', j: 'We would be grateful. Send it privately to xycdigital@gmail.com rather than announcing it publicly. Details are in our security policy.' },
       ]},
       { k: 'Support', ik: 'help', q: [
         { t: 'How quickly does support reply?', j: 'Starter within 24 working hours, Pro within 8 hours, and Enterprise within 1 hour for critical issues, around the clock.' },

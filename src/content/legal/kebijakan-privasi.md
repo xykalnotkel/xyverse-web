@@ -112,7 +112,7 @@ Sesuai UU PDP, Anda berhak untuk:
 6. **Menolak** — menolak pemrosesan untuk tujuan pemasaran.
 7. **Menarik persetujuan** — kapan saja, untuk pemrosesan berbasis persetujuan.
 
-Kirim permintaan ke [privasi@xyverse.my.id](mailto:privasi@xyverse.my.id). Kami
+Kirim permintaan ke [xycdigital@gmail.com](mailto:xycdigital@gmail.com). Kami
 menanggapi paling lambat **14 hari kerja**.
 
 ## 9. Data anak
@@ -132,7 +132,7 @@ sebelum berlaku. Riwayat versi tersedia atas permintaan.
 
 ## 12. Kontak dan pengaduan
 
-- Petugas Pelindungan Data: [privasi@xyverse.my.id](mailto:privasi@xyverse.my.id)
+- Petugas Pelindungan Data: [xycdigital@gmail.com](mailto:xycdigital@gmail.com)
 - Alamat: Tanak Beaq, Lombok Tengah, Nusa Tenggara Barat 83562
 
 Bila tanggapan kami dinilai belum memadai, Anda berhak menyampaikan pengaduan kepada lembaga

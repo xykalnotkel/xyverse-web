@@ -67,7 +67,7 @@ If Xyverse stops a project for reasons not attributable to the Client, all funds
 
 ## 6. How to apply
 
-1. Email [halo@xyverse.my.id](mailto:halo@xyverse.my.id) with the subject **"Refund Request"**.
+1. Email [xycdigital@gmail.com](mailto:xycdigital@gmail.com) with the subject **"Refund Request"**.
 2. Include your account email, the invoice number, and a brief reason.
 3. We respond within **2 working days**.
 4. If approved, funds are sent within **7–14 working days** to the original payment method.
@@ -80,4 +80,4 @@ Administrative fees from the payment provider, where any apply, are borne by Xyv
 
 ## 8. Disputes
 
-If a request is declined and you disagree, ask for a review at [legal@xyverse.my.id](mailto:legal@xyverse.my.id). We favour resolving matters by discussion before any formal route.
+If a request is declined and you disagree, ask for a review at [xycdigital@gmail.com](mailto:xycdigital@gmail.com). We favour resolving matters by discussion before any formal route.

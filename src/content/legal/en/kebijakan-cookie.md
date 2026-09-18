@@ -74,4 +74,4 @@ If we add a new kind of cookie, the tables above are updated and the date at the
 
 ## 7. Contact
 
-Questions about our use of cookies can be sent to [privasi@xyverse.my.id](mailto:privasi@xyverse.my.id).
+Questions about our use of cookies can be sent to [xycdigital@gmail.com](mailto:xycdigital@gmail.com).

@@ -52,7 +52,7 @@ Credit is issued as a discount on the following period's invoice, not as cash. T
 ## 6. How to file a claim
 
 1. File within **30 days** of the month the disruption occurred.
-2. Send it to [halo@xyverse.my.id](mailto:halo@xyverse.my.id) with the subject **"SLA Claim"**.
+2. Send it to [xycdigital@gmail.com](mailto:xycdigital@gmail.com) with the subject **"SLA Claim"**.
 3. Include the Instance ID, the date and time of the disruption with its time zone, and supporting evidence such as ping results, a traceroute, or screenshots.
 4. We verify and reply within **10 working days**.
 5. Approved credit appears on your next invoice.

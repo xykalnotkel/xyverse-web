@@ -74,7 +74,7 @@ belum dikerjakan dikembalikan penuh.
 
 ## 6. Cara mengajukan
 
-1. Kirim email ke [halo@xyverse.my.id](mailto:halo@xyverse.my.id) dengan subjek **"Permintaan Pengembalian Dana"**.
+1. Kirim email ke [xycdigital@gmail.com](mailto:xycdigital@gmail.com) dengan subjek **"Permintaan Pengembalian Dana"**.
 2. Sertakan email akun, nomor invoice, dan alasan singkat.
 3. Kami menanggapi dalam **2 hari kerja**.
 4. Bila disetujui, dana dikirim dalam **7–14 hari kerja** ke metode pembayaran asal.
@@ -89,5 +89,5 @@ disebabkan kesalahan kami, dan ditanggung Pelanggan untuk pembatalan atas kehend
 ## 8. Sengketa
 
 Bila permintaan ditolak dan Anda tidak sepakat, ajukan peninjauan ulang ke
-[legal@xyverse.my.id](mailto:legal@xyverse.my.id). Kami mengutamakan penyelesaian
+[xycdigital@gmail.com](mailto:xycdigital@gmail.com). Kami mengutamakan penyelesaian
 musyawarah sebelum jalur formal.

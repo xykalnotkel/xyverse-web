@@ -51,7 +51,7 @@ A Cloud PC behaves like a personal computer: what is inside it is entirely under
 
 We welcome reports from security researchers.
 
-**Send to:** [keamanan@xyverse.my.id](mailto:keamanan@xyverse.my.id)
+**Send to:** [xycdigital@gmail.com](mailto:xycdigital@gmail.com)
 **Standard file:** [/.well-known/security.txt](/.well-known/security.txt)
 
 ### What to include
@@ -108,6 +108,6 @@ Where a security incident affects Customer data:
 
 ## 7. Contact
 
-- Security vulnerabilities: [keamanan@xyverse.my.id](mailto:keamanan@xyverse.my.id)
-- Service abuse: [abuse@xyverse.my.id](mailto:abuse@xyverse.my.id)
-- General questions: [halo@xyverse.my.id](mailto:halo@xyverse.my.id)
+- Security vulnerabilities: [xycdigital@gmail.com](mailto:xycdigital@gmail.com)
+- Service abuse: [xycdigital@gmail.com](mailto:xycdigital@gmail.com)
+- General questions: [xycdigital@gmail.com](mailto:xycdigital@gmail.com)

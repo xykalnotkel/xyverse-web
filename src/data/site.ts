@@ -1,3 +1,4 @@
+import settings from './settings.json';
 export const SITE = {
   nama: 'Xyverse',
   /**
@@ -8,12 +9,12 @@ export const SITE = {
   url: (import.meta.env.PUBLIC_SITE_URL || 'https://www.xyverse.my.id').replace(/\/+$/, ''),
   tagline: 'Cloud PC, Apps & Software',
   desc: 'Xyverse menyewakan Cloud PC berperforma tinggi dan memproduksi aplikasi, software, serta tools digital untuk kreator dan bisnis di Indonesia.',
-  email: 'halo@xyverse.my.id',
-  emailLegal: 'legal@xyverse.my.id',
-  emailPrivasi: 'privasi@xyverse.my.id',
-  emailAbuse: 'abuse@xyverse.my.id',
-  wa: '6281234567890',
-  waTampil: '+62 812-3456-7890',
+  email: settings.email,
+  emailLegal: settings.email,
+  emailPrivasi: settings.email,
+  emailAbuse: settings.email,
+  wa: settings.wa,
+  waTampil: settings.wa ? '+' + settings.wa : '',
   alamat: {
     jalan: 'Tanak Beaq, Kec. Batukliang Utara',
     kota: 'Kabupaten Lombok Tengah',
@@ -25,16 +26,7 @@ export const SITE = {
   berdiri: 2024,
 };
 
-export const SOSMED = [
-  { nama: 'Instagram', url: 'https://instagram.com/xyverse.id', handle: '@xyverse.id', ikon: 'instagram' },
-  { nama: 'X', url: 'https://x.com/xyverse_id', handle: '@xyverse_id', ikon: 'x' },
-  { nama: 'GitHub', url: 'https://github.com/xykalnotkel', handle: 'xykalnotkel', ikon: 'github' },
-  { nama: 'YouTube', url: 'https://youtube.com/@xyverse', handle: '@xyverse', ikon: 'youtube' },
-  { nama: 'Discord', url: 'https://discord.gg/xyverse', handle: 'Komunitas Xyverse', ikon: 'discord' },
-  { nama: 'LinkedIn', url: 'https://linkedin.com/company/xyverse', handle: 'Xyverse', ikon: 'linkedin' },
-  { nama: 'TikTok', url: 'https://tiktok.com/@xyverse.id', handle: '@xyverse.id', ikon: 'tiktok' },
-  { nama: 'Telegram', url: 'https://t.me/xyverse', handle: '@xyverse', ikon: 'telegram' },
-];
+export const SOSMED = settings.socials;
 
 export const APLIKASI = [
   {

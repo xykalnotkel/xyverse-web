@@ -74,7 +74,7 @@ Our products build on open-source components. Among them:
 | Electron | MIT |
 | Astro | MIT |
 
-The complete list with full licence texts is available inside the apps under **About › Third-Party Licences**, or on request from [legal@xyverse.my.id](mailto:legal@xyverse.my.id).
+The complete list with full licence texts is available inside the apps under **About › Third-Party Licences**, or on request from [xycdigital@gmail.com](mailto:xycdigital@gmail.com).
 
 ## 6. Disclaimer of warranty
 
@@ -82,4 +82,4 @@ The software is provided "as is" without warranty of any kind, express or implie
 
 ## 7. Contact
 
-Requests to use our marks, and licensing questions: [legal@xyverse.my.id](mailto:legal@xyverse.my.id).
+Requests to use our marks, and licensing questions: [xycdigital@gmail.com](mailto:xycdigital@gmail.com).

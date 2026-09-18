@@ -75,7 +75,7 @@ export const GALAT: Record<Lang, { meta: string; foot1: string; footA: string; f
         tautan: [
           { slug: 'legal', t: 'Pusat Legal', d: 'Semua dokumen yang berlaku' },
           { slug: 'legal/kebijakan-privasi', t: 'Kebijakan Privasi', d: 'Cara kami memperlakukan data lu' },
-          { slug: 'kontak', t: 'Hubungi tim legal', d: 'legal@xyverse.my.id' },
+          { slug: 'kontak', t: 'Hubungi tim legal', d: 'xycdigital@gmail.com' },
         ],
       },
       aplikasi: {
@@ -140,7 +140,7 @@ export const GALAT: Record<Lang, { meta: string; foot1: string; footA: string; f
           // Slug konten EN memang masih memakai nama berkas Indonesia —
           // itu keputusan lama di slugKonten(), bukan salah ketik di sini.
           { slug: 'legal/kebijakan-privasi', t: 'Privacy Policy', d: 'How we handle your data' },
-          { slug: 'kontak', t: 'Contact legal', d: 'legal@xyverse.my.id' },
+          { slug: 'kontak', t: 'Contact legal', d: 'xycdigital@gmail.com' },
         ],
       },
       aplikasi: {

@@ -1,4 +1,6 @@
 ---
+import settings from '../../data/settings.json';
+import { SITE } from '../../data/site';
 import { jalurBahasa, rute } from '../../i18n/config';
 import { pakaiT } from '../../i18n/ui';
 import { KONTAK } from '../../i18n/halaman/kontak';
@@ -41,21 +43,21 @@ const mapsQ = encodeURIComponent('Tanak Beaq, Batukliang Utara, Lombok Tengah, N
           </div>
           <div>
             <h3>{c.hEmail}</h3>
-            <a href="mailto:halo@xyverse.my.id">halo@xyverse.my.id</a>
+            <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
             <p>{c.pEmail}</p>
           </div>
         </div>
 
-        <div class="ibox reveal">
+        {SITE.wa && (<div class="ibox reveal">
           <div class="ic">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-12.6 7.3L3 20.5l1.8-5.3A8.4 8.4 0 1 1 21 11.5z"/></svg>
           </div>
           <div>
             <h3>{c.hWa}</h3>
-            <a href="https://wa.me/6281234567890" target="_blank" rel="noopener">+62 812-3456-7890</a>
+            <a href={`https://wa.me/${SITE.wa}`} target="_blank" rel="noopener">{SITE.waTampil}</a>
             <p>{c.pWa}</p>
           </div>
-        </div>
+        </div>)}
 
         <div class="ibox reveal">
           <div class="ic">
@@ -89,6 +91,8 @@ const mapsQ = encodeURIComponent('Tanak Beaq, Batukliang Utara, Lombok Tengah, N
 
       <form class="cf reveal" id="cf" novalidate>
         <h2>{c.formH2}</h2>
+        <p class="order-steps">{lang === 'id' ? '1. Kirim kebutuhan → 2. Tim konfirmasi stok & penawaran → 3. Sepakati pembayaran dan aktivasi. Mengisi form ini tidak langsung menagih pembayaran.' : '1. Send your requirements → 2. Our team confirms availability and a quote → 3. Agree on payment and activation. This form does not charge you.'}</p>
+        <div class="f"><label class="f-lb" for="k-paket">{lang === 'id' ? 'Paket / layanan yang diminati' : 'Package / service of interest'}</label><input class="inp" id="k-paket" name="paket" list="paket-list" maxlength="120" placeholder={lang==='id'?'Opsional — pilih paket atau tulis kebutuhan':'Optional — choose a package or service'} /><datalist id="paket-list">{settings.plans.map(p=><option value={p.name}/>)}</datalist></div>
 
         <Pesan tipe="err" id="cf-err" sembunyi k="cf-top">{c.errUmum}</Pesan>
         <Pesan tipe="ok" id="cf-ok" judul={c.okJudul} sembunyi k="cf-top">{c.fOk}</Pesan>
@@ -149,6 +153,7 @@ const mapsQ = encodeURIComponent('Tanak Beaq, Batukliang Utara, Lombok Tengah, N
 </Base>
 
 <style>
+.order-steps{font-size:13px;line-height:1.7;color:var(--muted);margin:12px 0 24px}
 .layout{display:grid;grid-template-columns:1fr 1.15fr;gap:48px;align-items:start}
 @media(max-width:1000px){.layout{grid-template-columns:1fr;gap:36px}}
 /* Disembunyikan dari manusia, tetap ada di DOM untuk bot. */
@@ -183,6 +188,9 @@ address{font-style:normal;font-size:14.5px;color:var(--txt-2);line-height:1.65}
 
 <script>
   import { kirimPesan, isiForm } from '../../lib/pesan';
+
+  const paket = document.getElementById('k-paket') as HTMLInputElement | null;
+  if (paket) paket.value = (new URLSearchParams(location.search).get('paket') || '').slice(0,120);
 
   const f = document.getElementById('cf') as HTMLFormElement | null;
   if (f) {

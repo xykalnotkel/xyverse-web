@@ -15,7 +15,7 @@ dengan Digital Millennium Copyright Act untuk pelapor dari luar negeri.
 
 | Keterangan | Data |
 |---|---|
-| Alamat email | [abuse@xyverse.my.id](mailto:abuse@xyverse.my.id) |
+| Alamat email | [xycdigital@gmail.com](mailto:xycdigital@gmail.com) |
 | Subjek email | Laporan Pelanggaran Hak Cipta |
 | Alamat surat | Tanak Beaq, Lombok Tengah, Nusa Tenggara Barat 83562, Indonesia |
 | Bahasa | Indonesia atau Inggris |
@@ -55,7 +55,7 @@ Pelanggan yang materinya dinonaktifkan dapat mengajukan sanggahan dengan memuat:
 4. Pernyataan kesediaan tunduk pada yurisdiksi pengadilan yang berwenang.
 5. Tanda tangan.
 
-Kirim ke [legal@xyverse.my.id](mailto:legal@xyverse.my.id). Sanggahan akan kami
+Kirim ke [xycdigital@gmail.com](mailto:xycdigital@gmail.com). Sanggahan akan kami
 teruskan kepada pelapor. Bila dalam **10 hari kerja** pelapor tidak menempuh jalur hukum,
 materi dapat dipulihkan.
 

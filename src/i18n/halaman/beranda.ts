@@ -1,3 +1,4 @@
+import settings from '../../data/settings.json';
 import type { Lang } from '../config';
 
 export const BERANDA: Record<Lang, any> = {
@@ -81,9 +82,9 @@ export const BERANDA: Record<Lang, any> = {
     errUmum: 'Ada isian yang belum benar. Periksa tanda merah di bawah.',
     errNama: 'Nama wajib diisi.', errEmail: 'Alamat email belum benar.',
     errPesan: 'Ceritakan sedikit lebih panjang, minimal 10 huruf.',
-    errJaringan: 'Tidak bisa terhubung ke server. Periksa koneksi lu, atau email langsung ke halo@xyverse.my.id.',
+    errJaringan: `Tidak bisa terhubung ke server. Periksa koneksi lu, atau email langsung ke ${settings.email}.`,
     errTerlaluSering: 'Terlalu banyak pesan dari koneksi ini. Tunggu sebentar lalu coba lagi.',
-    errKirim: 'Pesan belum bisa dikirim. Coba lagi, atau email langsung ke halo@xyverse.my.id.',
+    errKirim: `Pesan belum bisa dikirim. Coba lagi, atau email langsung ke ${settings.email}.`,
     fOpsi: ['Sewa Cloud PC', 'Produksi Aplikasi', 'Software Custom', 'Tools & Automation', 'Lainnya'],
   },
 
@@ -167,9 +168,9 @@ export const BERANDA: Record<Lang, any> = {
     errUmum: 'Something is not right yet. Check the fields marked in red.',
     errNama: 'Please enter your name.', errEmail: 'That email address does not look right.',
     errPesan: 'Tell us a little more — at least 10 characters.',
-    errJaringan: 'Could not reach the server. Check your connection, or email halo@xyverse.my.id directly.',
+    errJaringan: `Could not reach the server. Check your connection, or email ${settings.email} directly.`,
     errTerlaluSering: 'Too many messages from this connection. Please wait a moment and try again.',
-    errKirim: 'The message could not be sent. Try again, or email halo@xyverse.my.id directly.',
+    errKirim: `The message could not be sent. Try again, or email ${settings.email} directly.`,
     fOpsi: ['Cloud PC rental', 'App development', 'Custom software', 'Tools & automation', 'Something else'],
   },
 };

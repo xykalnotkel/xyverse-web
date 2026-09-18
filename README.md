@@ -225,3 +225,17 @@ BASE_URL=http://127.0.0.1:4321 npm run test:browser
 Uji ini mencakup beranda dan kontak ID/EN: validasi, POST sukses, galat
 layanan, jaringan putus, serta pemulihan tombol kirim. Impor fungsi yang
 berjalan di browser harus berada di blok `<script>`, bukan frontmatter Astro.
+
+### Pengaturan publik & permintaan paket
+
+`src/data/settings.json` dikelola owner dari dashboard. Kontak sementara memakai
+Gmail; WA kosong berarti kartu WA disembunyikan. Sosial hanya menampilkan akun
+terverifikasi yang dicantumkan. Harga tiga paket mengikuti setting ID/EN.
+
+Tombol paket membawa parameter `paket` ke /id/kontak atau /en/kontak. Form menjelaskan
+bahwa stok, penawaran, pembayaran, dan aktivasi dikonfirmasi tim; bukan checkout.
+Permintaan disimpan di inbox privat admin sebelum notifikasi email dikirim.
+
+Runtime build kini Node.js 24 dan Astro 7.3.3. Plugin markdown tetap memakai
+`@astrojs/markdown-remark` untuk mempertahankan pengolahan gambar dan kontak.
+Pemeriksa responsif memahami output CSS media range (`width<=…`) dari compiler baru.

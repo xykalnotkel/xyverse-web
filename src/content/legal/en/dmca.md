@@ -13,7 +13,7 @@ Xyverse respects intellectual property rights and acts on valid copyright infrin
 
 | Detail | Information |
 |---|---|
-| Email address | [abuse@xyverse.my.id](mailto:abuse@xyverse.my.id) |
+| Email address | [xycdigital@gmail.com](mailto:xycdigital@gmail.com) |
 | Email subject | Copyright Infringement Report |
 | Postal address | Tanak Beaq, Central Lombok, West Nusa Tenggara 83562, Indonesia |
 | Language | Indonesian or English |
@@ -53,7 +53,7 @@ A customer whose material has been disabled may file a counter-notice containing
 4. A statement consenting to the jurisdiction of the competent court.
 5. A signature.
 
-Send it to [legal@xyverse.my.id](mailto:legal@xyverse.my.id). We will pass the counter-notice to the reporter. If the reporter does not pursue legal action within **10 working days**, the material may be restored.
+Send it to [xycdigital@gmail.com](mailto:xycdigital@gmail.com). We will pass the counter-notice to the reporter. If the reporter does not pursue legal action within **10 working days**, the material may be restored.
 
 ## 6. Repeat infringers
 

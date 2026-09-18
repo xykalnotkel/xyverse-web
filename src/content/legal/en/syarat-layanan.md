@@ -26,7 +26,7 @@ The Customer must be at least 17 years old or hold permission from a lawful guar
 
 The Customer is responsible for keeping account credentials confidential. Every activity carried out through the Customer's account is treated as the Customer's own.
 
-Report any sign of unauthorised access to [halo@xyverse.my.id](mailto:halo@xyverse.my.id) immediately. We recommend enabling two-step authentication on your account.
+Report any sign of unauthorised access to [xycdigital@gmail.com](mailto:xycdigital@gmail.com) immediately. We recommend enabling two-step authentication on your account.
 
 ## 5. Scope of the service
 
@@ -121,6 +121,6 @@ This agreement is governed by the law of the Republic of Indonesia. Any dispute 
 
 Questions about these Terms of Service can be sent to:
 
-- General email: [halo@xyverse.my.id](mailto:halo@xyverse.my.id)
-- Legal email: [legal@xyverse.my.id](mailto:legal@xyverse.my.id)
+- General email: [xycdigital@gmail.com](mailto:xycdigital@gmail.com)
+- Legal email: [xycdigital@gmail.com](mailto:xycdigital@gmail.com)
 - Address: Tanak Beaq, Central Lombok, West Nusa Tenggara 83562

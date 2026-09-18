@@ -1,4 +1,5 @@
 ---
+import { SITE } from '../../data/site';
 import { jalurBahasa, rute } from '../../i18n/config';
 import { pakaiT } from '../../i18n/ui';
 import { HARGA } from '../../i18n/halaman/harga';
@@ -50,7 +51,7 @@ const check = '<polyline points="20 6 9 17 4 12"/>';
                 </li>
               ))}
             </ul>
-            <a href={r() + '#kontak'} class={`btn ${p.hi ? 'btn-p' : 'btn-g'} pbtn`}>{c.pesan}</a>
+            <a href={`${r('kontak')}?paket=${encodeURIComponent(p.n)}`} class={`btn ${p.hi ? 'btn-p' : 'btn-g'} pbtn`}>{c.pesan}</a>
           </div>
         ))}
       </div>
@@ -81,7 +82,7 @@ const check = '<polyline points="20 6 9 17 4 12"/>';
                 </li>
               ))}
             </ul>
-            <a href={r() + '#kontak'} class="btn btn-g pbtn">{c.penawaran}</a>
+            <a href={`${r('kontak')}?paket=${encodeURIComponent(p.n)}`} class="btn btn-g pbtn">{c.penawaran}</a>
           </div>
         ))}
       </div>
@@ -94,8 +95,8 @@ const check = '<polyline points="20 6 9 17 4 12"/>';
         <h2 class="h2">{c.ctaH2}</h2>
         <p class="lead">{c.ctaP}</p>
         <div class="row">
-          <a href={r() + '#kontak'} class="btn btn-p">{c.ctaB1} <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" set:html={arrow} /></a>
-          <a href="mailto:halo@xyverse.my.id" class="btn btn-g">halo@xyverse.my.id</a>
+          <a href={r('kontak')} class="btn btn-p">{c.ctaB1} <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" set:html={arrow} /></a>
+          <a href={`mailto:${SITE.email}`} class="btn btn-g">{SITE.email}</a>
         </div>
       </div>
     </div>

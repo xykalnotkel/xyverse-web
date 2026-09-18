@@ -97,7 +97,7 @@ isolasi jaringan dan memberitahukan setelahnya.
 ## 6. Melaporkan penyalahgunaan
 
 Bila Anda menemukan penyalahgunaan yang bersumber dari jaringan kami, laporkan ke
-[abuse@xyverse.my.id](mailto:abuse@xyverse.my.id) dengan menyertakan alamat IP,
+[xycdigital@gmail.com](mailto:xycdigital@gmail.com) dengan menyertakan alamat IP,
 stempel waktu beserta zona waktunya, dan potongan log yang relevan.
 
 Kami menanggapi laporan penyalahgunaan dalam **24 jam**.
@@ -105,5 +105,5 @@ Kami menanggapi laporan penyalahgunaan dalam **24 jam**.
 ## 7. Mengajukan keberatan
 
 Bila Anda menilai tindakan penegakan keliru, kirim keberatan ke
-[halo@xyverse.my.id](mailto:halo@xyverse.my.id) dalam 14 hari. Kami akan meninjau ulang dan
+[xycdigital@gmail.com](mailto:xycdigital@gmail.com) dalam 14 hari. Kami akan meninjau ulang dan
 memberi jawaban dalam 5 hari kerja.

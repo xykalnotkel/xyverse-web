@@ -1,5 +1,6 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
+import kontakPublik from './scripts/rehype-kontak.mjs';
 import gambarMarkdown from './scripts/rehype-gambar.mjs';
 import { petaSitemap } from './scripts/peta-sitemap.mjs';
 
@@ -63,7 +64,7 @@ export default defineConfig({
   ],
   // Gambar di markdown disempurnakan di tingkat AST — lihat
   // scripts/rehype-gambar.mjs untuk alasan tiap atributnya.
-  markdown: { rehypePlugins: [gambarMarkdown] },
+  markdown: { rehypePlugins: [gambarMarkdown, kontakPublik] },
   server: { host: '0.0.0.0', port: 4321 },
   preview: { host: '0.0.0.0', port: 4321 },
   vite: {

@@ -1,3 +1,4 @@
+import settings from '../../data/settings.json';
 import type { Lang } from '../config';
 
 export const HARGA: Record<Lang, any> = {
@@ -52,3 +53,8 @@ export const HARGA: Record<Lang, any> = {
     ],
   },
 };
+
+// Public display values managed by the owner in the admin dashboard.
+for (const lang of ['id', 'en'] as const) {
+  HARGA[lang].cloud = HARGA[lang].cloud.map((p: any, i: number) => ({ ...p, n: settings.plans[i].name, p: lang === 'id' ? settings.plans[i].priceId : settings.plans[i].priceEn }));
+}

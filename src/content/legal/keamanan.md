@@ -55,7 +55,7 @@ keamanannya.
 
 Kami menyambut baik laporan dari peneliti keamanan.
 
-**Kirim ke:** [keamanan@xyverse.my.id](mailto:keamanan@xyverse.my.id)
+**Kirim ke:** [xycdigital@gmail.com](mailto:xycdigital@gmail.com)
 **Berkas standar:** [/.well-known/security.txt](/.well-known/security.txt)
 
 ### Yang perlu disertakan
@@ -119,6 +119,6 @@ Bila terjadi insiden keamanan yang memengaruhi data Pelanggan:
 
 ## 7. Kontak
 
-- Kerentanan keamanan: [keamanan@xyverse.my.id](mailto:keamanan@xyverse.my.id)
-- Penyalahgunaan layanan: [abuse@xyverse.my.id](mailto:abuse@xyverse.my.id)
-- Pertanyaan umum: [halo@xyverse.my.id](mailto:halo@xyverse.my.id)
+- Kerentanan keamanan: [xycdigital@gmail.com](mailto:xycdigital@gmail.com)
+- Penyalahgunaan layanan: [xycdigital@gmail.com](mailto:xycdigital@gmail.com)
+- Pertanyaan umum: [xycdigital@gmail.com](mailto:xycdigital@gmail.com)

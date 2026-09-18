@@ -84,4 +84,4 @@ pembaruan di bagian atas halaman ini ikut berubah.
 ## 7. Kontak
 
 Pertanyaan mengenai penggunaan cookie dapat dikirim ke
-[privasi@xyverse.my.id](mailto:privasi@xyverse.my.id).
+[xycdigital@gmail.com](mailto:xycdigital@gmail.com).

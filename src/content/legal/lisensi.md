@@ -87,7 +87,7 @@ Produk kami memanfaatkan komponen sumber terbuka. Beberapa di antaranya:
 
 Daftar lengkap beserta teks lisensinya tersedia di dalam aplikasi pada menu **Tentang ›
 Lisensi Pihak Ketiga**, atau dapat diminta melalui
-[legal@xyverse.my.id](mailto:legal@xyverse.my.id).
+[xycdigital@gmail.com](mailto:xycdigital@gmail.com).
 
 ## 6. Penafian jaminan
 
@@ -97,4 +97,4 @@ tersurat maupun tersirat, termasuk jaminan kelayakan untuk tujuan tertentu.
 ## 7. Kontak
 
 Permintaan izin penggunaan merek atau pertanyaan lisensi:
-[legal@xyverse.my.id](mailto:legal@xyverse.my.id).
+[xycdigital@gmail.com](mailto:xycdigital@gmail.com).

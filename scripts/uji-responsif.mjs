@@ -270,7 +270,7 @@ function cssHalaman(html) {
     }
     bagian.push(cacheCssBerkas.get(jalur));
   }
-  return bagian.join('\n');
+  return bagian.join('\n').replace(/\(\s*width\s*(<=|>=)\s*([\d.]+)(px|rem|em)\s*\)/g, (_, op, n, unit) => `(${op === '<=' ? 'max' : 'min'}-width:${n}${unit})`);
 }
 
 /**

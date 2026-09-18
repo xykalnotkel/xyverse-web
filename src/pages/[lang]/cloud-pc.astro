@@ -1,4 +1,5 @@
 ---
+import { SITE } from '../../data/site';
 import { jalurBahasa, rute } from '../../i18n/config';
 import { pakaiT } from '../../i18n/ui';
 import { CLOUDPC } from '../../i18n/halaman/cloudpc';
@@ -80,7 +81,7 @@ const arrow = '<path d="M5 12h14M13 6l6 6-6 6"/>';
         <p class="lead">{c.ctaP}</p>
         <div class="row" style="justify-content:center">
           <a href={r() + '#kontak'} class="btn btn-p">{c.ctaB1} <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" set:html={arrow} /></a>
-          <a href="mailto:halo@xyverse.my.id" class="btn btn-g">halo@xyverse.my.id</a>
+          <a href={`mailto:${SITE.email}`} class="btn btn-g">{SITE.email}</a>
         </div>
       </div>
     </div>

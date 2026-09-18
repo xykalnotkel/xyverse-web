@@ -83,10 +83,10 @@ For an active threat, such as an attack leaving your Instance, we may isolate th
 
 ## 6. Reporting abuse
 
-If you find abuse originating from our network, report it to [abuse@xyverse.my.id](mailto:abuse@xyverse.my.id) with the IP address, a timestamp including its time zone, and the relevant log excerpt.
+If you find abuse originating from our network, report it to [xycdigital@gmail.com](mailto:xycdigital@gmail.com) with the IP address, a timestamp including its time zone, and the relevant log excerpt.
 
 We respond to abuse reports within **24 hours**.
 
 ## 7. Filing an objection
 
-If you believe an enforcement action was wrong, send an objection to [halo@xyverse.my.id](mailto:halo@xyverse.my.id) within 14 days. We will review it and reply within 5 working days.
+If you believe an enforcement action was wrong, send an objection to [xycdigital@gmail.com](mailto:xycdigital@gmail.com) within 14 days. We will review it and reply within 5 working days.

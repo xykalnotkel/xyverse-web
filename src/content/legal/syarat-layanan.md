@@ -32,7 +32,7 @@ usaha tersebut.
 Pelanggan bertanggung jawab menjaga kerahasiaan kredensial akun. Seluruh aktivitas yang
 terjadi melalui akun Pelanggan dianggap dilakukan oleh Pelanggan.
 
-Segera laporkan ke [halo@xyverse.my.id](mailto:halo@xyverse.my.id) bila ada indikasi akses
+Segera laporkan ke [xycdigital@gmail.com](mailto:xycdigital@gmail.com) bila ada indikasi akses
 tidak sah. Kami menyarankan mengaktifkan autentikasi dua langkah pada akun.
 
 ## 5. Ruang lingkup layanan
@@ -153,6 +153,6 @@ diselesaikan melalui Pengadilan Negeri yang berwenang di wilayah Nusa Tenggara B
 
 Pertanyaan mengenai Syarat Layanan ini dapat dikirim ke:
 
-- Email umum: [halo@xyverse.my.id](mailto:halo@xyverse.my.id)
-- Email legal: [legal@xyverse.my.id](mailto:legal@xyverse.my.id)
+- Email umum: [xycdigital@gmail.com](mailto:xycdigital@gmail.com)
+- Email legal: [xycdigital@gmail.com](mailto:xycdigital@gmail.com)
 - Alamat: Tanak Beaq, Lombok Tengah, Nusa Tenggara Barat 83562

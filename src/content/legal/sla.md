@@ -56,7 +56,7 @@ dalam satu bulan tidak melebihi 100% tagihan bulan tersebut.
 ## 6. Cara mengajukan klaim
 
 1. Ajukan dalam **30 hari** setelah bulan terjadinya gangguan.
-2. Kirim ke [halo@xyverse.my.id](mailto:halo@xyverse.my.id) dengan subjek **"Klaim SLA"**.
+2. Kirim ke [xycdigital@gmail.com](mailto:xycdigital@gmail.com) dengan subjek **"Klaim SLA"**.
 3. Sertakan ID Instance, tanggal dan jam gangguan beserta zona waktu, serta bukti pendukung berupa hasil ping, traceroute, atau tangkapan layar.
 4. Kami memverifikasi dan menjawab dalam **10 hari kerja**.
 5. Kredit yang disetujui muncul pada tagihan berikutnya.

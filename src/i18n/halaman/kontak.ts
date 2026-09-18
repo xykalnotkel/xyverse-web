@@ -1,3 +1,4 @@
+import settings from '../../data/settings.json';
 import type { Lang } from '../config';
 
 export const KONTAK: Record<Lang, any> = {
@@ -21,9 +22,9 @@ export const KONTAK: Record<Lang, any> = {
     fKirim: 'Kirim Pesan',
     fOk: '✓ Terkirim. Kami balas ke email lu, biasanya dalam satu hari kerja.',
     fSitus: 'Situs web (biarkan kosong)',
-    errJaringan: 'Tidak bisa terhubung ke server. Periksa koneksi lu, atau email langsung ke halo@xyverse.my.id.',
+    errJaringan: `Tidak bisa terhubung ke server. Periksa koneksi lu, atau email langsung ke ${settings.email}.`,
     errTerlaluSering: 'Terlalu banyak pesan dari koneksi ini. Tunggu sebentar lalu coba lagi.',
-    errKirim: 'Pesan belum bisa dikirim. Coba lagi, atau email langsung ke halo@xyverse.my.id.',
+    errKirim: `Pesan belum bisa dikirim. Coba lagi, atau email langsung ke ${settings.email}.`,
     fNote: 'Dengan mengirim, lu setuju kami menghubungi lu terkait permintaan ini.',
     opsiTopik: ['Sewa Cloud PC', 'Produksi Aplikasi', 'Software Custom', 'Tools & Automation', 'Kerja Sama / Partner', 'Lainnya'],
     opsiBudget: ['Belum ditentukan', 'Di bawah Rp5 juta', 'Rp5 – 20 juta', 'Rp20 – 50 juta', 'Di atas Rp50 juta'],
@@ -32,7 +33,7 @@ export const KONTAK: Record<Lang, any> = {
     errEmail: 'Masukkan alamat email yang sah.',
     errPesan: 'Ceritakan sedikit kebutuhan lu, minimal 20 karakter.',
     errUmum: 'Ada isian yang belum benar. Periksa tanda merah di atas.',
-    okJudul: 'Pesan siap dikirim',
+    okJudul: 'Permintaan diterima',
   },
   en: {
     metaTitle: 'Contact — Xyverse',
@@ -54,9 +55,9 @@ export const KONTAK: Record<Lang, any> = {
     fKirim: 'Send Message',
     fOk: '✓ Sent. We reply to your email, usually within one business day.',
     fSitus: 'Website (leave blank)',
-    errJaringan: 'Could not reach the server. Check your connection, or email halo@xyverse.my.id directly.',
+    errJaringan: `Could not reach the server. Check your connection, or email ${settings.email} directly.`,
     errTerlaluSering: 'Too many messages from this connection. Please wait a moment and try again.',
-    errKirim: 'The message could not be sent. Try again, or email halo@xyverse.my.id directly.',
+    errKirim: `The message could not be sent. Try again, or email ${settings.email} directly.`,
     fNote: 'By sending this, you agree that we may contact you about your request.',
     opsiTopik: ['Cloud PC rental', 'App development', 'Custom software', 'Tools & automation', 'Partnership', 'Something else'],
     opsiBudget: ['Not yet decided', 'Under Rp5 million', 'Rp5 – 20 million', 'Rp20 – 50 million', 'Over Rp50 million'],

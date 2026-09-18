@@ -103,7 +103,7 @@ Under the Personal Data Protection Law you have the right to:
 6. **Object** — object to processing for marketing purposes.
 7. **Withdraw consent** — at any time, for consent-based processing.
 
-Send requests to [privasi@xyverse.my.id](mailto:privasi@xyverse.my.id). We respond within **14 working days** at the latest.
+Send requests to [xycdigital@gmail.com](mailto:xycdigital@gmail.com). We respond within **14 working days** at the latest.
 
 ## 9. Children's data
 
@@ -119,7 +119,7 @@ Material changes are announced by email and on the site at least 30 days before 
 
 ## 12. Contact and complaints
 
-- Data Protection Officer: [privasi@xyverse.my.id](mailto:privasi@xyverse.my.id)
+- Data Protection Officer: [xycdigital@gmail.com](mailto:xycdigital@gmail.com)
 - Address: Tanak Beaq, Central Lombok, West Nusa Tenggara 83562
 
 If you feel our response has fallen short, you have the right to complain to the competent personal data protection supervisory body in Indonesia.

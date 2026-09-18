@@ -1,0 +1,12 @@
+{
+  "email": "xycdigital@gmail.com",
+  "wa": "",
+  "socials": [
+    { "nama": "GitHub", "url": "https://github.com/xykalnotkel", "handle": "@xykalnotkel", "ikon": "github" }
+  ],
+  "plans": [
+    { "id": "starter", "name": "Starter", "priceId": "149K", "priceEn": "149K" },
+    { "id": "creator", "name": "Creator", "priceId": "499K", "priceEn": "499K" },
+    { "id": "studio", "name": "Studio", "priceId": "1.2JT", "priceEn": "1.2M" }
+  ]
+}
