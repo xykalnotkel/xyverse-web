@@ -1,10 +1,18 @@
 ---
-title: "Cara Memilih Spek Cloud PC Sesuai Kebutuhan"
-desc: "Bingung ambil paket yang mana? Panduan singkat menentukan vCPU, RAM, dan GPU berdasarkan jenis pekerjaan yang lu lakukan."
-date: 2026-09-10
-kategori: "Panduan"
+title: Cara Memilih Spek Cloud PC Sesuai Kebutuhan
+desc: >-
+  Bingung ambil paket yang mana? Panduan singkat menentukan vCPU, RAM, dan GPU
+  berdasarkan jenis pekerjaan yang lu lakukan.
+date: '2026-09-10'
+kategori: Panduan
+penulis: Tim Xyverse
 baca: 6
 unggulan: true
+draft: false
+lang: id
+gambar: ''
+og: ''
+tags: []
 ---
 
 Banyak orang salah kaprah: mengira makin besar spek makin bagus. Padahal yang penting adalah **kecocokan spek dengan workload**. Berikut panduan praktisnya.
@@ -33,3 +41,7 @@ NVMe SSD memberi perbedaan besar saat membuka file proyek besar. Untuk editing v
 ## Mulai kecil, naikkan kemudian
 
 Saran kami: ambil paket satu tingkat di bawah perkiraan, jalankan seminggu, lalu pantau penggunaan. Di Xyverse, upgrade bisa dilakukan tanpa migrasi ulang — data dan konfigurasi tetap utuh.
+
+![banner cloudpc title](/media/20260918-249d-banner-cloudpc-title.webp)
+
+![banner-cloudpc-title](/media/20260918-249d-banner-cloudpc-title.webp)
