@@ -4,6 +4,7 @@
  * Urutan: pilihan tersimpan → bahasa peramban → bawaan (id).
  */
 import { LANG_BAWAAN, SEMUA_LANG } from '../i18n/config';
+import { SITE } from '../data/site';
 ---
 
 <!doctype html>
@@ -14,11 +15,13 @@ import { LANG_BAWAAN, SEMUA_LANG } from '../i18n/config';
   <title>Xyverse</title>
   <link rel="icon" href="/brand/mark-flat-purple.webp" />
   <meta name="robots" content="noindex" />
-  <link rel="canonical" href={`https://xyverse.my.id/${LANG_BAWAAN}/`} />
+  {/* SITE.url, bukan hardcode — halaman akar ini satu-satunya yang
+      menuliskan alamat situs sendiri di luar astro.config.mjs. */}
+  <link rel="canonical" href={`${SITE.url}/${LANG_BAWAAN}/`} />
   {SEMUA_LANG.map((l) => (
-    <link rel="alternate" hreflang={l} href={`https://xyverse.my.id/${l}/`} />
+    <link rel="alternate" hreflang={l} href={`${SITE.url}/${l}/`} />
   ))}
-  <link rel="alternate" hreflang="x-default" href={`https://xyverse.my.id/${LANG_BAWAAN}/`} />
+  <link rel="alternate" hreflang="x-default" href={`${SITE.url}/${LANG_BAWAAN}/`} />
   <meta http-equiv="refresh" content={`0; url=/${LANG_BAWAAN}/`} />
   <script is:inline define:vars={{ SEMUA_LANG, LANG_BAWAAN }}>
     (function () {

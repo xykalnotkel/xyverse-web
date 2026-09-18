@@ -11,10 +11,25 @@ import { petaSitemap } from './scripts/peta-sitemap.mjs';
  * belum tersedia di sini. Membaca frontmatter sendiri justru membuat
  * sitemap tetap jujur tanpa bergantung urutan inisialisasi.
  */
-const PETA_JALUR = petaSitemap('https://xyverse.my.id');
+/*
+ * Alamat kanonis situs, dibaca dari env.
+ *
+ * Astro memakai satu nilai ini untuk canonical, og:url, hreflang, setiap
+ * <loc> di sitemap, dan setiap og:image absolut. Menghardcode
+ * https://xyverse.my.id sementara domainnya belum dibeli membuat 1967 URL
+ * terbit menunjuk ke alamat yang tidak resolve — pratinjau tautan mati,
+ * sitemap tidak bisa dikirim ke Search Console, dan JSON-LD tidak sah.
+ *
+ * Selama domain belum ada, setel PUBLIC_SITE_URL ke subdomain *.vercel.app
+ * di dashboard. Begitu domain dibeli, ganti SATU variabel itu — bukan
+ * mengedit kode dan membangun ulang.
+ */
+const SITE_URL = (process.env.PUBLIC_SITE_URL || 'https://xyverse.my.id').replace(/\/+$/, '');
+
+const PETA_JALUR = petaSitemap(SITE_URL);
 
 export default defineConfig({
-  site: 'https://xyverse.my.id',
+  site: SITE_URL,
   trailingSlash: 'ignore',
   integrations: [
     sitemap({
@@ -22,7 +37,7 @@ export default defineConfig({
         !page.includes('/404') && !page.includes('/og/') && !page.includes('/rss.xml')
         && !page.includes('/cari')       // hasil pencarian per kueri tidak untuk diindeks
         && !page.includes('/tidak-ada')  // halaman 404, sudah noindex
-        && page !== 'https://xyverse.my.id/',
+        && page !== `${SITE_URL}/`,
       i18n: {
         defaultLocale: 'id',
         locales: { id: 'id-ID', en: 'en-US' },
