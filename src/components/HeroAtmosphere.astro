@@ -1,0 +1,39 @@
+---
+/** Decorative only: two composited CSS layers, no video, canvas, assets or animation library. */
+---
+<div class="hero-atmosphere" data-hero-atmosphere data-running="false" aria-hidden="true">
+  <div class="aurora aurora-purple"></div>
+  <div class="aurora aurora-cyan"></div>
+  <div class="atmosphere-grid"></div>
+</div>
+<style>
+.hero-atmosphere{position:absolute;inset:0;overflow:hidden;pointer-events:none;contain:paint;isolation:isolate;z-index:0}
+.aurora{position:absolute;width:72%;height:84%;border-radius:50%;opacity:.65;animation-play-state:paused;will-change:transform}
+.aurora-purple{top:-30%;right:-12%;background:radial-gradient(ellipse at center,rgba(136,78,245,.27) 0%,rgba(136,78,245,.08) 40%,transparent 69%);animation:aurora-drift 22s ease-in-out infinite alternate paused}
+.aurora-cyan{left:-28%;top:12%;width:65%;height:76%;background:radial-gradient(ellipse at center,rgba(60,163,186,.13),transparent 67%);animation:aurora-drift 28s ease-in-out -12s infinite alternate-reverse paused}
+.atmosphere-grid{position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:72px 72px;opacity:.32;mask-image:radial-gradient(ellipse 75% 60% at 80% 20%,#000,transparent 80%)}
+.hero-atmosphere[data-running='true'] .aurora{animation-play-state:running}
+@keyframes aurora-drift{from{transform:translate3d(-3%,0,0) scale(.96);opacity:.48}to{transform:translate3d(9%,12%,0) scale(1.07);opacity:.85}}
+@media(max-width:760px){.aurora-purple{width:135%;height:64%;right:-58%;top:-12%;animation-duration:26s}.aurora-cyan{display:none}.atmosphere-grid{background-size:52px 52px;opacity:.22}}
+@media(prefers-reduced-motion:reduce){.aurora{animation:none!important;will-change:auto;opacity:.6}}
+.hero-atmosphere[data-running='false'] .aurora{will-change:auto}
+</style>
+<script>
+  const atmosphere = document.querySelector<HTMLElement>('[data-hero-atmosphere]');
+  if (atmosphere) {
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+    const connection = (navigator as Navigator & { connection?: { saveData?: boolean; addEventListener?: (type: string, fn: () => void) => void } }).connection;
+    let visible = false;
+    const sync = () => {
+      atmosphere.dataset.running = String(visible && !document.hidden && !reduced.matches && !connection?.saveData && !document.documentElement.dataset.mobileNavOpen);
+    };
+    const observer = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; sync(); });
+    observer.observe(atmosphere.closest('section') || atmosphere);
+    reduced.addEventListener('change', sync);
+    document.addEventListener('visibilitychange', sync);
+    document.addEventListener('xy-menu-change', sync);
+    connection?.addEventListener?.('change', sync);
+    window.addEventListener('pagehide', () => { atmosphere.dataset.running = 'false'; });
+    window.addEventListener('pageshow', sync);
+  }
+</script>

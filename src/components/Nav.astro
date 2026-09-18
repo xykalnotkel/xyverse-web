@@ -213,14 +213,14 @@ const aktif = (m: any) =>
         </div>
       </div>
 
-      <button id="theme" class="icon-btn" aria-label={t('nav.gantiTema')} title={t('nav.gantiTema')}>
+      <button id="theme" data-theme-toggle class="icon-btn" aria-label={t('nav.gantiTema')} title={t('nav.gantiTema')}>
         <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.4M12 19.1v2.4M4.2 4.2l1.7 1.7M18.1 18.1l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.2 19.8l1.7-1.7M18.1 5.9l1.7-1.7"/></svg>
         <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 14.3A8.8 8.8 0 1 1 9.7 3.5a7 7 0 0 0 10.8 10.8z"/></svg>
       </button>
 
       <a href={r('kontak')} class="btn btn-p cta">{t('nav.mulai')}</a>
 
-      <button id="burger" class="icon-btn only-m" aria-expanded="false" aria-label={t('nav.bukaMenu')}>
+      <button id="burger" class="icon-btn only-m" aria-expanded="false" aria-controls="mob" aria-haspopup="dialog" aria-label={t('nav.bukaMenu')}>
         <span></span><span></span><span></span>
       </button>
     </div>
@@ -256,50 +256,69 @@ const aktif = (m: any) =>
     ) : null
   )}
 
-  <!-- ===== MENU MOBILE ===== -->
-  <div id="mob">
-    <div class="wrap">
-      {menu.map((m) =>
-        m.panel ? (
-          <details class="mgrp">
-            <summary>
-              {m.t}
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+  <div id="tabir" hidden></div>
+</header>
+
+<!-- Native modal lives outside the sticky/blurred header: genuine viewport fullscreen. -->
+<dialog id="mob" aria-labelledby="mob-title">
+  <div class="mob-top">
+    <a href={r()} class="brand" aria-label={t('nav.arBeranda')}>
+      <img src="/brand/mark-flat-purple.webp" alt="" width="38" height="38" />
+      <span class="dsp">XYVERSE</span>
+    </a>
+    <button id="mob-close" class="icon-btn" aria-label={t('nav.tutupMenu')} autofocus>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="m6 6 12 12M18 6 6 18"/></svg>
+    </button>
+  </div>
+  <div class="mob-scroll">
+    <div class="mob-inner">
+      <div class="mob-intro">
+        <span>{lang === 'id' ? 'JELAJAHI XYVERSE' : 'EXPLORE XYVERSE'}</span>
+        <h2 id="mob-title">{lang === 'id' ? 'Mau ke mana?' : 'Where to next?'}</h2>
+        <p>{lang === 'id' ? 'Cloud PC, aplikasi, dan ide berikutnya.' : 'Cloud PCs, apps, and your next idea.'}</p>
+      </div>
+      <nav class="mob-links" aria-label={t('nav.utama')}>
+        <a href={r()} class="mlink" aria-current={jalurMurni === '' ? 'page' : undefined}>
+          <span class="mnum" aria-hidden="true">00</span><span>{lang === 'id' ? 'Beranda' : 'Home'}</span><span class="marrow" aria-hidden="true">↗</span>
+        </a>
+        {menu.map((m, i) => m.panel ? (
+          <details class={`mgrp ${aktif(m) ? 'is-current' : ''}`}>
+            <summary><span class="mnum" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span><span>{m.t}</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
             </summary>
             <div class="mbody">
               {m.panel.kolom.map((k) => (
-                <>
-                  <h4>{k.h}</h4>
-                  {k.item.map((it) => <a href={it.h}>{it.t}</a>)}
-                </>
+                <div class="mcol"><h3>{k.h}</h3>
+                  {k.item.map((it) => <a href={it.h} aria-current={!it.h.includes('#') && path.replace(/\/$/, '') === it.h.replace(/\/$/, '') ? 'page' : undefined}>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={IK[it.ik]} />
+                    <span><strong>{it.t}</strong><small>{it.d}</small></span>
+                  </a>)}
+                </div>
               ))}
             </div>
           </details>
         ) : (
-          <a href={m.h} class="mlink">{m.t}</a>
-        )
-      )}
-
-      <div class="mlang">
-        <h4>{t('nav.gantiBahasa')}</h4>
-        <div class="mlrow">
-          {SEMUA_LANG.map((l) => (
-            <a
-              href={`/${l}/${jalurMurni}${jalurMurni ? '/' : ''}`}
-              class={l === lang ? 'on' : ''}
-              hreflang={BAHASA[l].htmlLang}
-              data-setlang={l}
-            >{BAHASA[l].bendera} {BAHASA[l].label}</a>
-          ))}
-        </div>
-      </div>
-
-      <a href={r('kontak')} class="btn btn-p" style="margin-top:14px">{t('nav.mulai')}</a>
+          <a href={m.h} class="mlink" aria-current={aktif(m) ? 'page' : undefined}>
+            <span class="mnum" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span><span>{m.t}</span><span class="marrow" aria-hidden="true">↗</span>
+          </a>
+        ))}
+      </nav>
     </div>
   </div>
+  <div class="mob-footer">
+    <div class="mob-preferences">
+      <div class="mlrow" role="group" aria-label={t('nav.gantiBahasa')}>
+        {SEMUA_LANG.map((l) => <a href={`/${l}/${jalurMurni}${jalurMurni ? '/' : ''}`} class={l === lang ? 'on' : ''} hreflang={BAHASA[l].htmlLang} data-setlang={l} aria-current={l === lang ? 'true' : undefined}>{BAHASA[l].label}</a>)}
+      </div>
+      <button class="mob-theme" data-theme-toggle aria-label={t('nav.gantiTema')}>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 4v16"/><path d="M12 4a8 8 0 0 1 0 16" fill="currentColor"/></svg>
+        {lang === 'id' ? 'Tema' : 'Theme'}
+      </button>
+    </div>
+    <a href={r('kontak')} class="btn btn-p mob-cta">{t('nav.mulai')}<span aria-hidden="true">↗</span></a>
+  </div>
+</dialog>
 
-  <div id="tabir" hidden></div>
-</header>
 
 <style>
 header{
@@ -363,7 +382,7 @@ html[data-theme='light'] .moon{display:block}
 
 /* ---- PEMILIH BAHASA ---- */
 .lang{position:relative}
-.lb{width:auto;gap:6px;padding:0 10px}
+.lb{display:flex;align-items:center;justify-content:center;width:auto;gap:6px;padding:0 10px}
 .lkode{font-size:12.5px;font-weight:700;letter-spacing:.04em}
 .lb svg{width:16px;height:16px}
 .lb[aria-expanded='true']{background:var(--surface);color:var(--txt);border-color:var(--txt-2)}
@@ -452,33 +471,53 @@ html[data-theme='light'] .moon{display:block}
 @keyframes pudar{from{opacity:0}to{opacity:1}}
 
 /* ---- MOBILE ---- */
-#burger{display:none;flex-direction:column;gap:4.5px}
+#burger{display:none;flex-direction:column;align-items:center;justify-content:center;gap:4.5px}
 #burger span{width:17px;height:2px;background:currentColor;border-radius:2px;transition:.22s var(--ease)}
 #burger[aria-expanded='true'] span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
 #burger[aria-expanded='true'] span:nth-child(2){opacity:0}
 #burger[aria-expanded='true'] span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
-#mob{display:none;border-top:1px solid var(--line);background:var(--bg);padding:12px 0 22px;max-height:calc(100vh - 70px);overflow-y:auto}
-#mob.open{display:block}
-#mob .wrap{display:flex;flex-direction:column;gap:1px}
-.mlink{padding:13px 4px;color:var(--txt-2);font-weight:500;border-bottom:1px solid var(--line)}
-.mgrp{border-bottom:1px solid var(--line)}
-.mgrp summary{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:13px 4px;color:var(--txt-2);font-weight:500;cursor:pointer;list-style:none;font-size:16px;
-}
+#mob{position:fixed;inset:0;margin:0;border:0;padding:0;width:100%;max-width:none;height:100vh;height:100dvh;max-height:none;overflow:hidden;color:var(--txt);background:var(--bg)}
+#mob[open]{display:flex;flex-direction:column;animation:menu-in .24s ease-out}
+#mob::backdrop{background:var(--bg)}
+.mob-top{display:flex;align-items:center;justify-content:space-between;flex:none;padding:calc(16px + env(safe-area-inset-top)) max(24px,env(safe-area-inset-right)) 16px max(24px,env(safe-area-inset-left));border-bottom:1px solid var(--line)}
+.mob-top .brand{font-size:15px;letter-spacing:.14em;gap:11px}.mob-top .brand img{width:38px;height:38px}
+#mob-close{width:44px;height:44px;border-radius:50%;background:var(--surface)}
+#mob-close svg{width:22px;height:22px}#mob-close:hover svg{transform:none}
+.mob-scroll{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;scrollbar-width:thin}
+.mob-inner{width:100%;max-width:860px;margin:auto;padding:32px max(24px,env(safe-area-inset-right)) 26px max(24px,env(safe-area-inset-left))}
+.mob-intro{padding-bottom:24px}.mob-intro>span{font-size:10px;letter-spacing:.2em;font-weight:700;color:var(--brand)}
+.mob-intro h2{font-size:clamp(28px,6vw,40px);letter-spacing:-.045em;margin:9px 0 8px}.mob-intro p{color:var(--txt-2);font-size:13px}
+.mob-links{border-top:1px solid var(--line)}
+.mlink,.mgrp summary{display:flex;align-items:center;gap:16px;min-height:64px;padding:15px 0;list-style:none;font-size:clamp(21px,4vw,28px);font-weight:600;letter-spacing:-.025em;color:var(--txt);cursor:pointer}
+.mlink,.mgrp{border-bottom:1px solid var(--line)}
+.mnum{font:500 10px/1.4 monospace;color:var(--txt-2);letter-spacing:.04em;opacity:.65;min-width:18px}
+.marrow{margin-left:auto;font-size:22px;font-weight:400;color:var(--txt-2)}
 .mgrp summary::-webkit-details-marker{display:none}
-.mgrp summary svg{width:16px;height:16px;transition:transform .2s var(--ease)}
-.mgrp[open] summary{color:var(--txt)}
-.mgrp[open] summary svg{transform:rotate(180deg)}
-.mbody{padding:2px 0 14px 4px}
-.mbody h4{font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--txt-2);margin:12px 0 6px;font-weight:700}
-.mbody a{display:block;padding:9px 0 9px 12px;font-size:14.5px;color:var(--txt-2);border-left:2px solid var(--line)}
-.mbody a:hover{color:var(--brand);border-left-color:var(--pur)}
+.mgrp summary svg{margin-left:auto;width:21px;height:21px;color:var(--txt-2);transition:transform .2s ease}
+.mgrp[open] summary svg{transform:rotate(45deg)}
+.mgrp[open] summary,.mlink[aria-current='page'],.mbody a[aria-current='page']{color:var(--brand)}
+.mgrp.is-current .mnum{color:var(--brand);opacity:1}
+.mbody{padding:0 0 24px 34px;display:grid;grid-template-columns:1fr;gap:18px}
+.mbody h3{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--txt-2);margin:8px 0;font-weight:600}
+.mbody a{display:flex;align-items:flex-start;gap:12px;min-height:48px;padding:10px 0;color:var(--txt)}
+.mbody a>svg{width:20px;height:20px;margin-top:2px;color:var(--brand);flex:none}
+.mbody a>span{min-width:0}.mbody strong{display:block;font-size:14px;font-weight:500}.mbody small{display:block;font-size:12px;line-height:1.55;color:var(--txt-2);margin-top:2px}
+.mbody a:hover{color:var(--brand)}
+.mob-footer{flex:none;padding:14px max(24px,env(safe-area-inset-right)) calc(18px + env(safe-area-inset-bottom)) max(24px,env(safe-area-inset-left));border-top:1px solid var(--line);background:var(--card)}
+.mob-preferences{display:flex;align-items:center;justify-content:space-between;gap:10px;max-width:812px;margin:0 auto 12px}
+.mob-preferences .mlrow{gap:6px}.mob-preferences .mlrow a{display:flex;align-items:center;min-height:44px;padding:8px 12px;font-size:12px}
+.mob-theme{display:flex;align-items:center;gap:7px;min-height:44px;padding:8px 10px;border:0;border-radius:7px;font:inherit;font-size:12px;cursor:pointer;background:transparent;color:var(--txt-2)}
+.mob-theme svg{width:18px;height:18px}.mob-theme:hover{background:var(--surface);color:var(--txt)}
+.mob-cta{display:flex;justify-content:space-between;width:100%;max-width:812px;margin:auto;min-height:48px;padding:12px 18px}.mob-cta span{font-size:19px}
+@keyframes menu-in{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@media(min-width:641px){.mbody{grid-template-columns:1fr 1fr}.mob-intro{padding-bottom:30px}}
+@media(max-width:480px){.bar{gap:10px}.right{gap:8px}.brand{font-size:14px;letter-spacing:.12em;gap:8px}.brand img{width:38px;height:38px}.bar .icon-btn{width:44px;height:44px}.mob-inner{padding-top:24px}.mlink,.mgrp summary{min-height:60px}}
 
 @media(max-width:1000px){.links,.cta,.sheet,#tabir,.lang{display:none!important}#burger{display:flex}}
 @media(min-width:1001px){.only-m{display:none}}
 @media(prefers-reduced-motion:reduce){
-  .sheet,#tabir,.sheet .scol,.sheet .skaki,.lmenu{animation:none}
+  .sheet,#tabir,.sheet .scol,.sheet .skaki,.lmenu,#mob[open]{animation:none}
+  .mgrp summary svg{transition:none}
   .sit:hover{transform:none}
   .brand:hover img,.icon-btn:hover svg,.sit:hover .sik{transform:none}
 }
@@ -536,27 +575,78 @@ html[data-theme='light'] .moon{display:block}
   document.addEventListener('click', (e) => {
     if (!(e.target as HTMLElement)?.closest('#nav')) tutupSemua();
   });
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
+  /* ---------- FULLSCREEN MOBILE DIALOG ---------- */
+  const b = document.getElementById('burger') as HTMLButtonElement | null;
+  const m = document.getElementById('mob') as HTMLDialogElement | null;
+  const closeButton = document.getElementById('mob-close') as HTMLButtonElement | null;
+  const desktop = window.matchMedia('(min-width:1001px)');
+  let locked = false;
+  let scrollPosition = 0;
+  let oldBody = '';
+  let oldOverflow = '';
+  const publish = () => document.dispatchEvent(new Event('xy-menu-change'));
+  const unlock = (restoreFocus = true) => {
+    if (!locked) return;
+    locked = false;
+    document.body.style.cssText = oldBody;
+    document.documentElement.style.overflow = oldOverflow;
+    delete document.documentElement.dataset.mobileNavOpen;
+    const behavior = document.documentElement.style.scrollBehavior;
+    document.documentElement.style.scrollBehavior = 'auto';
+    window.scrollTo(0, scrollPosition);
+    document.documentElement.style.scrollBehavior = behavior;
+    b?.setAttribute('aria-expanded', 'false');
+    if (restoreFocus && !desktop.matches) b?.focus({ preventScroll: true });
+    publish();
+  };
+  const closeMobile = (restoreFocus = true) => {
+    if (m?.open) m.close();
+    unlock(restoreFocus);
+  };
+  const openMobile = () => {
+    if (!m || desktop.matches || m.open) return;
+    tutupSemua();
+    document.getElementById('langbtn')?.setAttribute('aria-expanded', 'false');
+    const languageMenu = document.getElementById('langmenu');
+    if (languageMenu) languageMenu.hidden = true;
+    scrollPosition = window.scrollY;
+    oldBody = document.body.style.cssText;
+    oldOverflow = document.documentElement.style.overflow;
+    document.body.style.position = 'fixed';
+    document.body.style.top = `-${scrollPosition}px`;
+    document.body.style.width = '100%';
+    document.documentElement.style.overflow = 'hidden';
+    document.documentElement.dataset.mobileNavOpen = 'true';
+    locked = true;
+    m.showModal();
+    b?.setAttribute('aria-expanded', 'true');
+    closeButton?.focus({ preventScroll: true });
+    publish();
+  };
+  b?.addEventListener('click', () => m?.open ? closeMobile() : openMobile());
+  closeButton?.addEventListener('click', () => closeMobile());
+  m?.addEventListener('cancel', e => { e.preventDefault(); closeMobile(); });
+  m?.addEventListener('close', () => { if (!m.open) unlock(); });
+  m?.querySelectorAll('a').forEach(a => a.addEventListener('click', () => closeMobile(false)));
+  m?.querySelectorAll('details').forEach(group => group.addEventListener('toggle', () => {
+    if (group.open) m.querySelectorAll('details').forEach(other => { if (other !== group) other.open = false; });
+  }));
+  m?.addEventListener('keydown', e => {
+    if (e.key !== 'Tab') return;
+    const focusable = [...m.querySelectorAll<HTMLElement>('a[href],button:not([disabled]),summary')].filter(el => el.getClientRects().length > 0);
+    const first = focusable[0], last = focusable[focusable.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last?.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first?.focus(); }
+  });
+  desktop.addEventListener('change', () => { closeMobile(false); tutupSemua(); });
+  window.addEventListener('pagehide', () => closeMobile(false));
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && !m?.open) {
+      const trigger = pemicu.find(p => p.getAttribute('aria-expanded') === 'true');
       tutupSemua();
-      m?.classList.remove('open');
-      b?.setAttribute('aria-expanded', 'false');
+      trigger?.focus({ preventScroll: true });
     }
   });
-
-  /* ---------- MENU MOBILE ---------- */
-  const b = document.getElementById('burger');
-  const m = document.getElementById('mob');
-  b?.addEventListener('click', () => {
-    const open = m?.classList.toggle('open');
-    b.setAttribute('aria-expanded', String(!!open));
-  });
-  m?.querySelectorAll('a').forEach((a) =>
-    a.addEventListener('click', () => {
-      m.classList.remove('open');
-      b?.setAttribute('aria-expanded', 'false');
-    })
-  );
 
   /* ---------- PEMILIH BAHASA ---------- */
   const lbtn = document.getElementById('langbtn');
@@ -581,10 +671,10 @@ html[data-theme='light'] .moon{display:block}
   );
 
   /* ---------- TEMA ---------- */
-  document.getElementById('theme')?.addEventListener('click', () => {
+  document.querySelectorAll('[data-theme-toggle]').forEach(control => control.addEventListener('click', () => {
     const el = document.documentElement;
     const next = el.dataset.theme === 'dark' ? 'light' : 'dark';
     el.dataset.theme = next;
-    localStorage.setItem('xy-theme', next);
-  });
+    try { localStorage.setItem('xy-theme', next); } catch {}
+  }));
 </script>

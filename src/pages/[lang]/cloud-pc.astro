@@ -31,8 +31,8 @@ const arrow = '<path d="M5 12h14M13 6l6 6-6 6"/>';
         </div>
       </div>
       <figure class="art">
-        <img src="/brand/illus-dark.webp" alt={c.altIlus} class="d" />
-        <img src="/brand/illus-light.webp" alt="" class="l" aria-hidden="true" />
+        <img src="/brand/illus-dark.webp" srcset="/brand/illus-dark-sm.webp 480w, /brand/illus-dark.webp 668w" sizes="(max-width:480px) 82vw, (max-width:1000px) 440px, 46vw" alt={c.altIlus} class="d" width="668" height="590" loading="lazy" decoding="async" />
+        <img src="/brand/illus-light.webp" srcset="/brand/illus-light-sm.webp 480w, /brand/illus-light.webp 668w" sizes="(max-width:480px) 82vw, (max-width:1000px) 440px, 46vw" alt={c.altIlus} class="l" width="668" height="590" loading="lazy" decoding="async" />
       </figure>
     </div>
   </section>
@@ -92,7 +92,7 @@ const arrow = '<path d="M5 12h14M13 6l6 6-6 6"/>';
 .head{padding:70px 0 20px;position:relative;overflow:hidden}
 .head::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 55% 45% at 18% 10%,var(--glow),transparent 70%)}
 .hin{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:center}
-@media(max-width:1000px){.hin{grid-template-columns:1fr;gap:34px}.art{order:-1}}
+@media(max-width:1000px){.hin{grid-template-columns:1fr;gap:34px}.art{order:0;width:min(100%,440px);margin-inline:auto}}
 h1{font-size:clamp(31px,5vw,50px);margin-bottom:18px;max-width:14ch}
 .row{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}
 .art{position:relative;display:grid;place-items:center}

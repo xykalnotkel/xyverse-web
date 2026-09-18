@@ -145,7 +145,8 @@ const siteLd = {
 
 <script is:inline>
   (function () {
-    const s = localStorage.getItem('xy-theme');
+    let s = null;
+    try { s = localStorage.getItem('xy-theme'); } catch {}
     const t = s || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
     document.documentElement.dataset.theme = t;
   })();

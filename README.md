@@ -1,7 +1,7 @@
 # Xyverse — Situs Resmi
 
 Situs perusahaan Xyverse: sewa Cloud PC, produksi aplikasi & software, dan tools digital.
-Dibangun dengan **Astro 5** (static output), tanpa framework UI tambahan.
+Dibangun dengan **Astro 7 / Node 24** (static output), tanpa framework UI tambahan.
 
 ```bash
 npm install
@@ -239,3 +239,28 @@ Permintaan disimpan di inbox privat admin sebelum notifikasi email dikirim.
 Runtime build kini Node.js 24 dan Astro 7.3.3. Plugin markdown tetap memakai
 `@astrojs/markdown-remark` untuk mempertahankan pengolahan gambar dan kontak.
 Pemeriksa responsif memahami output CSS media range (`width<=…`) dari compiler baru.
+
+
+## Navigasi mobile & atmosfer beranda
+
+- `Nav.astro`: modal `<dialog>` fullscreen di luar sticky header. Header/tombol tutup
+  dan footer tetap terlihat; daftar menu punya scroll sendiri. Fokus terkurung di modal,
+  Escape/tutup/link/resize desktop membuka kembali scroll halaman. Safe area + `100dvh`.
+- `HeroAtmosphere.astro`: radial gradient + grid statis. Hanya transform/opacity yang
+  dianimasikan; tanpa video/canvas/dependensi animasi. Mobile satu lapisan bergerak.
+  Pause saat offscreen/tab tersembunyi/menu terbuka; reduced-motion dan save-data mematikan gerak.
+- Ilustrasi WebP 480/800/lebar asli dipilih browser sesuai ukuran layar + DPR. Artwork
+  bertema memakai lazy loading agar versi tema tersembunyi tidak ikut diunduh. Pada mobile,
+  teks dan CTA beranda/Cloud PC tampil sebelum ilustrasi; form kontak sebelum info/ilustrasi.
+
+Uji browser (serve `dist/` terlebih dahulu, `BASE_URL` bisa diganti):
+
+```bash
+npm run build
+# Terminal lain: npm run preview -- --port 4321
+BASE_URL=http://127.0.0.1:4321 npm run test:mobile
+```
+
+Suite Chromium memeriksa fullscreen, fokus, scroll, anchor, bahasa, desktop resize,
+320–1000px + landscape, reduced motion, save-data, pause offscreen, serta gambar tema
+tersembunyi tidak diunduh. Suite tidak mengirim email atau mengubah produksi.

@@ -1,7 +1,7 @@
 ---
 /**
- * Ilustrasi WebP responsif. Selalu memuat varian -sm pada layar kecil,
- * ukuran ditetapkan agar tidak ada pergeseran tata letak (CLS = 0).
+ * Ilustrasi WebP responsif: browser memilih 480/800/lebar asli sesuai viewport + DPR.
+ * Dimensi eksplisit menyediakan ruang sebelum gambar dimuat.
  */
 interface Props {
   nama: string;
@@ -10,14 +10,15 @@ interface Props {
   h?: number;
   prioritas?: boolean;
   k?: string;
+  sizes?: string;
 }
-const { nama, alt = '', w = 1376, h = 768, prioritas = false, k = '' } = Astro.props;
+const { nama, alt = '', w = 1376, h = 768, prioritas = false, k = '', sizes = '(max-width:480px) calc(100vw - 48px), (max-width:760px) 92vw, 620px' } = Astro.props;
 ---
 <img
   class={`ilus ${k}`}
   src={`/ilus/${nama}.webp`}
-  srcset={`/ilus/${nama}-sm.webp 800w, /ilus/${nama}.webp 1376w`}
-  sizes="(max-width:760px) 92vw, 620px"
+  srcset={`/ilus/${nama}-xs.webp 480w, /ilus/${nama}-sm.webp 800w, /ilus/${nama}.webp ${nama === 'kosong' ? 1024 : 1376}w`}
+  sizes={sizes}
   alt={alt}
   width={w} height={h}
   loading={prioritas ? 'eager' : 'lazy'}

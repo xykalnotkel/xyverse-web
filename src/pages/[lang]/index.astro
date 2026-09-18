@@ -1,4 +1,5 @@
 ---
+import HeroAtmosphere from '../../components/HeroAtmosphere.astro';
 import { SITE } from '../../data/site';
 import { jalurBahasa, rute } from '../../i18n/config';
 import Pilih from '../../components/Pilih.astro';
@@ -37,6 +38,7 @@ const arrow = '<path d="M5 12h14M13 6l6 6-6 6"/>';
 <Base lang={lang}>
   <!-- ============ HERO ============ -->
   <section class="hero">
+    <HeroAtmosphere />
     <div class="wrap hero-in">
       <div class="hero-txt">
         <span class="pill"><i></i> {c.pill}</span>
@@ -52,8 +54,8 @@ const arrow = '<path d="M5 12h14M13 6l6 6-6 6"/>';
       </div>
 
       <figure class="hero-art">
-        <img src="/brand/illus-dark.webp" alt={c.altIlus} class="d" width="668" height="590" fetchpriority="high" />
-        <img src="/brand/illus-light.webp" alt="" class="l" width="668" height="590" aria-hidden="true" />
+        <img src="/brand/illus-dark.webp" srcset="/brand/illus-dark-sm.webp 480w, /brand/illus-dark.webp 668w" sizes="(max-width:480px) 82vw, (max-width:1000px) 440px, 46vw" alt={c.altIlus} class="d" width="668" height="590" loading="lazy" decoding="async" />
+        <img src="/brand/illus-light.webp" srcset="/brand/illus-light-sm.webp 480w, /brand/illus-light.webp 668w" sizes="(max-width:480px) 82vw, (max-width:1000px) 440px, 46vw" alt={c.altIlus} class="l" width="668" height="590" loading="lazy" decoding="async" />
       </figure>
     </div>
 
@@ -313,10 +315,7 @@ const arrow = '<path d="M5 12h14M13 6l6 6-6 6"/>';
 <style>
 /* ---------- HERO ---------- */
 .hero{padding:74px 0 0;position:relative;overflow:hidden}
-.hero::before{
-  content:'';position:absolute;inset:0;pointer-events:none;
-  background:radial-gradient(ellipse 60% 44% at 22% 8%,var(--glow),transparent 70%);
-}
+
 .hero-in{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1.05fr;gap:52px;align-items:center}
 .pill{
   display:inline-flex;align-items:center;gap:9px;padding:7px 15px;border-radius:999px;
@@ -332,18 +331,27 @@ h1 em{font-style:normal;color:var(--brand)}
 .hero-art{position:relative;display:grid;place-items:center}
 .hero-art::before{
   content:'';position:absolute;width:82%;aspect-ratio:1;border-radius:50%;
-  background:radial-gradient(circle,var(--glow),transparent 66%);filter:blur(14px);
+  background:radial-gradient(circle,var(--glow),transparent 66%);
 }
-.hero-art img{width:100%;height:auto;position:relative;z-index:2;animation:drift 8s ease-in-out infinite}
-@keyframes drift{0%,100%{transform:translateY(0)}50%{}}
+.hero-art img{width:100%;height:auto;position:relative;z-index:2;}
+
 @media(prefers-reduced-motion:reduce){.hero-art img{animation:none}}
 html[data-theme='dark'] .hero-art .l{display:none}
 html[data-theme='light'] .hero-art .d{display:none}
 @media(max-width:1000px){
   .hero-in{grid-template-columns:1fr;gap:38px}
-  .hero-art{order:-1}
+  .hero-art{order:0;width:min(100%,440px);margin-inline:auto}
+  .hero{padding-top:42px}
   h1{max-width:none}
 }
+@media(max-width:480px){
+  .hero{padding-top:30px}.hero-in{gap:26px}.hero-art{width:88%;max-width:360px}
+  .hero-txt .pill{margin-bottom:18px;font-size:11px;padding:7px 12px}
+  h1{font-size:clamp(34px,9.5vw,43px);line-height:1.12;letter-spacing:-.035em}
+  .hero .lead{font-size:15px;line-height:1.75}.cta-row{margin-top:24px;gap:10px}.cta-row .btn{min-height:46px}
+  .micro{margin-top:18px;font-size:12px}
+}
+
 .stats{
   display:grid;grid-template-columns:repeat(4,1fr);gap:24px;
   margin-top:72px;padding:30px 0 0;border-top:1px solid var(--line);position:relative;z-index:2;
