@@ -41,6 +41,15 @@ try{
  const reduced=await group.evaluate(el=>{if(el.open)el.querySelector('summary').click();el.querySelector('summary').click();return {open:el.open,heightAnimations:el.getAnimations().filter(a=>a.effect.getKeyframes().some(k=>'height' in k)).length};});
  assert.deepEqual(reduced,{open:true,heightAnimations:0});
  await p.locator('#mob-close').evaluate(el=>el.click());assert.equal(await p.locator('#mob').evaluate(el=>el.open),false);
+ await p.emulateMedia({reducedMotion:'no-preference'});
+ await p.goto(base+'/id/kontak/');await p.evaluate(()=>document.fonts.ready);
+ const submit=p.locator('#cf-kirim');await submit.scrollIntoViewIfNeeded();const box=await submit.boundingBox();
+ await p.mouse.move(box.x+box.width/2,box.y+box.height-.5);
+ const jitter=await submit.evaluate(async el=>{
+   const ys=[];for(let i=0;i<60;i++){await new Promise(requestAnimationFrame);ys.push(el.getBoundingClientRect().top);}
+   return Math.max(...ys)-Math.min(...ys);
+ });
+ assert.ok(jitter<.1,`Hover hit area must not oscillate at the edge: ${jitter}px`);
  assert.deepEqual(errors,[]);await p.close();
  console.log('OK smooth intermediate heights, rapid reversal, repeated toggles, exclusive accordion, animated modal exit, FAQ, reduced motion');
 }finally{await browser.close();}

@@ -521,8 +521,9 @@ html[data-theme='light'] .moon{display:block}
 #mob[open] .mob-links>:nth-child(6){animation-delay:170ms}
 #mob[open] .mob-footer{animation-delay:90ms}
 .mlink,.mgrp summary{transition:color .2s var(--ease)}
-.mbody a{transition:color .2s var(--ease),translate .2s var(--ease)}
-@media(hover:hover){.mbody a:hover{translate:3px 0}}
+.mbody a{transition:color .2s var(--ease)}
+.mbody a>svg{transition:translate .2s var(--ease)}
+@media(hover:hover){.mbody a:hover>svg{translate:2px 0}}
 @media(min-width:641px){.mbody{grid-template-columns:1fr 1fr}.mob-intro{padding-bottom:30px}}
 @media(max-width:480px){.bar{gap:10px}.right{gap:8px}.brand{font-size:14px;letter-spacing:.12em;gap:8px}.brand img{width:38px;height:38px}.bar .icon-btn{width:44px;height:44px}.mob-inner{padding-top:24px}.mlink,.mgrp summary{min-height:60px}}
 
@@ -532,7 +533,7 @@ html[data-theme='light'] .moon{display:block}
   .sheet,#tabir,.sheet .scol,.sheet .skaki,.lmenu,#mob[open]{animation:none}
   .mgrp summary svg{transition:none}
   #mob[open] .mob-intro,#mob[open] .mob-links>*,#mob[open] .mob-footer{animation:none}
-  .mbody a:hover{translate:none}
+  .mbody a:hover>svg{translate:none}
   .sit:hover{transform:none}
   .brand:hover img,.icon-btn:hover svg,.sit:hover .sik{transform:none}
 }

@@ -344,11 +344,9 @@ img{max-width:100%;display:block}
 .reveal{opacity:1;transform:none}
 .reveal[data-reveal-pending]{opacity:0;transform:translateY(14px);transition:opacity .48s var(--ease) var(--reveal-delay,0ms),transform .48s var(--ease) var(--reveal-delay,0ms)}
 .reveal.in{opacity:1;transform:none}
-.card{transition:border-color .24s var(--ease),box-shadow .24s var(--ease),background .24s var(--ease),translate .24s var(--ease)}
-@media(hover:hover) and (pointer:fine){
-  .card:hover{translate:0 -3px}
-  .btn:not(:disabled):hover{transform:translateY(-2px)}
-}
+.card{transition:border-color .24s var(--ease),box-shadow .24s var(--ease),background .24s var(--ease)}
+/* Keep hit areas stationary: moving the hovered element itself can oscillate
+   when the pointer sits on its edge. Animate colors/shadows and child icons. */
 .btn:not(:disabled):active{transform:translateY(1px) scale(.985);transition-duration:.1s}
 .btn svg{transition:translate .22s var(--ease)}
 @media(hover:hover){.btn:hover svg{translate:2px 0}}
