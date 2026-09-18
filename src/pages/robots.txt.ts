@@ -1,4 +1,7 @@
-# robots.txt — xyverse.my.id
+import type { APIRoute } from 'astro';
+import { SITE } from '../data/site';
+
+export const GET: APIRoute = () => new Response(`# robots.txt — xyverse.my.id
 
 User-agent: *
 Allow: /
@@ -56,9 +59,10 @@ Disallow: /
 User-agent: Bytespider
 Disallow: /
 
-Sitemap: https://xyverse.my.id/sitemap-index.xml
-Host: https://xyverse.my.id
+Sitemap: ${SITE.url}/sitemap-index.xml
+Host: ${SITE.url}
 
 # Umpan / Feeds
-# https://xyverse.my.id/id/rss.xml
-# https://xyverse.my.id/en/rss.xml
+# ${SITE.url}/id/rss.xml
+# ${SITE.url}/en/rss.xml
+`, { headers: { 'Content-Type': 'text/plain; charset=utf-8' } });

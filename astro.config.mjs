@@ -12,19 +12,10 @@ import { petaSitemap } from './scripts/peta-sitemap.mjs';
  * sitemap tetap jujur tanpa bergantung urutan inisialisasi.
  */
 /*
- * Alamat kanonis situs, dibaca dari env.
- *
- * Astro memakai satu nilai ini untuk canonical, og:url, hreflang, setiap
- * <loc> di sitemap, dan setiap og:image absolut. Menghardcode
- * https://xyverse.my.id sementara domainnya belum dibeli membuat 1967 URL
- * terbit menunjuk ke alamat yang tidak resolve — pratinjau tautan mati,
- * sitemap tidak bisa dikirim ke Search Console, dan JSON-LD tidak sah.
- *
- * Selama domain belum ada, setel PUBLIC_SITE_URL ke subdomain *.vercel.app
- * di dashboard. Begitu domain dibeli, ganti SATU variabel itu — bukan
- * mengedit kode dan membangun ulang.
+ * Domain utama memakai www. PUBLIC_SITE_URL boleh menimpa alamat ini;
+ * perubahan env memerlukan build/deploy baru supaya semua URL konsisten.
  */
-const SITE_URL = (process.env.PUBLIC_SITE_URL || 'https://xyverse.my.id').replace(/\/+$/, '');
+const SITE_URL = (process.env.PUBLIC_SITE_URL || 'https://www.xyverse.my.id').replace(/\/+$/, '');
 
 const PETA_JALUR = petaSitemap(SITE_URL);
 
@@ -55,7 +46,7 @@ export default defineConfig({
        * Tanggal asli diisi per item di serialize() dari LASTMOD.
        */
       serialize(item) {
-        if (/^https:\/\/xyverse\.my\.id\/(id|en)\/?$/.test(item.url)) item.priority = 1.0;
+        if (/^\/(id|en)\/?$/.test(new URL(item.url).pathname)) item.priority = 1.0;
         else if (/\/(cloud-pc|harga|aplikasi)/.test(item.url)) item.priority = 0.9;
         else if (/\/(blog|proyek|berita)\/$/.test(item.url)) item.priority = 0.8;
         else if (/\/(legal|kebijakan|syarat|lisensi)/.test(item.url)) item.priority = 0.3;

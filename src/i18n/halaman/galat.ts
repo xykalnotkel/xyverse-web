@@ -10,7 +10,7 @@ import type { Lang } from '../config';
  *
  * Astro memperlakukan SEMUA berkas bernama `404.astro` sebagai halaman 404
  * khusus dan hanya merender satu di akar, jadi halaman-halaman ini memakai
- * nama `tidak-ada.astro` dan dipetakan lewat `rewrites` di vercel.json.
+ * nama `tidak-ada.astro` dan dipetakan lewat `routes` di vercel.json.
  */
 
 export interface Tujuan {

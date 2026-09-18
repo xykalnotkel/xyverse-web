@@ -5,7 +5,7 @@ export const SITE = {
    * astro.config.mjs. Dua sumber kebenaran untuk alamat situs adalah cara
    * termudah membuat canonical dan og:url saling bertentangan.
    */
-  url: (import.meta.env.PUBLIC_SITE_URL || 'https://xyverse.my.id').replace(/\/+$/, ''),
+  url: (import.meta.env.PUBLIC_SITE_URL || 'https://www.xyverse.my.id').replace(/\/+$/, ''),
   tagline: 'Cloud PC, Apps & Software',
   desc: 'Xyverse menyewakan Cloud PC berperforma tinggi dan memproduksi aplikasi, software, serta tools digital untuk kreator dan bisnis di Indonesia.',
   email: 'halo@xyverse.my.id',

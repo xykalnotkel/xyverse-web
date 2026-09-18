@@ -197,3 +197,18 @@ Sembilan dokumen kini hidup sebagai koleksi konten di `src/content/legal/`
 (ID) dan `src/content/legal/en/`, dirender oleh `src/pages/[lang]/legal/[slug].astro`.
 Sebelumnya isinya ditulis sebagai markdown di dalam `.astro` sehingga **tidak pernah
 dirender** — perbaikan itu termasuk dalam perubahan ini.
+
+### Domain produksi dan Vercel
+
+- Alamat utama: `https://www.xyverse.my.id`.
+- Di Vercel, `xyverse.my.id` diarahkan dengan 308 ke `www.xyverse.my.id`.
+- `PUBLIC_SITE_URL=https://www.xyverse.my.id` dipakai HTML, sitemap, RSS,
+  robots.txt, dan security.txt. Perubahan env membutuhkan deploy baru.
+- `PUBLIC_API_URL=https://admin.xyverse.my.id` menunjuk API form kontak.
+- Cloudflare memakai record CNAME **DNS only** sesuai rekomendasi domain
+  masing-masing proyek Vercel; apex di-flatten oleh Cloudflare.
+- `vercel.json` memakai `routes`: periksa filesystem dahulu, baru fallback
+  404 per bagian/bahasa. `status` didukung di `routes`, bukan `rewrites`.
+  Jangan memasukkan properti komentar `//` ke JSON konfigurasi Vercel.
+- `npm test` memeriksa build dan regresi aturan fallback; `npm run
+  test:responsif` memeriksa CSS dan ketersediaan halaman galat.

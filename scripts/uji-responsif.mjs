@@ -450,15 +450,16 @@ cek('404 khusus bagian ada untuk 5 bagian × 2 bahasa + 2 halaman bahasa',
 /* vercel.json harus memetakan URL mati ke halaman-halaman itu. */
 const vjPath = path.resolve('vercel.json');
 if (existsSync(vjPath)) {
-  const vj = readFileSync(vjPath, 'utf8');
-  const tanpaKomentar = vj.replace(/"\/\/":\s*\[[^\]]*\],?/s, '');
-  let aturan;
-  try { aturan = JSON.parse(tanpaKomentar).rewrites || []; } catch { aturan = []; }
-  const punya = (seg) => aturan.some((r) => r.destination?.includes(`/${seg}/tidak-ada/`));
+  let konfigurasi = {};
+  try { konfigurasi = JSON.parse(readFileSync(vjPath, 'utf8')); } catch {}
+  const aturan = (konfigurasi.routes || []).filter((r) => r.src);
+  const punya = (seg) => aturan.some((r) => r.dest?.includes(`/${seg}/tidak-ada/`));
   cek('vercel.json memetakan tiap bagian ke 404-nya',
     ['blog', 'berita', 'proyek', 'legal', 'aplikasi'].every(punya) && aturan.length >= 6,
-    aturan.map((r) => r.destination).join(' '));
-  cek('semua rewrite memakai status 404',
+    aturan.map((r) => r.dest).join(' '));
+  cek('filesystem diperiksa sebelum fallback 404',
+    konfigurasi.routes?.[0]?.handle === 'filesystem');
+  cek('semua fallback memakai status 404',
     aturan.length > 0 && aturan.every((r) => r.status === 404));
 } else {
   gagal++;
