@@ -212,3 +212,16 @@ dirender** — perbaikan itu termasuk dalam perubahan ini.
   Jangan memasukkan properti komentar `//` ke JSON konfigurasi Vercel.
 - `npm test` memeriksa build dan regresi aturan fallback; `npm run
   test:responsif` memeriksa CSS dan ketersediaan halaman galat.
+
+Uji interaksi form di Chromium (API di-mock, tidak mengirim email):
+
+```sh
+npx playwright install --with-deps chromium
+npm run build
+# Terminal lain: npm run preview -- --port 4321
+BASE_URL=http://127.0.0.1:4321 npm run test:browser
+```
+
+Uji ini mencakup beranda dan kontak ID/EN: validasi, POST sukses, galat
+layanan, jaringan putus, serta pemulihan tombol kirim. Impor fungsi yang
+berjalan di browser harus berada di blok `<script>`, bukan frontmatter Astro.

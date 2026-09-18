@@ -13,7 +13,7 @@ import PageHead from '../../components/PageHead.astro';
 import Pilih from '../../components/Pilih.astro';
 import Pesan from '../../components/Pesan.astro';
 import Ilustrasi from '../../components/Ilustrasi.astro';
-import { kirimPesan, isiForm, HONEYPOT } from '../../lib/pesan';
+import { HONEYPOT } from '../../lib/pesan';
 import Ikon from '../../components/Ikon.astro';
 
 const alamat = {
@@ -182,6 +182,8 @@ address{font-style:normal;font-size:14.5px;color:var(--txt-2);line-height:1.65}
 </style>
 
 <script>
+  import { kirimPesan, isiForm } from '../../lib/pesan';
+
   const f = document.getElementById('cf') as HTMLFormElement | null;
   if (f) {
     const btn = document.getElementById('cf-kirim') as HTMLButtonElement;

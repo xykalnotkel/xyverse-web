@@ -9,11 +9,15 @@
     "test": "node scripts/uji-build.mjs && node scripts/uji-vercel.mjs",
     "check": "npm run build && npm test && npm run test:mandiri",
     "test:mandiri": "node scripts/uji-build.mjs --mandiri",
-    "test:responsif": "node scripts/uji-responsif.mjs"
+    "test:responsif": "node scripts/uji-responsif.mjs",
+    "test:browser": "node scripts/uji-form-browser.mjs"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.4",
     "astro": "^5.18.2"
+  },
+  "devDependencies": {
+    "playwright": "^1.63.0"
   }
 }
